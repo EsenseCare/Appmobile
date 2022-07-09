@@ -1,0 +1,10 @@
+{
+  "expo": {
+    "name": "esenseCareApp",
+    "slug": "esenseCareApp",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
