@@ -5,6 +5,17 @@
     "version": "1.0.0",
     "assetBundlePatterns": [
       "**/*"
-    ]
+    ],
+    "androidNavigationBar": {
+
+     "visible": true,
+ 
+     "barStyle": "STRING",
+ 
+     "backgroundColor": "#5abec8"
   }
 }
+}
+
+
+
