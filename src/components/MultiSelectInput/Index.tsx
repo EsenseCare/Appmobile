@@ -1,7 +1,8 @@
-import { Modal, Text, TouchableOpacity, View } from "react-native"
-import { Input } from "./styles"
+import { Modal, Text, TextInput, TouchableOpacity, View } from "react-native"
+import { Conclude, HeaderOne, HeaderTwo, Input, InputSelect, TitleSelectInstitution } from "./styles"
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
+import AntDesign from 'react-native-vector-icons/AntDesign'
 import React, { useState } from "react"
 
 export function MultiSelectInput(){
@@ -22,12 +23,27 @@ export function MultiSelectInput(){
                 visible={visible}
                 animationType="slide"
             >
-                <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-                    <TouchableOpacity 
-                        onPress={() => setVisible(false)}
-                    >
-                        <Text>Close</Text>
-                    </TouchableOpacity>
+                <View style={{flex: 1}}>
+                    <HeaderOne>
+                        <HeaderTwo>
+                            <TouchableOpacity onPress={() => setVisible(false)}>
+                                <Conclude>Voltar</Conclude>
+                            </TouchableOpacity>
+
+                            <TouchableOpacity>
+                                <TitleSelectInstitution>
+                                    Selecione a Instituição
+                                </TitleSelectInstitution>
+                            </TouchableOpacity>
+
+                            <TouchableOpacity onPress={() => setVisible(false)}>
+                                <Conclude>Concluir</Conclude>
+                            </TouchableOpacity>
+                        </HeaderTwo>
+                        <InputSelect 
+                            placeholder="Pesquisar"
+                        />
+                    </HeaderOne>
                 </View>
             </Modal>
         </Input>

@@ -1,11 +1,11 @@
 
 import React from 'react';
 import { ThemeProvider } from 'styled-components';
-import { Login } from './src/screens/Login';
-import { Dashboard } from './src/screens/Main';
 import AppLoading from 'expo-app-loading';
+import {AppRoutes} from './src/routes/app.routes'
 
 import theme from './src/global/styles/theme';
+import {NavigationContainer} from '@react-navigation/native'
 
 import {
   useFonts,
@@ -24,13 +24,17 @@ export default function App() {
 
   if(!fontsLoaded){
 
-    return <AppLoading />
+    return(
+    <AppLoading    
+      
+    />) 
   }
 
   return (
     <ThemeProvider theme={theme}>
-        <Dashboard/>
-        
+      <NavigationContainer>
+        <AppRoutes />
+      </NavigationContainer>   
     </ThemeProvider>
   )   
 }

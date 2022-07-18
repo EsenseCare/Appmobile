@@ -1,11 +1,11 @@
-import React from "react";
+import React from 'react'
 import { Container, ContainerTwo, GreetingsText, HelpButtonSingUp, HelpButtonPassword, LogoImg } from './styles'
 
 import { FormInput } from "../../components/InputText/Index";
 import { ButtonLog } from "../../components/ButtonLogin/Index";
 
 import Logo from '../../../assets/logo-esense.png'
-import { Text, View } from "react-native";
+import { View, Text } from 'react-native'
 
 
 export function Login(){  

@@ -7,15 +7,10 @@
       "**/*"
     ],
     "androidNavigationBar": {
-
-     "visible": true,
- 
-     "barStyle": "STRING",
- 
-     "backgroundColor": "#5abec8"
+      "backgroundColor": "#5abec8"
+    },
+    "android": {
+      "package": "com.matheuschiarelli.esenseCareApp"
+    }
   }
 }
-}
-
-
-

@@ -2,7 +2,7 @@
 
 export default {
     colors: {
-        background: '#f1f4f5',
+        background: '#ffff',
         blue_strong: '#0057b8',
         blue_buttons: '#5abec8',
 

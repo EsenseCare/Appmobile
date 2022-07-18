@@ -1,0 +1,26 @@
+{
+    "schedule": [
+        {"key": "sevenAm", "title": "07:00"},
+        {"key": "eightAm", "title": "08:00"},
+        {"key": "nineAm", "title": "09:00"},
+        {"key": "tenAm", "title": "10:00"},
+        {"key": "twelvePm", "title": "12:00"},
+        {"key": "onePm", "title": "13:00"},
+        {"key": "twoPm", "title": "14:00"},
+        {"key": "fourPm", "title": "16:00"},
+        {"key": "fivePm", "title": "17:00"},
+        {"key": "sixPm", "title": "18:00"}
+    ],
+
+    "tasks": [
+        {
+            "id": 1,
+            "name": "Fulano",
+            "taskName": "Banho",
+            "executors": "Pessoa1 - Cuidador(a), Pessoa2 - Médico",
+            "institutionName": "Casarão teste",
+            "observations": "Observações teste",
+            "planType": "1589 - Rev Março"
+        }
+    ]
+}

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, FlatList, Text } from 'react-native'
+import { View, FlatList, Text, ScrollView } from 'react-native'
 import { ButtonSchedule } from "../../components/ButtonSchedule";
 import { Tasks } from "../../components/HighlightTasks/Index";
 import { MultiSelectInput } from "../../components/MultiSelectInput/Index";
@@ -17,6 +17,7 @@ export function Dashboard(){
 
     return(
         <Container>
+            <ScrollView>
             <Header>
                 
             </Header>
@@ -68,6 +69,7 @@ export function Dashboard(){
                     generalObservations: "Caminhada de curta duração",                   
                 }}
                 />
+                </ScrollView>
         </Container>
     )
 }
