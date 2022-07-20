@@ -8,7 +8,7 @@ export const PatientName = styled.Text`
     font-weight: bold;
     color: #007bff;
     text-decoration: underline;
-    margin-left: 4px;
+    margin-left: 5px;
 `;
 
 export const TaskName = styled.Text`

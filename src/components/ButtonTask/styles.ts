@@ -1,6 +1,6 @@
 import styled from "styled-components/native";
 
-export const ButtonLogin = styled.TouchableOpacity`
+export const Button = styled.TouchableOpacity`
     background-color: ${({theme}) => theme.colors.blue_buttons};
     height: 40px;
     width: 124px;

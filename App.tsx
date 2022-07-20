@@ -13,6 +13,8 @@ import {
   Poppins_500Medium,
   Poppins_700Bold
 } from '@expo-google-fonts/poppins'
+import { Dashboard } from './src/screens/Main';
+import { Login } from './src/screens/Login';
 
 
 export default function App() {
@@ -33,7 +35,7 @@ export default function App() {
   return (
     <ThemeProvider theme={theme}>
       <NavigationContainer>
-        <AppRoutes />
+        <Login/>
       </NavigationContainer>   
     </ThemeProvider>
   )   

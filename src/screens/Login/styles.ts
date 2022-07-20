@@ -5,10 +5,10 @@ import {RFPercentage, RFValue} from 'react-native-responsive-fontsize'
 export const Container = styled.View`
     flex: 1;
     align-items: center;
-    justify-content: center;   
+      
 `;
 
-export const ContainerTwo = styled.View`
+export const Field = styled.View`
     flex: 1;
     width: 450px;
     background-color: ${({theme}) => theme.colors.background};
@@ -25,9 +25,9 @@ export const GreetingsText = styled.Text`
 `;
 
 export const LogoImg = styled.Image`
-    width: ${RFPercentage(98)}px;
+    width: ${RFPercentage(99)}px;
     height: ${RFValue(150)}px;
-    margin-bottom: ${RFValue(46)}px;
+    margin-bottom: ${RFValue(26)}px;
 `;
 
 export const HelpButtonSingUp = styled.Text`
@@ -42,4 +42,21 @@ export const HelpButtonPassword = styled.Text`
     font-size: ${RFValue(16)}px;
     padding-left: ${RFPercentage(24)}px;
     flex-direction: row;
+`;
+
+export const ButtonLogin = styled.TouchableOpacity`
+    background-color: ${({theme}) => theme.colors.blue_buttons};;
+    height: 46px;
+    width: 150px;
+    border-radius: 10px;
+    align-Items: center;
+    justify-content: center;
+    margin-top: ${RFValue(40)}px;
+`;
+
+export const Error = styled.Text`
+    font-size: ${RFValue(12)}px;
+    color: red;
+    font-family: ${({ theme }) => theme.fonts.regular};
+    
 `;

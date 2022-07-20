@@ -1,23 +1,59 @@
-import React, { useState } from "react";
-import { View, FlatList, Text, ScrollView } from 'react-native'
+import React, { useEffect, useState } from "react";
+import { View, FlatList, Text, ScrollView, ScrollViewBase } from 'react-native'
 import { ButtonSchedule } from "../../components/ButtonSchedule";
-import { Tasks } from "../../components/HighlightTasks/Index";
+import { TasksList } from "../../components/HighlightTasks/Index";
 import { MultiSelectInput } from "../../components/MultiSelectInput/Index";
+import api from "../../services/api";
 import { Container, FinishAllTasks, Header } from "./styles";
-
-
 
 interface ScheduleProps {
     key: string
-    hour: string
+    title: string
+}
+
+interface TaskProps {
+    id: number
+    patientName: string
+    taskName: string
+    executors: string
+    institutionName: string
+    generalObservations: string
+    planType: string
+    time: string
+    started: boolean
 }
 
 export function Dashboard(){
-    const [hours, setHours] = useState<ScheduleProps[]>([])
+    const [hours, setHours] = useState<ScheduleProps[]>([]);
+    const [tasks, setTasks] = useState<TaskProps[]>([]);
+
+    useEffect(() => {
+        async function fetchSchedule(){
+            const { data } = await api.get('schedule');
+            setHours([
+                {
+                    key: 'all',
+                    title: 'Todos'
+                },
+                ...data
+            ]);
+        }
+
+        fetchSchedule();
+    }, [])
+
+    useEffect(() => {
+        async function fetchTasks(){
+            const { data } = await api.get('tasks');
+            setTasks(data);
+        }
+
+        fetchTasks();
+    }, [])
 
     return(
-        <Container>
-            <ScrollView>
+        <Container>  
+          
             <Header>
                 
             </Header>
@@ -29,7 +65,8 @@ export function Dashboard(){
                     alignItems: 'center',
                 }}
             >
-                <MultiSelectInput />        
+            <MultiSelectInput />
+
             <FinishAllTasks>
                 <Text style={{color: '#fff'}}>
                     Concluir atividades do horário
@@ -37,39 +74,30 @@ export function Dashboard(){
             </FinishAllTasks>
             </View>
 
-            <View>
-                <FlatList 
-                    data={[1,2,3,4,5,6,7]}
+            <View style={{padding: 5}}>
+                <FlatList
+                    data={hours}
                     renderItem={({item}) => (
                         <ButtonSchedule 
-                            time={"07:00"}
-                            key={item}
+                            time={item.title}                        
                         />
                     )}
                     horizontal
                     showsHorizontalScrollIndicator={false}
                 />
             </View>
-        
-            <Tasks data={{
-                    patientName: "Paciente um",
-                    task: "Banho",
-                    executors: "profissional01 - Cuidador(a), profissional05 - Técnico de Enfermagem",
-                    healthInstitution: "Casarão teste 1",
-                    plan: "12226 - Rev Março",
-                    generalObservations: "Nunca utilizar água em temperatura ambiente, sempre morna ou quente",                   
-                }}
-                />
-                <Tasks data={{
-                    patientName: "Paciente dois",
-                    task: "Caminhada",
-                    executors: "profissional01 - Cuidador(a)",
-                    healthInstitution: "Casarão teste 3",
-                    plan: "12563 - Rev Março",
-                    generalObservations: "Caminhada de curta duração",                   
-                }}
-                />
-                </ScrollView>
+                <View style={{flex: 1}}>
+                    <FlatList
+                        data={tasks}
+                        renderItem={({ item }) =>(
+                            <TasksList 
+                                data={item}
+                            />
+                        )}                                          
+                        showsVerticalScrollIndicator={false}
+                    />
+                </View>
+                   
         </Container>
     )
 }

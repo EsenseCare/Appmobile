@@ -3,38 +3,41 @@ import { Container, PatientName, Header, TaskName, Info, TimeTask } from './styl
 import { View } from 'react-native'
 import { ButtonTask } from '../ButtonTask/Index'
 
-interface HighlightTasksPops {
+interface HighlightTasksProps {
     data: {
         patientName: string
-        task: string
+        taskName: string
         executors: string
-        healthInstitution: string
+        institutionName: string
         generalObservations: string
-        plan: string
+        planType: string
+        time: string
+        started: boolean
     }
 }
 
-export function Tasks({data}: HighlightTasksPops){
+export function TasksList({data}: HighlightTasksProps){
+
     return(
         <Container>
             <Header>
                 <View style={{flexDirection: 'row'}}>
                     <PatientName>{data.patientName}</PatientName>
-                    <TaskName>{data.task}</TaskName> 
+                    <TaskName>{data.taskName}</TaskName> 
                 </View>
 
                <Info>Executor(es): {data.executors}</Info>
-               <Info>Instituições: {data.healthInstitution}</Info> 
-               <Info>Plano: {data.plan}</Info>
+               <Info>Instituições: {data.institutionName}</Info> 
+               <Info>Plano: {data.planType}</Info>
                <Info>Observações Gerais: {data.generalObservations}</Info> 
 
                <ButtonTask
-                    title='Iniciar Atividade'
+                    title={data.started ? 'Finalizar Atividade' : 'Iniciar Atividade'}
                />
 
                 <View style={{flexDirection: 'row-reverse'}}>
                     <TimeTask>
-                        17/07/2022 (Ter) 07:00
+                        {data.time}
                     </TimeTask>
                 </View>
             </Header>
