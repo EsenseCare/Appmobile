@@ -4,17 +4,16 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 
 import {
     InputText,
-    Container,
-    Error
- 
+    Container
 } from './styles'
 
 export interface Props extends TextInputProps{
     iconType: string;
     placeHolderText: string;
+    mask?: boolean
 }
 
-export function Input({iconType, placeHolderText, ...rest} : Props) {
+export function Input({iconType, placeHolderText, mask, ...rest} : Props) {
     return (
         <Container>
             <View >
@@ -24,6 +23,7 @@ export function Input({iconType, placeHolderText, ...rest} : Props) {
                 iconType={iconType} 
                 placeHolderText={placeHolderText} 
                 placeholder={placeHolderText}
+                secureTextEntry={mask}
                 {...rest}
             /> 
             

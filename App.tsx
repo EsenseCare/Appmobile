@@ -1,7 +1,7 @@
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { View, Image } from 'react-native';
 import { ThemeProvider } from 'styled-components';
-import AppLoading from 'expo-app-loading';
 import {AppRoutes} from './src/routes/app.routes'
 
 import theme from './src/global/styles/theme';
@@ -13,36 +13,33 @@ import {
   Poppins_500Medium,
   Poppins_700Bold
 } from '@expo-google-fonts/poppins'
-import { Dashboard } from './src/screens/Main';
-import { Login } from './src/screens/Login';
 
 
 export default function App() {
+
   const [fontsLoaded] = useFonts({
     Poppins_400Regular,
     Poppins_500Medium,
     Poppins_700Bold
   });
 
-  if(!fontsLoaded){
 
+  if(!fontsLoaded){
     return(
-    <AppLoading    
-      
-    />) 
+      <View style={{flex: 1, alignContent: 'center', justifyContent: 'center' }}>
+        <Image 
+          source={require('./assets/loading-gif.gif')}  
+          style={{width: 185, height:150, alignSelf:'center'}} 
+        />
+      </View>
+    )   
   }
 
   return (
     <ThemeProvider theme={theme}>
       <NavigationContainer>
-        <Login/>
+        <AppRoutes />
       </NavigationContainer>   
     </ThemeProvider>
   )   
 }
-
-
-function cacheResourcesAsync() {
-  throw new Error('Function not implemented.');
-}
-

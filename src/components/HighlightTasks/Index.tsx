@@ -21,6 +21,12 @@ export function TasksList({data}: HighlightTasksProps){
     return(
         <Container>
             <Header>
+                <View style={{flexDirection: 'row-reverse'}}>
+                    <TimeTask>
+                        {data.time}
+                    </TimeTask>
+                </View>
+                
                 <View style={{flexDirection: 'row'}}>
                     <PatientName>{data.patientName}</PatientName>
                     <TaskName>{data.taskName}</TaskName> 
@@ -35,11 +41,6 @@ export function TasksList({data}: HighlightTasksProps){
                     title={data.started ? 'Finalizar Atividade' : 'Iniciar Atividade'}
                />
 
-                <View style={{flexDirection: 'row-reverse'}}>
-                    <TimeTask>
-                        {data.time}
-                    </TimeTask>
-                </View>
             </Header>
         </Container>
     )

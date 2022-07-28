@@ -1,12 +1,12 @@
-
-
 export default {
     colors: {
         background: '#ffff',
         blue_strong: '#0057b8',
         blue_buttons: '#5abec8',
 
-        yellow_schedule: '#ffdc72'
+        yellow_schedule: '#ffe879',
+        danger: '#dc3545',
+        default_color: '#838f9a'
     },
 
     fonts: {

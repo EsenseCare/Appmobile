@@ -18,16 +18,17 @@ export const Field = styled.View`
 
 export const GreetingsText = styled.Text`
     font-weight: bold;
-    color: #76838f;
+    color: #435369;
     margin-bottom: 24px;
     margin-top: 24px;
     
 `;
 
 export const LogoImg = styled.Image`
-    width: ${RFPercentage(99)}px;
+    width: ${RFPercentage(100)}px;
     height: ${RFValue(150)}px;
-    margin-bottom: ${RFValue(26)}px;
+    margin-bottom: 12px;
+    margin-left: ${RFValue(8)}px;
 `;
 
 export const HelpButtonSingUp = styled.Text`
@@ -47,7 +48,7 @@ export const HelpButtonPassword = styled.Text`
 export const ButtonLogin = styled.TouchableOpacity`
     background-color: ${({theme}) => theme.colors.blue_buttons};;
     height: 46px;
-    width: 150px;
+    width: 180px;
     border-radius: 10px;
     align-Items: center;
     justify-content: center;

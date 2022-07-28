@@ -14,7 +14,7 @@ export function ButtonTask({title}: ButtonProps){
                 activeOpacity={0.7}
             
             >
-            <Text style={{color:'#ffff', fontSize: 14}}>
+            <Text style={{color:'#ffff', fontSize: 15}}>
                 {title}
             </Text>
         </Button>

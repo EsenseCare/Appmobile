@@ -1,27 +1,26 @@
 import React from "react";
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
-const {Navigator, Screen} = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
 
 import { Dashboard } from "../screens/Main";
 import { Login } from "../screens/Login";
 
 export function AppRoutes(){
     return (
-        <Navigator
-            screenOptions={{
-                headerShown: false
-            }}
-        >
-            <Screen 
-                name="Atividades"
-                component={Dashboard}
-            />
 
-            <Screen 
-                name="Login"
-                component={Login}
-            />
-        </Navigator>
+      <Stack.Navigator screenOptions={{
+        headerShown: false
+      }}>
+        <Stack.Screen
+          name="Dashboard"
+          component={Dashboard}
+        />
+        <Stack.Screen 
+         name="Login" 
+         component={Login} 
+        />
+      </Stack.Navigator>
+   
     )
 }
