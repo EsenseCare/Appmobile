@@ -43,7 +43,7 @@ export function InstitutionSelectModal({institutionsName}: SelectProps){
                                         size={40}                                                                                                                 
                                     />                                
                                 </GoBack>
-                                <Text style={{color: 'white'}}>Voltar</Text>
+                                <Text>Voltar</Text>
                         </TouchableOpacity>                  
                             <TitleSelectInstitution>
                                 Selecione a Instituição
@@ -57,7 +57,7 @@ export function InstitutionSelectModal({institutionsName}: SelectProps){
                         <Card key={index}>     
                             <TouchableOpacity 
                             hitSlop={{top: 30, bottom: 20, left: 95, right: 95}}>                  
-                                <Text style={{fontWeight: 'bold'}}>{item}</Text>
+                                <Text style={{fontWeight: 'bold', color: 'white'}}>{item}</Text>
                             </TouchableOpacity>
                         </Card> 
                     )} 

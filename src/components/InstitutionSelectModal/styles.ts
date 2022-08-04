@@ -24,7 +24,8 @@ export const TitleSelectInstitution = styled.Text`
     font-family: ${({theme}) => theme.fonts.bold};
     margin-top: ${RFValue(20)}px;
     font-size: ${RFValue(22)}px;
-    align-self: center;  
+    align-self: center;
+    color: white ;
 `;
 
 export const GoBack = styled.Text`

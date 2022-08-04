@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, FlatList, Text, Platform, } from 'react-native'
+import { View, FlatList, Text, Platform, Alert, } from 'react-native'
 import { ButtonSchedule } from "../../components/ButtonSchedule";
 import { TasksList } from "../../components/HighlightTasks/Index";
 import { InstitutionSelectModal } from "../../components/InstitutionSelectModal/Index";
@@ -77,7 +77,15 @@ export function Dashboard(){
     }, [])
 
     const logOut = () => {
-        navigation.navigate('Login' as any)
+        Alert.alert(
+            '',
+            'Deseja sair da conta?',
+            [
+                {text: 'Cancelar', onPress: () => null, style: 'cancel',},
+                {text: 'OK', onPress: () => navigation.navigate('Login' as any)},
+            ],
+            { cancelable: true }
+        )
     }
 
     const showDatePicker = () => {
@@ -87,7 +95,7 @@ export function Dashboard(){
         setCalendarVisible(false);
     };
 
-    const handleConfirm = (selectDate: any) => {
+    const handleConfirm = (selectDate: Date) => {
         hideDatePicker();
         console.log(selectDate);
     };
@@ -103,7 +111,7 @@ export function Dashboard(){
                         justifyContent: 'space-between'
                     }}>
                         <HeaderText>
-                            Atividades
+                            Programação
                             do Dia
                         </HeaderText>   
                     <View style={
@@ -159,8 +167,7 @@ export function Dashboard(){
                         mode="date"
                         display="default"
                         onConfirm={handleConfirm}
-                        onCancel={hideDatePicker}
-                        textColor='#ffff'                                                 
+                        onCancel={hideDatePicker}                                               
                     />
                 }
 
@@ -174,8 +181,7 @@ export function Dashboard(){
                     horizontal
                     showsHorizontalScrollIndicator={false}
                 />
-            </View>
-            
+            </View>          
                 <View style={{flex: 1}}>
                     <FlatList
                         data={tasks}
@@ -186,8 +192,7 @@ export function Dashboard(){
                         )}                                          
                         showsVerticalScrollIndicator={false}
                     />
-                </View>
-                   
+                </View>                  
         </Container>
     )
 }

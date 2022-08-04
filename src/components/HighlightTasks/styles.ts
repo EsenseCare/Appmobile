@@ -27,7 +27,7 @@ export const Header = styled.View`
 `;
 
 export const Info = styled.Text`
-    font-size: 11px;
+    font-size: 12px;
     margin-top: 6px;
     margin-left: 4px;
 `;
@@ -35,5 +35,22 @@ export const Info = styled.Text`
 export const TimeTask = styled.Text`
     color: ${({theme}) => theme.colors.default_color};
     font-size: 15px;
-    padding-bottom: 2px
+    padding-bottom: 2px;
+`;
+
+export const OpenModalContact = styled.Text`
+    margin-left: 12px;
+    font-size: 12px;
+    color: #2E6EEF;
+    margin-top: 5px;
+    text-decoration: underline;
+`;
+
+export const OpenModalRisk = styled.Text`
+    background-color: ${({theme}) => theme.colors.danger};
+    font-size: 12px;
+    color: white;
+    border-radius: 8px;
+    margin-left: 8px;
+    padding: 4px;
 `;

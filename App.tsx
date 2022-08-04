@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { View, Image } from 'react-native';
 import { ThemeProvider } from 'styled-components';
 import {AppRoutes} from './src/routes/app.routes'

@@ -9,8 +9,13 @@
     "androidNavigationBar": {
       "backgroundColor": "#5abec8"
     },
+
     "android": {
       "package": "com.matheuschiarelli.esenseCareApp"
+    },
+    "ios": {
+      "bundleIdentifier": "com.matheuschiarelli.esenseCareApp"
     }
   }
+  
 }

@@ -29,6 +29,7 @@ export const FinishAllTasks = styled.TouchableOpacity`
 export const HeaderText = styled.Text`
     font-family: ${({theme}) => theme.fonts.bold};
     color: #ffffff;
-    font-size: 25px;
-    padding: 10px 0 10px;
+    font-size: 22px;
+    padding: 10px 0 1px;
+    margin-right: 2px;
 `;
