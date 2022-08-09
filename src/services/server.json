@@ -20,7 +20,10 @@
             "institutionName": "CasaraoUm",
             "generalObservations": "Observações teste3",
             "planType": "1588 - Rev Março",
-            "time": "07:00"
+            "time": "07:00",
+            "risk": true,
+            "levelRiskMorse": "NoRisk",
+            "levelRiskBarden": "Medium"
         },
         {
             "patientName": "PacienteUm",
@@ -29,17 +32,10 @@
             "institutionName": "CasaraoUm",
             "generalObservations": "Observações teste",
             "planType": "1589 - Rev Março",
-            "time": "13:00"
-        },
-
-        {
-            "patientName": "PacienteUm",
-            "taskName": "Banho",
-            "executors": "Pessoa122 - Cuidador(a), Pessoa2 - Médico",
-            "institutionName": "CasaraoUm",
-            "generalObservations": "Observações teste",
-            "planType": "1589 - Rev Março",
-            "time": "16:00"
+            "time": "13:00",
+            "risk": true,
+            "levelRiskMorse": "Medium",
+            "levelRiskBarden": "High"
         },
 
         {
@@ -49,7 +45,31 @@
             "institutionName": "CasaraoUm",
             "generalObservations": "Observações teste",
             "planType": "1589 - Rev Março",
-            "time": "16:00"
+            "time": "16:00",
+            "risk": false
+        },
+
+        {
+            "patientName": "PacienteUm",
+            "taskName": "Banho",
+            "executors": "Pessoa122 - Cuidador(a), Pessoa2 - Médico",
+            "institutionName": "CasaraoUm",
+            "generalObservations": "Observações teste",
+            "planType": "1589 - Rev Março",
+            "time": "16:00",
+            "risk": false
+        },
+        {
+            "patientName": "Pacienteeee",
+            "taskName": "Mercado",
+            "executors": "Pessoa122 - Cuidador(a), Pessoa2 - Médico",
+            "institutionName": "CasaraoUm",
+            "generalObservations": "Observações teste",
+            "planType": "1589 - Rev Março",
+            "time": "16:00",
+            "risk": true,
+            "levelRiskMorse": "High",
+            "levelRiskBarden": "NoRisk"
         }
     ],
 
@@ -65,7 +85,8 @@
                     "institutionName": "CasaraoUm",
                     "generalObservations": "Observações teste3",
                     "planType": "1588 - Rev Março",
-                    "time": "07:00"
+                    "time": "07:00",
+                    "risk": true
                 },
                 {
                     "patientName": "PacienteUm",
@@ -74,7 +95,8 @@
                     "institutionName": "CasaraoUm",
                     "generalObservations": "Observações teste",
                     "planType": "1589 - Rev Março",
-                    "time": "12:00"
+                    "time": "12:00",
+                    "risk": true
                 }
             ]
         },
@@ -90,7 +112,8 @@
                     "institutionName": "CasaraoDois",
                     "generalObservations": "Observações teste3",
                     "planType": "1588 - Rev Março",
-                    "time": "11:00"
+                    "time": "11:00",
+                    "risk": true
                 },
                 {          
                     "patientName": "PacienteTres",
@@ -99,7 +122,8 @@
                     "institutionName": "CasarãoDois",
                     "generalObservations": "Observações teste3",
                     "planType": "1588 - Rev Março",
-                    "time": "11:00"
+                    "time": "11:00",
+                    "risk": false
                 }
             ]
         },
@@ -115,7 +139,8 @@
                     "institutionName": "CasaraoTres",
                     "generalObservations": "Observações teste3",
                     "planType": "1588 - Rev Março",
-                    "time": "17:00"
+                    "time": "17:00",
+                    "risk": true
                 },
 
                 {           
@@ -125,7 +150,8 @@
                     "institutionName": "CasaraoTres",
                     "generalObservations": "Observações teste3",
                     "planType": "128 - Rev Março",
-                    "time": "13:00"
+                    "time": "13:00",
+                    "risk": false
                 }
             ]
         },
@@ -141,7 +167,8 @@
                     "institutionName": "CasaraoQuatro",
                     "generalObservations": "Observações teste3",
                     "planType": "1588 - Rev Março",
-                    "time": "13:00"
+                    "time": "13:00",
+                    "risk": false
                 }
             ]
         }

@@ -1,6 +1,10 @@
 import styled from 'styled-components/native'
 import {RFPercentage} from 'react-native-responsive-fontsize'
 
+interface ContainerRatingProps {
+    bgColor?: any;
+}
+
 export const Container = styled.View`
     flex: auto;
     align-self: center;
@@ -29,6 +33,7 @@ export const TextTopics = styled.Text`
     color: #7b838c;
     margin-top: 24px;
     padding: 5px 12px;
+    
 `; 
 
 export const CloseButton = styled.TouchableOpacity`   
@@ -47,7 +52,8 @@ export const RatingView = styled.View`
     border-color: ${({theme}) => theme.colors.default_color};
 `;
 
-export const ContainerRating = styled.View `
+export const ContainerRating = styled.View<ContainerRatingProps>`
+    background-color: ${props => props.bgColor || 'white'};
     border-width: 0.6px;
     border-color: ${({theme}) => theme.colors.default_color};
     flex-direction: row; 

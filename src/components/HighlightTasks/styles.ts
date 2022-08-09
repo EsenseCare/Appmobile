@@ -46,7 +46,7 @@ export const OpenModalContact = styled.Text`
     text-decoration: underline;
 `;
 
-export const OpenModalRisk = styled.Text`
+export const OpenModalRiskButton = styled.Text`
     background-color: ${({theme}) => theme.colors.danger};
     font-size: 12px;
     color: white;

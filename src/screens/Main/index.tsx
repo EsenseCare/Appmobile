@@ -18,15 +18,18 @@ interface ScheduleProps {
 }
 
 interface TaskProps {
-    id: number
-    patientName: string
-    taskName: string
-    executors: string
-    institutionName: string
-    generalObservations: string
-    planType: string
-    time: string
+    id: number;
+    patientName: string;
+    taskName: string;
+    executors: string;
+    institutionName: string;
+    generalObservations: string;
+    planType: string;
+    time: string;
     started: boolean;
+    risk: boolean;
+    levelRiskMorse: string;
+    levelRiskBarden: string;
 }
 
 export function Dashboard(){
@@ -188,6 +191,7 @@ export function Dashboard(){
                         renderItem={({ item }) =>(
                             <TasksList 
                                 data={item}
+                                
                             />
                         )}                                          
                         showsVerticalScrollIndicator={false}

@@ -1,12 +1,10 @@
-import { Container, PatientName, Header, TaskName, Info, TimeTask, OpenModalContact, OpenModalRisk  } from './styles'
+import { Container, PatientName, Header, TaskName, Info, TimeTask, OpenModalContact, OpenModalRiskButton  } from './styles'
 
-import { Animated, Modal, View} from 'react-native'
+import { Modal, View} from 'react-native'
 import { ButtonTask } from '../ButtonTask/Index'
 import { ContactInfo } from '../ContactInfoModal'
 import React, { useState } from 'react'
 import { RiskLevelModal } from '../RiskLevelModal'
-
-
 
 interface HighlightTasksProps {
     data: {
@@ -18,13 +16,15 @@ interface HighlightTasksProps {
         planType: string
         time: string
         started: boolean
+        risk: boolean
+        levelRiskMorse: string
+        levelRiskBarden: string
     }
 }
 
 export function TasksList({data}: HighlightTasksProps){
     const [modalContactVisible, setModalContactVisible] = useState(false);
     const [modalRiskVisible, setModalRiskVisible] = useState(false);
-
 
     return(
         <Container>
@@ -38,10 +38,13 @@ export function TasksList({data}: HighlightTasksProps){
                 <View style={{flexDirection: 'row'}}>
                     <PatientName>{data.patientName}</PatientName>
                     <TaskName>{data.taskName}</TaskName>
-                    <OpenModalRisk
+                    {data.risk ?
+                    <OpenModalRiskButton
                         onPress={() => setModalRiskVisible(true)}>
                         Paciente de risco
-                    </OpenModalRisk> 
+                    </OpenModalRiskButton> 
+                    : null }
+
                     
                 </View>
 
@@ -73,7 +76,10 @@ export function TasksList({data}: HighlightTasksProps){
                             onRequestClose={() => setModalRiskVisible(false)}
                             statusBarTranslucent={true}                       
                         >                                                                  
-                            <RiskLevelModal close={() => setModalRiskVisible(false)}/>  
+                            <RiskLevelModal 
+                                close={() => setModalRiskVisible(false)}
+                                item={data}
+                            />  
                         </Modal> 
                                       
                     </View>                                                            
@@ -84,7 +90,6 @@ export function TasksList({data}: HighlightTasksProps){
                <ButtonTask
                     title={data.started ? 'Finalizar Atividade' : 'Iniciar Atividade'}
                />
-
             </Header>
         </Container>
     )

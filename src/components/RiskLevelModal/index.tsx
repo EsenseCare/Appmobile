@@ -4,13 +4,14 @@ import { CloseButton, Container, ContainerRating, Content, RatingView, Reference
 
 interface ModalProps {
     close?: any
+    item: any;
 }
 
-export function RiskLevelModal({close}: ModalProps){
+export function RiskLevelModal({close, item}: ModalProps){
 
 
     return(
-
+        
         <View style={{flex: 1, backgroundColor: 'rgba(0,0,0,0.5)'}}>          
             <Container>            
                 <Content>               
@@ -20,42 +21,82 @@ export function RiskLevelModal({close}: ModalProps){
                     <TextTopics>Precaução de Contato: Sim</TextTopics>
                     <TextTopics>Classificação de Morse: </TextTopics>
                         <RatingView>
-                            <ContainerRating>
-                                <Text>Sem Risco</Text>
-                                <Text>0-24</Text>
+                            <ContainerRating bgColor={item.levelRiskMorse === "NoRisk" ? '#1bad1c' : 'white'}>
+                                <Text 
+                                style={{color: item.levelRiskMorse === "NoRisk" ? 'white' : 'black'}}>
+                                    Sem Risco
+                                </Text>
+                                <Text
+                                style={{color: item.levelRiskMorse === "NoRisk" ? 'white' : 'black'}}
+                                    >25-50
+                                </Text>
                             </ContainerRating>
 
-                            <ContainerRating>
-                                <Text>Baixo Risco</Text>
-                                <Text>25-50</Text>
+                            <ContainerRating bgColor={item.levelRiskMorse === "Medium" ? '#ffcd30' : 'white'}>
+                                <Text style={{color: item.levelRiskMorse === "Medium" ? 'white' : 'black'}}>
+                                    Baixo Risco
+                                </Text>
+                                <Text
+                                style={{color: item.levelRiskMorse === "Medium" ? 'white' : 'black'}}
+                                    >25-50
+                                </Text>
                             </ContainerRating>
 
-                            <ContainerRating>
-                                <Text>Alto Risco</Text>
-                                <Text>&gt;=50</Text>
+                            <ContainerRating bgColor={item.levelRiskMorse === "High" ? '#f75c48' : 'white'}>
+                                <Text style={{color: item.levelRiskMorse === "High" ? 'white' : 'black'}}>
+                                    Alto Risco
+                                </Text>
+                                <Text
+                                style={{color: item.levelRiskMorse === "High" ? 'white' : 'black'}}>
+                                    &gt;=50
+                                </Text>
                             </ContainerRating>
                         </RatingView>
 
                     <TextTopics>Classificação de Barden:</TextTopics>
                     <RatingView>
-                            <ContainerRating>
-                                <Text>Sem Risco</Text>
-                                <Text>&gt;=19</Text>
+                            <ContainerRating bgColor={item.levelRiskBarden === "NoRisk" ? '#1bad1c' : 'white'}>
+                                <Text
+                                style={{color: item.levelRiskBarden === "NoRisk" ? 'white' : 'black'}}>
+                                    Sem Risco
+                                </Text>
+                                <Text
+                                style={{color: item.levelRiskBarden === "NoRisk" ? 'white' : 'black'}}>
+                                    &gt;=19
+                                </Text>
                             </ContainerRating>
 
-                            <ContainerRating>
-                                <Text>Baixo Risco</Text>
-                                <Text>15-18</Text>
+                            <ContainerRating bgColor={item.levelRiskBarden === "Low" ? '#ffcd30' : 'white'}>
+                            <Text
+                                style={{color: item.levelRiskBarden === "Low" ? 'white' : 'black'}}>
+                                    Baixo Risco
+                                </Text>
+                                <Text
+                                style={{color: item.levelRiskBarden === "Low" ? 'white' : 'black'}}>
+                                    15-18
+                                </Text>
                             </ContainerRating>
 
-                            <ContainerRating>
-                                <Text>Risco Moderado</Text>
-                                <Text>13-14</Text>
+                            <ContainerRating bgColor={item.levelRiskBarden === "Medium" ? '#fea500' : 'white'}>
+                            <Text
+                                style={{color: item.levelRiskBarden === "Medium" ? 'white' : 'black'}}>
+                                    Risco Moderado
+                                </Text>
+                                <Text
+                                style={{color: item.levelRiskBarden === "Medium" ? 'white' : 'black'}}>
+                                    13-14
+                                </Text>
                             </ContainerRating>
 
-                            <ContainerRating>
-                                <Text>Alto Risco</Text>
-                                <Text>{"<"}=12</Text>
+                            <ContainerRating bgColor={item.levelRiskBarden === "High" ? '#f75c48' : 'white'}>
+                                <Text
+                                    style={{color: item.levelRiskBarden === "High" ? 'white' : 'black'}}>
+                                        Alto Risco
+                                    </Text>
+                                    <Text
+                                    style={{color: item.levelRiskBarden === "High" ? 'white' : 'black'}}>
+                                        {'<'}=12
+                                    </Text>
                             </ContainerRating>
                         </RatingView>
                         <View style={{justifyContent: 'space-evenly'}}>
