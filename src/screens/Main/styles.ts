@@ -7,7 +7,7 @@ export const Container = styled.View`
 `;
 export const Header = styled.View`
     width: 100%;
-    height: ${RFPercentage(16)}px;   
+    height: ${RFPercentage(19)}px;   
     background-color: ${({theme}) => theme.colors.blue_buttons};  
     justify-content: center;
     border-radius: 10px;

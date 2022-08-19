@@ -1,6 +1,6 @@
 import React from "react";
 import { ScrollView, Text, View } from "react-native";
-import { CloseButton, Container, ContainerRating, Content, RatingView, ReferenceData, TextTopics, TextTopicTitle } from "./styles";
+import { AllergyPanel, CloseButton, Container, ContainerRating, Content, RatingView, ReferenceData, TextTopics, TextTopicTitle } from "./styles";
 
 interface ModalProps {
     close?: any
@@ -9,15 +9,18 @@ interface ModalProps {
 
 export function RiskLevelModal({close, item}: ModalProps){
 
-
-    return(
-        
+    return(      
         <View style={{flex: 1, backgroundColor: 'rgba(0,0,0,0.5)'}}>          
             <Container>            
                 <Content>               
                 <ScrollView>
                     <TextTopicTitle>RISCOS DO PACIENTE</TextTopicTitle>
                     <TextTopics>Alergia: Sim</TextTopics>
+                        <AllergyPanel>
+                            <Text>{'\u2022'} alergia1</Text>
+                            <Text>{'\u2022'} alergia2</Text>
+                            <Text>{'\u2022'} alergia3</Text>
+                        </AllergyPanel>
                     <TextTopics>Precaução de Contato: Sim</TextTopics>
                     <TextTopics>Classificação de Morse: </TextTopics>
                         <RatingView>
@@ -116,7 +119,6 @@ export function RiskLevelModal({close, item}: ModalProps){
                 </ScrollView>       
                 </Content>                          
             </Container>                
-        </View> 
-               
+        </View>              
     )
 }

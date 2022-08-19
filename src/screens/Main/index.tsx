@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, FlatList, Text, Platform, Alert, } from 'react-native'
+import { View, FlatList, Text, Alert } from 'react-native'
 import { ButtonSchedule } from "../../components/ButtonSchedule";
 import { TasksList } from "../../components/HighlightTasks/Index";
 import { InstitutionSelectModal } from "../../components/InstitutionSelectModal/Index";
@@ -11,6 +11,7 @@ import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
 import { useNavigation } from "@react-navigation/native";
 import api from "../../services/api";
+import { useAuth } from "../../hooks/auth";
 
 interface ScheduleProps {
     key: string
@@ -38,8 +39,8 @@ export function Dashboard(){
     const [institutions, setInstitutions] = useState<[]>([]);
     const [calendarVisible, setCalendarVisible] = useState(false);
 
-
     const navigation = useNavigation();
+    const { signOut } = useAuth();
 
     useEffect(() => {
         async function fetchSchedule(){
@@ -72,20 +73,20 @@ export function Dashboard(){
 
     useEffect(() => {
         async function fetchTasks(){
-            const { data } = await api.get('allTasks');
+            const { data } = await api.get('/caretaker/index');
             setTasks(data);
         }
 
         fetchTasks();
     }, [])
 
-    const logOut = () => {
+     const logOut = () => {
         Alert.alert(
             '',
             'Deseja sair da conta?',
             [
                 {text: 'Cancelar', onPress: () => null, style: 'cancel',},
-                {text: 'OK', onPress: () => navigation.navigate('Login' as any)},
+                {text: 'OK', onPress: async () => signOut()},
             ],
             { cancelable: true }
         )
@@ -114,17 +115,18 @@ export function Dashboard(){
                         justifyContent: 'space-between'
                     }}>
                         <HeaderText>
-                            Programação
+                            Programação {'\n'}
                             do Dia
                         </HeaderText>   
                     <View style={
                         {
                             flexDirection: 'row', 
                             alignItems: 'center',                  
-                            justifyContent: 'flex-end'
+                            justifyContent: 'flex-end',
+                            paddingTop: 40,
+                            width: 156
                         }
-                    }
-                    >
+                    }>
                         <MaterialIcons 
                             name="exit-to-app" 
                             size={52} 
@@ -136,11 +138,10 @@ export function Dashboard(){
                             name="calendar" 
                             size={47} 
                             color="#ffffff"
-                            style={{marginLeft: 10, marginBottom: 2}}
+                            style={{marginLeft: 16, marginBottom: 2}}
                             onPress={showDatePicker}
                         />  
-                    </View>
-                   
+                    </View>                   
                 </View>
             </Header>
             

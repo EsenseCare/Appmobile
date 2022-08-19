@@ -25,7 +25,7 @@ export const GreetingsText = styled.Text`
 `;
 
 export const LogoImg = styled.Image`
-    width: ${RFPercentage(100)}px;
+    width: ${RFPercentage(98)}px;
     height: ${RFValue(150)}px;
     margin-bottom: 12px;
     margin-left: ${RFValue(8)}px;

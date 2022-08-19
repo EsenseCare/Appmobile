@@ -9,13 +9,13 @@ export const Container = styled.View`
     flex: auto;
     align-self: center;
     justify-content: center;
-    margin-top: 10%;
+    margin-top: 8%;
 `;
 
 export const Content = styled.View`
-    flex: 0.98;
+    flex: 0.99;
     width: ${RFPercentage(52)}px;
-    padding-top: 10px;
+    padding-top: 7px;
     border-radius: 10px;
     background-color: #f7f7f7;
     border-radius: 16px;
@@ -69,4 +69,11 @@ export const ReferenceData = styled.Text`
     margin-left: 6px;
     margin-top: 4px;
     color: ${({theme}) => theme.colors.default_color};
+`;
+
+export const AllergyPanel = styled.View`
+    margin-left: 20px;
+    border: 0.6px;
+    border-color: #DDDDDD;
+    width: ${RFPercentage(14)}px;
 `;

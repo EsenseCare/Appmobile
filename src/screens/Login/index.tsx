@@ -9,23 +9,22 @@ import { Container,
     Error
 } from './styles';
 
-
 import Logo from '../../../assets/logo-esense2.png'
 import { View, Text } from 'react-native';
 import { Input } from '../../components/Input';
-import api from '../../services/api';
 import { useNavigation } from '@react-navigation/native';
 
-export function Login(){ 
- 
+import { useAuth } from '../../hooks/auth'
+
+export function Login(){
     const [userInfo, setUserInfo] = useState({
       email: '',
-      password: '',
+      password: ''
     });
     const [error, setError] = useState('');
 
-    const { email, password } = userInfo;
     const navigation = useNavigation();
+    const { signIn } = useAuth();
 
     const handleOnChangeText = (value: any, fieldName: string) => {
         setUserInfo({ ...userInfo, [fieldName]: value });
@@ -35,15 +34,13 @@ export function Login(){
         if(userInfo.email === "" || userInfo.password === ""){
             return setError("Preencha os campos corretamente!");
         }
- 
-        const { data } = await api.get(`session`);
-        data.map((item: any) => {
-            if(item.email === email || item.password === password){
-                navigation.navigate('Dashboard' as any)
-            } else{
-                return setError("Email ou senha incorretos.");
-            }          
-        })                  
+           
+        try{
+            await signIn({ email: userInfo.email, password: userInfo.password });          
+        }catch (error){
+            console.log(error);
+            return setError("Email ou senha incorretos.");
+        }                                        
     }
 
     useEffect(() => {
@@ -52,7 +49,6 @@ export function Login(){
         }
     },[userInfo.email, userInfo.password])
     
-
     return(
         <Container> 
             <Field>
@@ -62,7 +58,7 @@ export function Login(){
                     Faça o login para continuar
                 </GreetingsText>                   
                 <Input
-                    value={email}
+                    value={userInfo.email}
                     onChangeText={value => handleOnChangeText(value, 'email')}                                         
                     iconType="user"             
                     placeHolderText="Email"
@@ -70,7 +66,7 @@ export function Login(){
                 />
                    
                 <Input     
-                    value={password}
+                    value={userInfo.password}
                     onChangeText={value => handleOnChangeText(value, 'password')}            
                     iconType="key"             
                     placeHolderText="Senha"
@@ -100,5 +96,6 @@ export function Login(){
         </Container>      
     )
 }
+
 
 

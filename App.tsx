@@ -1,8 +1,8 @@
-
 import React from 'react';
 import { View, Image } from 'react-native';
 import { ThemeProvider } from 'styled-components';
-import {AppRoutes} from './src/routes/app.routes'
+//import {AppRoutes} from './src/routes/app.routes'
+import { usePreventScreenCapture } from 'expo-screen-capture'
 
 import theme from './src/global/styles/theme';
 import {NavigationContainer} from '@react-navigation/native'
@@ -12,10 +12,14 @@ import {
   Poppins_400Regular,
   Poppins_500Medium,
   Poppins_700Bold
-} from '@expo-google-fonts/poppins'
+} from '@expo-google-fonts/poppins';
 
+import { AuthProvider } from './src/hooks/auth';
+import Routes from './src/routes';
 
 export default function App() {
+  usePreventScreenCapture();
+  const auth = true;
 
   const [fontsLoaded] = useFonts({
     Poppins_400Regular,
@@ -37,9 +41,9 @@ export default function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <NavigationContainer>
-        <AppRoutes />
-      </NavigationContainer>   
+        <AuthProvider>
+          <Routes />
+        </AuthProvider>       
     </ThemeProvider>
   )   
 }

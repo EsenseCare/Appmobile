@@ -14,8 +14,8 @@ export const InputText = styled(TextInput)<Props>`
 
 export const Container = styled.View`
     margin-bottom: 10px;
-    width: 80%;
-    height: 60px;
+    width: 77%;
+    height: 58px;
     border-color: #ccc;
     border-Radius: 12px;
     border-width: 2px;

@@ -1,13 +1,13 @@
 import axios from 'axios'
 
 const api = axios.create({
-    baseURL: 'http://192.168.15.60:3333'
+    baseURL: 'https://esense-stage.herokuapp.com/api_mobile'
 });
 
 export const authService = {
     async authenticate(data: any) {
-        const endpoint = `${api}/session`;
-        return await axios.post(endpoint, data);
-    },
+        return await api.post(`/auth_user`, data);       
+    },   
 }
+
 export default api;
