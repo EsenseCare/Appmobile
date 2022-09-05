@@ -8,17 +8,23 @@ import { RiskLevelModal } from '../RiskLevelModal'
 
 interface HighlightTasksProps {
     data: {
-        patientName: string
-        taskName: string
-        executors: string
-        institutionName: string
-        generalObservations: string
-        planType: string
-        time: string
-        started: boolean
-        risk: boolean
-        levelRiskMorse: string
-        levelRiskBarden: string
+        nome: string;
+        observacao_atividade: string;
+        executores: [{
+            nome: string;
+            perfil: string;
+        }]
+        instituicao_saude: string;
+        descricao_atividade: string;
+        plano: {
+            id: number;
+            created_at: Date;
+            data_execucao: string;
+        }
+        started: boolean;
+        risco: boolean;
+        levelRiskMorse: string;
+        levelRiskBarden: string;
     }
 }
 
@@ -31,26 +37,23 @@ export function TasksList({data}: HighlightTasksProps){
             <Header>
                 <View style={{flexDirection: 'row-reverse'}}>
                     <TimeTask>
-                        {data.time}
+                        {data.plano.data_execucao}
                     </TimeTask>
-                </View>
-                
+                </View>              
                 <View style={{flexDirection: 'row'}}>
-                    <PatientName>{data.patientName}</PatientName>
-                    <TaskName>{data.taskName}</TaskName>
-                    {data.risk ?
+                    <PatientName>{data.nome}</PatientName>
+                    <TaskName>{data.descricao_atividade}</TaskName>
+                    {data.risco ?
                     <OpenModalRiskButton
                         onPress={() => setModalRiskVisible(true)}>
                         Paciente de risco
                     </OpenModalRiskButton> 
-                    : null }
-
-                    
+                    : null }                   
                 </View>
 
-               <Info>Executor(es): {data.executors}</Info>
+               <Info>Executor(es): {data.executores[0].nome} ({data.executores[0].perfil})</Info>
                <View style={{flexDirection: 'row'}}>
-                    <Info>Instituições: {data.institutionName}</Info>
+                    <Info>Instituições: {data.instituicao_saude}</Info>
                         <OpenModalContact 
                             onPress={() => setModalContactVisible(true)}>
                                 (Orientações para contato)
@@ -84,8 +87,8 @@ export function TasksList({data}: HighlightTasksProps){
                                       
                     </View>                                                            
                </View>
-               <Info>Plano: {data.planType}</Info>
-               <Info>Observações Gerais: {data.generalObservations}</Info> 
+               <Info>Plano: {data.plano.id}</Info>
+               <Info>Observações Gerais: {data.observacao_atividade}</Info> 
 
                <ButtonTask
                     title={data.started ? 'Finalizar Atividade' : 'Iniciar Atividade'}

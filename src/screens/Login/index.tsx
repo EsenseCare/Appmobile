@@ -74,7 +74,6 @@ export function Login(){
                 />
                 { error ? <Error>{error}</Error>: null}
         
-
                 <HelpButtonPassword onPress={() => ({})} >
                     Esqueceu a senha?
                 </HelpButtonPassword> 

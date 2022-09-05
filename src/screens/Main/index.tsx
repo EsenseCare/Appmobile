@@ -9,7 +9,6 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
-import { useNavigation } from "@react-navigation/native";
 import api from "../../services/api";
 import { useAuth } from "../../hooks/auth";
 
@@ -19,18 +18,23 @@ interface ScheduleProps {
 }
 
 interface TaskProps {
-    id: number;
-    patientName: string;
-    taskName: string;
-    executors: string;
-    institutionName: string;
-    generalObservations: string;
-    planType: string;
-    time: string;
-    started: boolean;
-    risk: boolean;
-    levelRiskMorse: string;
-    levelRiskBarden: string;
+    nome: string
+    observacao_atividade: string
+    executores: [{
+        nome: string
+        perfil: string
+    }]
+    instituicao_saude: string
+    descricao_atividade: string
+    plano: {
+        id: number
+        created_at: Date
+        data_execucao: string
+    }
+    started: boolean
+    risco: boolean
+    levelRiskMorse: string
+    levelRiskBarden: string
 }
 
 export function Dashboard(){
@@ -39,12 +43,11 @@ export function Dashboard(){
     const [institutions, setInstitutions] = useState<[]>([]);
     const [calendarVisible, setCalendarVisible] = useState(false);
 
-    const navigation = useNavigation();
-    const { signOut } = useAuth();
+    const { signOut, user } = useAuth();
 
     useEffect(() => {
         async function fetchSchedule(){
-            const { data } = await api.get('schedule');
+            const { data } = await api.get('http://192.168.15.60:3333/schedule');
             setHours([
                 {
                     key: 'all',
@@ -57,24 +60,24 @@ export function Dashboard(){
         fetchSchedule();        
     }, [])
 
-    useEffect(() => {
-        async function searchForInstitutions(){
-            const { data } = await api.get(`institutions`);
+    // useEffect(() => {
+    //     async function searchForInstitutions(){
+    //         const { data } = await api.get(``);
 
-            const array = data.map((item: any) => {
-                return item.name;
-            })
-
-            setInstitutions(array);
-        }
-        
-        searchForInstitutions();        
-    }, [])
+    //         const array = data.map((item: any) => {
+    //             return item.name;
+    //         })
+    //         setInstitutions(array);
+    //     }       
+    //     searchForInstitutions();        
+    // }, [])
 
     useEffect(() => {
         async function fetchTasks(){
-            const { data } = await api.get('/caretaker/index');
-            setTasks(data);
+            const { data } = await api.get(`/cuidador/index?date=2022-08-30`, {
+                headers: {'Authorization': user?.token || ''}
+            });
+            setTasks(data.content);
         }
 
         fetchTasks();
@@ -191,11 +194,11 @@ export function Dashboard(){
                         data={tasks}
                         renderItem={({ item }) =>(
                             <TasksList 
-                                data={item}
-                                
+                                data={item}                             
                             />
                         )}                                          
                         showsVerticalScrollIndicator={false}
+                        
                     />
                 </View>                  
         </Container>

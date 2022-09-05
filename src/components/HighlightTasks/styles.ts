@@ -34,15 +34,16 @@ export const Info = styled.Text`
 
 export const TimeTask = styled.Text`
     color: ${({theme}) => theme.colors.default_color};
-    font-size: 15px;
+    font-size: 14px;
     padding-bottom: 2px;
+    padding-bottom: 6px;
 `;
 
 export const OpenModalContact = styled.Text`
     margin-left: 12px;
     font-size: 12px;
     color: #2E6EEF;
-    margin-top: 5px;
+    margin-top: 6px;
     text-decoration: underline;
 `;
 

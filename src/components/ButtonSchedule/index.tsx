@@ -10,7 +10,7 @@ import { Button } from './styles'
 
 export function ButtonSchedule({ time }: ButtonScheduleProps){
     return(
-        <Button>
+        <Button onPress={() => console.log(time)}>
             <Text>
                 {time}
             </Text>
