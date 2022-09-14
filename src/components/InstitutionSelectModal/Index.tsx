@@ -13,10 +13,10 @@ import React, { useState } from "react"
 
 interface SelectProps { 
     institutionsName: [];
+    selectInstitution: (name: string) => void
 }
 
-
-export function InstitutionSelectModal({institutionsName}: SelectProps){
+export function InstitutionSelectModal({institutionsName, selectInstitution}: SelectProps){
     const [visible, setVisible] = useState(false);
     
     return(
@@ -56,8 +56,9 @@ export function InstitutionSelectModal({institutionsName}: SelectProps){
                     renderItem={({ item, index }) => (
                         <Card key={index}>     
                             <TouchableOpacity 
-                            hitSlop={{top: 30, bottom: 20, left: 95, right: 95}}>                  
-                                <Text style={{fontWeight: 'bold', color: 'white'}}>{item}</Text>
+                                hitSlop={{top: 30, bottom: 20, left: 95, right: 95}} 
+                                onPress={() => {selectInstitution(item),setVisible(false)}}>                  
+                                    <Text style={{fontWeight: 'bold', color: 'white'}}>{item}</Text>
                             </TouchableOpacity>
                         </Card> 
                     )} 

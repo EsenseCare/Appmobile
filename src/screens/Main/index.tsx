@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, FlatList, Text, Alert } from 'react-native'
+import { View, FlatList, Text, Alert, ActivityIndicator } from 'react-native'
 import { ButtonSchedule } from "../../components/ButtonSchedule";
 import { TasksList } from "../../components/HighlightTasks/Index";
 import { InstitutionSelectModal } from "../../components/InstitutionSelectModal/Index";
@@ -11,6 +11,7 @@ import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
 import api from "../../services/api";
 import { useAuth } from "../../hooks/auth";
+import { Splash } from "../../utils/Splash";
 
 interface ScheduleProps {
     key: string
@@ -42,8 +43,14 @@ export function Dashboard(){
     const [tasks, setTasks] = useState<TaskProps[]>([]);
     const [institutions, setInstitutions] = useState<[]>([]);
     const [calendarVisible, setCalendarVisible] = useState(false);
+    const [date, setDate] = useState('');
+    const [filteredInstitution, setFilteredInstitution] = useState<string | null>(null);
+    const [loading, setLoading] = useState(false);
 
-    const { signOut, user } = useAuth();
+    const { signOut } = useAuth();
+
+    const filteredTasks = filteredInstitution ? tasks.filter(task => task.instituicao_saude === filteredInstitution) 
+    : tasks;
 
     useEffect(() => {
         async function fetchSchedule(){
@@ -56,32 +63,30 @@ export function Dashboard(){
                 ...data
             ]);
         }
-
         fetchSchedule();        
     }, [])
 
-    // useEffect(() => {
-    //     async function searchForInstitutions(){
-    //         const { data } = await api.get(``);
+    useEffect(() => {
+        async function searchForInstitutions(){
+            const { data } = await api.get(`http://192.168.15.60:3333/institutions`);
 
-    //         const array = data.map((item: any) => {
-    //             return item.name;
-    //         })
-    //         setInstitutions(array);
-    //     }       
-    //     searchForInstitutions();        
-    // }, [])
+            const array = data.map((item: any) => {
+                return item.name;
+            })
+            setInstitutions(array);
+        }       
+        searchForInstitutions();        
+    }, [])
 
     useEffect(() => {
         async function fetchTasks(){
-            const { data } = await api.get(`/cuidador/index?date=2022-08-30`, {
-                headers: {'Authorization': user?.token || ''}
-            });
+            const { data } = await api.get(`cuidador/index?date=${date || formatDate(new Date())}`);
             setTasks(data.content);
+            setLoading(false);
         }
-
         fetchTasks();
-    }, [])
+        
+    }, [date])
 
      const logOut = () => {
         Alert.alert(
@@ -97,14 +102,29 @@ export function Dashboard(){
 
     const showDatePicker = () => {
         setCalendarVisible(true);
-    };    
+    };   
+
     const hideDatePicker = () => {
         setCalendarVisible(false);
     };
 
-    const handleConfirm = (selectDate: Date) => {
+    function handleFilteredIntitutions (name: string) {
+        setFilteredInstitution(name);
+    }
+
+    function formatDate (date: Date) {
+        let month = date.getUTCMonth() + 1; 
+        let day = date.getUTCDate();
+        let year = date.getUTCFullYear();
+
+        return year + "-" + month + "-" + day
+    }
+
+    function handleConfirm(selectDate: Date){
+        const dateFormatted = formatDate(selectDate)
+        setDate(dateFormatted);
+        setLoading(true);
         hideDatePicker();
-        console.log(selectDate);
     };
 
     return(
@@ -157,7 +177,8 @@ export function Dashboard(){
             }
             >
             <InstitutionSelectModal 
-                institutionsName={institutions}               
+                institutionsName={institutions}
+                selectInstitution={handleFilteredIntitutions}          
             />
 
             <FinishAllTasks>
@@ -189,18 +210,20 @@ export function Dashboard(){
                     showsHorizontalScrollIndicator={false}
                 />
             </View>          
-                <View style={{flex: 1}}>
-                    <FlatList
-                        data={tasks}
-                        renderItem={({ item }) =>(
-                            <TasksList 
-                                data={item}                             
-                            />
-                        )}                                          
-                        showsVerticalScrollIndicator={false}
-                        
-                    />
-                </View>                  
+                {loading ? 
+                        <ActivityIndicator size="large" color="#5abec8" style={{flex: 1}}/> 
+                    : 
+                    <View style={{flex: 1}}>
+                        <FlatList
+                            data={filteredTasks}
+                            renderItem={({ item }) =>(
+                                <TasksList 
+                                    data={item}                             
+                                />
+                            )}                                          
+                            showsVerticalScrollIndicator={false}                      
+                        />
+                </View>}                  
         </Container>
     )
 }

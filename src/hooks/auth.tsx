@@ -60,26 +60,35 @@ function AuthProvider({children} : AuthProviderProps){
 
         const response = await authService.authenticate({email, password});
 
-        const user = response.data;
+        const auth = response.data;
 
         await AsyncStorage.multiSet([
-            ['@esenseCare:token', user.content.token],
-            ['@esenseCare:user', JSON.stringify(user)],
+            ['@esenseCare:token', auth.content.token],
+            ['@esenseCare:user', JSON.stringify(auth.content.user)],
         ]);
 
-        setUserData(user);
-        
-        console.log("user", user);
+        setUserData({
+            email: auth.content.user.email,
+            name: auth.content.user.nome,
+            token: auth.content.token
+        });
 
-        return user;
+        api.interceptors.request.use((config) => {
+            if (config && config.headers) {
+               config.headers.Authorization = auth.content.token
+            }
+            return config;
+        });
+    
+
+        return auth;
     }
 
     useEffect(() => {
         async function loadStoragedData(): Promise<void> {
             //todo: salvar dados do usuário mesmos se não tiver rede disponivel
             checkConnection();
-            let loginDate = new Date();
-
+           
           const [
             token,
             user,
@@ -100,18 +109,28 @@ function AuthProvider({children} : AuthProviderProps){
             const decoded : any = jwtDecode(validToken);
             console.log("decoded", decoded);
 
-            if (token && decoded.exp < loginDate.getDate() / 1000) {
+            const now = new Date();
+            const expirationDate = new Date(Number(decoded.exp * 1000))
+
+            // todo: ver erro
+            if (token && now > expirationDate) {
+                setLoading(false);  
                 signOut();
                 return;
             }
 
-            //api.defaults.headers['Authorization'] = validToken;
+            api.interceptors.request.use((config) => {
+                if (config && config.headers) {
+                   config.headers.Authorization = validToken
+                }
+                return config;
+            });
 
-           const userFormatted = JSON.parse(user[1]);    
+           const userFormatted = JSON.parse(user[1]); 
             
             setUserData({
                 token: validToken,
-                name: userFormatted,
+                name: userFormatted.nome,
                 email: userFormatted.email,
             });
     

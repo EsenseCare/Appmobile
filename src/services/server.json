@@ -10,5 +10,10 @@
         {"key": "fourPm", "title": "16:00"},
         {"key": "fivePm", "title": "17:00"},
         {"key": "sixPm", "title": "18:00"}
+    ],
+
+    "institutions": [
+        {"name": "Med Saúde"},
+        {"name": "teste"}
     ]
 }

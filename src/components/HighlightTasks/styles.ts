@@ -8,14 +8,14 @@ export const PatientName = styled.Text`
     color: #007bff;
     text-decoration: underline;
     margin-left: 5px;
-    font-size: 16px;
+    font-size: 18px;
 `;
 
 export const TaskName = styled.Text`
     font-weight: bold;
     color: ${({theme}) => theme.colors.default_color};
     margin-left: 6px;
-    font-size: 16px;
+    font-size: 18px;
 `;
 
 export const Header = styled.View`
@@ -28,7 +28,7 @@ export const Header = styled.View`
 
 export const Info = styled.Text`
     font-size: 12px;
-    margin-top: 6px;
+    margin-top: 9px;
     margin-left: 4px;
 `;
 
@@ -43,7 +43,7 @@ export const OpenModalContact = styled.Text`
     margin-left: 12px;
     font-size: 12px;
     color: #2E6EEF;
-    margin-top: 6px;
+    margin-top: 8px;
     text-decoration: underline;
 `;
 
