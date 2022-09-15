@@ -33,3 +33,13 @@ export const HeaderText = styled.Text`
     padding: 10px 0 1px;
     margin-right: 2px;
 `;
+
+export const FilterInfo = styled.View`
+    margin-top: 12px;
+    margin-left: 12px;
+`;
+
+export const FilterInfoText = styled.Text`
+    color: #787171;
+    font-size: 16px;
+`;

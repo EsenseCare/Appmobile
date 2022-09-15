@@ -4,8 +4,7 @@ import {RFPercentage, RFValue} from 'react-native-responsive-fontsize'
 
 export const Container = styled.View`
     flex: 1;
-    align-items: center;
-      
+    align-items: center;    
 `;
 
 export const Field = styled.View`
@@ -20,8 +19,7 @@ export const GreetingsText = styled.Text`
     font-weight: bold;
     color: #435369;
     margin-bottom: 24px;
-    margin-top: 24px;
-    
+    margin-top: 24px;    
 `;
 
 export const LogoImg = styled.Image`

@@ -3,7 +3,7 @@ import { View, FlatList, Text, Alert, ActivityIndicator } from 'react-native'
 import { ButtonSchedule } from "../../components/ButtonSchedule";
 import { TasksList } from "../../components/HighlightTasks/Index";
 import { InstitutionSelectModal } from "../../components/InstitutionSelectModal/Index";
-import { Container, FinishAllTasks, Header, HeaderText } from "./styles";
+import { Container, FilterInfo, FilterInfoText, FinishAllTasks, Header, HeaderText} from "./styles";
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign'
@@ -11,7 +11,8 @@ import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
 import api from "../../services/api";
 import { useAuth } from "../../hooks/auth";
-import { Splash } from "../../utils/Splash";
+import {  } from "../../utils/Splash";
+import { NoTasksScreen } from "../../utils/NoTasksScreen";
 
 interface ScheduleProps {
     key: string
@@ -49,8 +50,12 @@ export function Dashboard(){
 
     const { signOut } = useAuth();
 
-    const filteredTasks = filteredInstitution ? tasks.filter(task => task.instituicao_saude === filteredInstitution) 
+    const filteredTasks = filteredInstitution 
+    ? tasks.filter(task => task.instituicao_saude === filteredInstitution) 
     : tasks;
+
+    const realDate = date.split('-').reverse().join('/')
+
 
     useEffect(() => {
         async function fetchSchedule(){
@@ -209,20 +214,33 @@ export function Dashboard(){
                     horizontal
                     showsHorizontalScrollIndicator={false}
                 />
+
+                <FilterInfo>
+                    <Text style={{fontSize: 16, color: '#5AABB4', marginBottom: 6}}>Filtros</Text>
+                        <View style={{flexDirection: 'row', marginBottom: 3}}>
+                            <Text style={{fontSize: 16}}>Data: </Text> 
+                            <FilterInfoText>{realDate || 'Não selecionado'}</FilterInfoText>
+                        </View> 
+                        <View style={{flexDirection: 'row'}}>
+                            <Text style={{fontSize: 16}}>Instituição: </Text>
+                            <FilterInfoText>{filteredInstitution || 'Não selecionado'}</FilterInfoText>
+                        </View>                  
+                </FilterInfo>
+
             </View>          
-                {loading ? 
-                        <ActivityIndicator size="large" color="#5abec8" style={{flex: 1}}/> 
+                {loading ? <ActivityIndicator size="large" color="#5abec8" style={{flex: 1, marginBottom: 80}}/> 
                     : 
                     <View style={{flex: 1}}>
-                        <FlatList
+                       {tasks.length ? <FlatList
                             data={filteredTasks}
                             renderItem={({ item }) =>(
                                 <TasksList 
                                     data={item}                             
                                 />
                             )}                                          
-                            showsVerticalScrollIndicator={false}                      
-                        />
+                            showsVerticalScrollIndicator={false}
+
+                        />: <NoTasksScreen />}
                 </View>}                  
         </Container>
     )
