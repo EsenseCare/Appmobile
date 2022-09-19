@@ -37,13 +37,13 @@ export function InstitutionSelectModal({institutionsName, selectInstitution}: Se
                 <View style={{flex: 1}}>
                     <HeaderPrincipal>                     
                         <TouchableOpacity onPress={() => setVisible(false)}>
-                                <GoBack>
-                                    <Ionicons 
-                                        name="arrow-back"
-                                        size={40}                                                                                                                 
-                                    />                                
-                                </GoBack>
-                                <Text>Voltar</Text>
+                            <GoBack>
+                                <Ionicons 
+                                    name="arrow-back"
+                                    size={40}                                                                                                                 
+                                />                                
+                            </GoBack>
+                                
                         </TouchableOpacity>                  
                             <TitleSelectInstitution>
                                 Selecione a Instituição

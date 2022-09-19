@@ -3,7 +3,7 @@ import { View, FlatList, Text, Alert, ActivityIndicator } from 'react-native'
 import { ButtonSchedule } from "../../components/ButtonSchedule";
 import { TasksList } from "../../components/HighlightTasks/Index";
 import { InstitutionSelectModal } from "../../components/InstitutionSelectModal/Index";
-import { Container, FilterInfo, FilterInfoText, FinishAllTasks, Header, HeaderText} from "./styles";
+import { ClearFilters, Container, FilterInfo, FilterInfoText, FinishAllTasks, Header, HeaderText, IconView} from "./styles";
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign'
@@ -13,6 +13,7 @@ import api from "../../services/api";
 import { useAuth } from "../../hooks/auth";
 import {  } from "../../utils/Splash";
 import { NoTasksScreen } from "../../utils/NoTasksScreen";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 interface ScheduleProps {
     key: string
@@ -46,7 +47,7 @@ export function Dashboard(){
     const [calendarVisible, setCalendarVisible] = useState(false);
     const [date, setDate] = useState('');
     const [filteredInstitution, setFilteredInstitution] = useState<string | null>(null);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     const { signOut } = useAuth();
 
@@ -54,7 +55,7 @@ export function Dashboard(){
     ? tasks.filter(task => task.instituicao_saude === filteredInstitution) 
     : tasks;
 
-    const realDate = date.split('-').reverse().join('/')
+    const realDate = date.split('-').reverse().join('/');
 
 
     useEffect(() => {
@@ -105,6 +106,12 @@ export function Dashboard(){
         )
     }
 
+    const clearFilters = () => {
+        setLoading(false);
+        setFilteredInstitution(null);
+        setDate(formatDate(new Date()));
+    }
+
     const showDatePicker = () => {
         setCalendarVisible(true);
     };   
@@ -126,7 +133,10 @@ export function Dashboard(){
     }
 
     function handleConfirm(selectDate: Date){
-        const dateFormatted = formatDate(selectDate)
+        const dateFormatted = formatDate(selectDate);
+        if(dateFormatted === date){
+            return hideDatePicker();
+        }
         setDate(dateFormatted);
         setLoading(true);
         hideDatePicker();
@@ -135,42 +145,40 @@ export function Dashboard(){
     return(
         <Container>          
             <Header>
-                <View style={
-                    {
+                <View style={{
                         flexDirection: 'row', 
                         alignItems: 'center',                  
                         padding: 16,
-                        justifyContent: 'space-between'
+                        justifyContent: 'space-between'                       
                     }}>
-                        <HeaderText>
-                            Programação {'\n'}
-                            do Dia
-                        </HeaderText>   
-                    <View style={
-                        {
-                            flexDirection: 'row', 
-                            alignItems: 'center',                  
-                            justifyContent: 'flex-end',
-                            paddingTop: 40,
-                            width: 156
-                        }
-                    }>
-                        <MaterialIcons 
-                            name="exit-to-app" 
-                            size={52} 
-                            color="#ffffff"
-                            style={{transform: [{ scaleX: -1 }], alignSelf: 'flex-end'}} 
-                            onPress={logOut}
-                        />               
-                        <AntDesign
-                            name="calendar" 
-                            size={47} 
-                            color="#ffffff"
-                            style={{marginLeft: 16, marginBottom: 2}}
-                            onPress={showDatePicker}
-                        />  
-                    </View>                   
-                </View>
+                    <HeaderText>
+                        Programação {'\n'}
+                        do Dia
+                    </HeaderText>  
+                         
+                    <IconView>
+                            <View>
+                                <AntDesign
+                                    name="calendar" 
+                                    size={45} 
+                                    color="#ffffff"
+                                    style={{marginLeft: 16, marginBottom: 2}}
+                                    onPress={showDatePicker}
+                                />
+                                <Text style={{color:'white', marginBottom: -1}}>Filtrar Data</Text> 
+                            </View>
+                                <View>
+                                    <MaterialIcons 
+                                        name="exit-to-app" 
+                                        size={50} 
+                                        color="#ffffff"
+                                        style={{transform: [{ scaleX: -1 }], alignSelf: 'flex-end'}} 
+                                        onPress={logOut}
+                                    />
+                                    <Text style={{marginLeft: 12, color:'white'}}>Sair</Text>
+                            </View>                              
+                    </IconView>                                   
+                </View> 
             </Header>
             
             <View style={
@@ -219,12 +227,21 @@ export function Dashboard(){
                     <Text style={{fontSize: 16, color: '#5AABB4', marginBottom: 6}}>Filtros</Text>
                         <View style={{flexDirection: 'row', marginBottom: 3}}>
                             <Text style={{fontSize: 16}}>Data: </Text> 
-                            <FilterInfoText>{realDate || 'Não selecionado'}</FilterInfoText>
+                            <FilterInfoText>{
+                                realDate || formatDate(new Date()).split('-').reverse().join('/')
+                            }
+                            </FilterInfoText>
                         </View> 
                         <View style={{flexDirection: 'row'}}>
                             <Text style={{fontSize: 16}}>Instituição: </Text>
-                            <FilterInfoText>{filteredInstitution || 'Não selecionado'}</FilterInfoText>
-                        </View>                  
+                            <FilterInfoText>{
+                                filteredInstitution || 'Não selecionado'
+                            }
+                            </FilterInfoText>
+                        </View>
+                        <ClearFilters onPress={clearFilters}>
+                                    <Text style={{color: 'white'}}>Limpar Filtros</Text>
+                        </ClearFilters>                  
                 </FilterInfo>
 
             </View>          

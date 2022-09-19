@@ -14,7 +14,7 @@ export const Input = styled.TouchableOpacity`
 
 export const HeaderPrincipal = styled.View`
     background-color: ${({theme}) => theme.colors.blue_buttons};
-    padding: ${RFValue(12)}px;
+    padding: ${RFValue(5)}px;
     border-bottom-left-radius: 16px;
     border-bottom-right-radius: 16px;
 `;
@@ -22,14 +22,15 @@ export const HeaderPrincipal = styled.View`
 
 export const TitleSelectInstitution = styled.Text`
     font-family: ${({theme}) => theme.fonts.bold};
-    margin-top: ${RFValue(20)}px;
-    font-size: ${RFValue(22)}px;
+    margin-top: ${RFValue(10)}px;
+    font-size: ${RFValue(20)}px;
     align-self: center;
     color: white ;
 `;
 
 export const GoBack = styled.Text`
     color: white;
+    margin-left: 18px;
 `;
 
 export const Card = styled.View`

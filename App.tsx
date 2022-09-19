@@ -16,7 +16,7 @@ import Routes from './src/routes';
 import { Splash } from './src/utils/Splash';
 
 export default function App() {
-  //usePreventScreenCapture();
+  usePreventScreenCapture();
 
   const [fontsLoaded] = useFonts({
     Poppins_400Regular,

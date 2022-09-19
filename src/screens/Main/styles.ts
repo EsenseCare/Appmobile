@@ -36,10 +36,28 @@ export const HeaderText = styled.Text`
 
 export const FilterInfo = styled.View`
     margin-top: 12px;
-    margin-left: 12px;
+    margin-left: 8px;
 `;
 
 export const FilterInfoText = styled.Text`
     color: #787171;
     font-size: 16px;
+`;
+
+export const IconView = styled.View`
+    flex-direction: row; 
+    align-items: center;                 
+    justify-content: space-around;
+    padding-top: 40px;
+    width: 156px;
+`;
+export const ClearFilters = styled.TouchableOpacity`
+    background-color: ${({theme}) => theme.colors.blue_buttons};
+    height: 40px;
+    width: ${RFPercentage(15)}px;
+    border-radius: 4px;
+    align-Items: center;
+    justify-content: center;
+    margin-top: ${RFPercentage(-5)}px;
+    align-self: flex-end;
 `;

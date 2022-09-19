@@ -62,6 +62,8 @@ function AuthProvider({children} : AuthProviderProps){
 
         const auth = response.data;
 
+        setLoading(true);
+
         await AsyncStorage.multiSet([
             ['@esenseCare:token', auth.content.token],
             ['@esenseCare:user', JSON.stringify(auth.content.user)],
@@ -80,6 +82,8 @@ function AuthProvider({children} : AuthProviderProps){
             return config;
         });
     
+   
+        setLoading(false);
 
         return auth;
     }
@@ -107,7 +111,6 @@ function AuthProvider({children} : AuthProviderProps){
             let validToken = token[1];
 
             const decoded : any = jwtDecode(validToken);
-            console.log("decoded", decoded);
 
             const now = new Date();
             const expirationDate = new Date(Number(decoded.exp * 1000))

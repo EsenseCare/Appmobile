@@ -37,7 +37,7 @@ export function TasksList({data}: HighlightTasksProps){
             <Header>
                 <View style={{flexDirection: 'row-reverse'}}>
                     <TimeTask>
-                        {data.plano.data_execucao}
+                        {data.plano.data_execucao.split('-').reverse().join('/')}
                     </TimeTask>
                 </View>              
                 <View style={{flexDirection: 'row'}}>
@@ -51,7 +51,7 @@ export function TasksList({data}: HighlightTasksProps){
                     : null }                   
                 </View>
 
-               <Info>Executor(es): {data.executores[0].nome} ({data.executores[0].perfil})</Info>
+               <Info>Executor(es): {data.executores.map((nome => " | " + nome.nome))}</Info>
                <View style={{flexDirection: 'row'}}>
                     <Info>Instituições: {data.instituicao_saude}</Info>
                         <OpenModalContact 

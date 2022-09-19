@@ -22,21 +22,22 @@ export const Header = styled.View`
     font-size: 1px;
     margin-top: 20px;
     border: 2px solid #E5E8E9;
-    padding: 12px 0px;
+    padding: 12px 5px;
     padding-right: 20px;
 `;
 
 export const Info = styled.Text`
-    font-size: 12px;
+    font-size: 13px;
     margin-top: 9px;
     margin-left: 4px;
+    color: gray;
 `;
+
 
 export const TimeTask = styled.Text`
     color: ${({theme}) => theme.colors.default_color};
     font-size: 14px;
-    padding-bottom: 2px;
-    padding-bottom: 6px;
+    flex-direction: column-reverse;
 `;
 
 export const OpenModalContact = styled.Text`
