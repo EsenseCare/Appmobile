@@ -12,11 +12,11 @@ import Ionicons from 'react-native-vector-icons/Ionicons'
 import React, { useState } from "react"
 
 interface SelectProps { 
-    institutionsName: [];
+    homecares: [string];
     selectInstitution: (name: string) => void
 }
 
-export function InstitutionSelectModal({institutionsName, selectInstitution}: SelectProps){
+export function InstitutionSelectModal({homecares, selectInstitution}: SelectProps){
     const [visible, setVisible] = useState(false);
     
     return(
@@ -52,7 +52,7 @@ export function InstitutionSelectModal({institutionsName, selectInstitution}: Se
                 </View>
 
                 <FlatList 
-                    data={institutionsName}
+                    data={homecares}
                     renderItem={({ item, index }) => (
                         <Card key={index}>     
                             <TouchableOpacity 

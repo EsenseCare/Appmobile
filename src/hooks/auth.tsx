@@ -1,16 +1,15 @@
 import { createContext, ReactNode, useCallback, useContext, useEffect, useState } from 'react';
 import AsyncStorage  from '@react-native-async-storage/async-storage';
 import api, { authService } from '../services/api';
-import jwtDecode, * as jwt_decode from 'jwt-decode'
+import jwtDecode, * as jwt_decode from 'jwt-decode';
 import NetInfo from "@react-native-community/netinfo";
-import { Alert } from 'react-native';
 
 interface AuthProviderProps {
     children: ReactNode;
 }
 
 interface User {
-    token: string
+    token: string;
     name: string;
     email: string;
 }
@@ -48,7 +47,6 @@ function AuthProvider({children} : AuthProviderProps){
     const checkConnection = () => {
         NetInfo.fetch().then((state) => {
             if(state.isConnected === false){
-                Alert.alert("Verifique sua conexão com a internet");
                 return setIsConnected(false);
             }
         });
@@ -56,13 +54,12 @@ function AuthProvider({children} : AuthProviderProps){
     }
 
     async function signIn({email, password}: SignInCredentials): Promise<User>{
+        //todo: login via digital
         checkConnection();
 
         const response = await authService.authenticate({email, password});
 
         const auth = response.data;
-
-        setLoading(true);
 
         await AsyncStorage.multiSet([
             ['@esenseCare:token', auth.content.token],
@@ -82,7 +79,6 @@ function AuthProvider({children} : AuthProviderProps){
             return config;
         });
     
-   
         setLoading(false);
 
         return auth;
@@ -90,7 +86,7 @@ function AuthProvider({children} : AuthProviderProps){
 
     useEffect(() => {
         async function loadStoragedData(): Promise<void> {
-            //todo: salvar dados do usuário mesmos se não tiver rede disponivel
+            //todo: salvar dados do usuário mesmo se não tiver rede disponivel
             checkConnection();
            
           const [
@@ -106,7 +102,7 @@ function AuthProvider({children} : AuthProviderProps){
             setLoading(false);
             signOut();
             return;
-            }          
+            };          
             
             let validToken = token[1];
 

@@ -7,8 +7,8 @@ export function Splash(){
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', }}>
             <LottieView
                 source={require("../../assets/health-loader.json")}
-                loop
-                autoPlay            
+                autoPlay
+                loop           
             />
         </View>
     )

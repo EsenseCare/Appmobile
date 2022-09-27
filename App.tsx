@@ -17,7 +17,7 @@ import { Splash } from './src/utils/Splash';
 
 export default function App() {
   usePreventScreenCapture();
-
+  
   const [fontsLoaded] = useFonts({
     Poppins_400Regular,
     Poppins_500Medium,
@@ -33,9 +33,9 @@ export default function App() {
 
   return (
     <ThemeProvider theme={theme}>
-        <AuthProvider>
-          <Routes />
-        </AuthProvider>       
+      <AuthProvider>       
+            <Routes />      
+        </AuthProvider>      
     </ThemeProvider>
   )   
 }

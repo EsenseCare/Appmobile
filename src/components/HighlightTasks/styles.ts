@@ -44,7 +44,7 @@ export const OpenModalContact = styled.Text`
     margin-left: 12px;
     font-size: 12px;
     color: #2E6EEF;
-    margin-top: 8px;
+    margin-top: 10px;
     text-decoration: underline;
 `;
 

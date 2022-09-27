@@ -10,9 +10,8 @@ import { Container,
 } from './styles';
 
 import Logo from '../../../assets/logo-esense2.png'
-import { View, Text } from 'react-native';
+import { View, Text, ActivityIndicator } from 'react-native';
 import { Input } from '../../components/Input';
-import { useNavigation } from '@react-navigation/native';
 
 import { useAuth } from '../../hooks/auth'
 
@@ -22,8 +21,8 @@ export function Login(){
       password: ''
     });
     const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
 
-    const navigation = useNavigation();
     const { signIn } = useAuth();
 
     const handleOnChangeText = (value: any, fieldName: string) => {
@@ -36,11 +35,13 @@ export function Login(){
         }
            
         try{
-            await signIn({ email: userInfo.email, password: userInfo.password });          
+            setLoading(true);
+            await signIn({ email: userInfo.email, password: userInfo.password });         
         }catch (error){
-            console.log(error);
-            return setError("Email ou senha incorretos.");
-        }                                        
+            setLoading(false); 
+            return setError("Email ou senha incorretos.");      
+        }      
+       
     }
 
     useEffect(() => {
@@ -78,10 +79,17 @@ export function Login(){
                     Esqueceu a senha?
                 </HelpButtonPassword> 
 
-                <ButtonLogin onPress={submitForm}>
+                <ButtonLogin onPress={submitForm} disabled={loading ? true : false}>
                     <Text style={{fontWeight: 'bold', color:'#ffff', fontSize: 18}}>
-                        Login
+                        {loading ?
+                        <View style={{alignItems: 'center'}}>
+                            <Text> 
+                                <ActivityIndicator size='small' color="white"/> 
+                            </Text> 
+                        </View> 
+                        : 'Login'}
                     </Text>
+
                 </ButtonLogin>                                    
                     <View style={{flexDirection: 'row', alignItems: 'center', marginTop: 24}}>
                         <Text style={{fontSize: 16, marginTop: 18, color: '#435369'}}>

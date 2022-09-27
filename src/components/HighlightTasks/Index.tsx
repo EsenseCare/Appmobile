@@ -1,6 +1,6 @@
 import { Container, PatientName, Header, TaskName, Info, TimeTask, OpenModalContact, OpenModalRiskButton  } from './styles'
 
-import { Modal, View} from 'react-native'
+import { Modal, View, Text} from 'react-native'
 import { ButtonTask } from '../ButtonTask/Index'
 import { ContactInfo } from '../ContactInfoModal'
 import React, { useState } from 'react'
@@ -51,9 +51,15 @@ export function TasksList({data}: HighlightTasksProps){
                     : null }                   
                 </View>
 
-               <Info>Executor(es): {data.executores.map((nome => " | " + nome.nome))}</Info>
+               <Info>
+                    <Text style={{color: 'black'}}>Executor(es): </Text> 
+                    {data.executores.map((nome => nome.nome + ", "))}
+                </Info>
                <View style={{flexDirection: 'row'}}>
-                    <Info>Instituições: {data.instituicao_saude}</Info>
+                        <Info>
+                            <Text style={{color: 'black'}}>Instituições: </Text>
+                            {data.instituicao_saude}
+                        </Info>
                         <OpenModalContact 
                             onPress={() => setModalContactVisible(true)}>
                                 (Orientações para contato)
@@ -83,12 +89,17 @@ export function TasksList({data}: HighlightTasksProps){
                                 close={() => setModalRiskVisible(false)}
                                 item={data}
                             />  
-                        </Modal> 
-                                      
+                        </Modal>                                   
                     </View>                                                            
                </View>
-               <Info>Plano: {data.plano.id}</Info>
-               <Info>Observações Gerais: {data.observacao_atividade}</Info> 
+               <Info>
+                    <Text style={{color: 'black'}}>Plano: </Text>
+                    {data.plano.id}
+               </Info>
+               <Info>
+                    <Text style={{color: 'black'}}>Observações Gerais: </Text>
+                    {data.observacao_atividade}
+               </Info> 
 
                <ButtonTask
                     title={data.started ? 'Finalizar Atividade' : 'Iniciar Atividade'}

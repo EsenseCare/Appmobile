@@ -61,3 +61,17 @@ export const ClearFilters = styled.TouchableOpacity`
     margin-top: ${RFPercentage(-5)}px;
     align-self: flex-end;
 `;
+
+export const Warning = styled.View`
+    position: absolute;     
+    width: 75%;
+    height: 50%;
+    background: #E73838;
+    z-index: 1;
+    align-self: center;
+    border-color: black;
+    border: 1px;
+    align-items: center;
+    flex-direction: row;
+    top: ${RFPercentage(99)}px;
+`;

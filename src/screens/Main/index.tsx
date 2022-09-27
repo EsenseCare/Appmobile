@@ -3,17 +3,17 @@ import { View, FlatList, Text, Alert, ActivityIndicator } from 'react-native'
 import { ButtonSchedule } from "../../components/ButtonSchedule";
 import { TasksList } from "../../components/HighlightTasks/Index";
 import { InstitutionSelectModal } from "../../components/InstitutionSelectModal/Index";
-import { ClearFilters, Container, FilterInfo, FilterInfoText, FinishAllTasks, Header, HeaderText, IconView} from "./styles";
+import { ClearFilters, Container, FilterInfo, FilterInfoText, FinishAllTasks, Header, HeaderText, IconView, Warning} from "./styles";
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign'
+import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
 import api from "../../services/api";
 import { useAuth } from "../../hooks/auth";
 import {  } from "../../utils/Splash";
 import { NoTasksScreen } from "../../utils/NoTasksScreen";
-import { TouchableOpacity } from "react-native-gesture-handler";
 
 interface ScheduleProps {
     key: string
@@ -43,20 +43,20 @@ interface TaskProps {
 export function Dashboard(){
     const [hours, setHours] = useState<ScheduleProps[]>([]);
     const [tasks, setTasks] = useState<TaskProps[]>([]);
-    const [institutions, setInstitutions] = useState<[]>([]);
+    const [institutions, setInstitutions] = useState<any>([]);
     const [calendarVisible, setCalendarVisible] = useState(false);
     const [date, setDate] = useState('');
     const [filteredInstitution, setFilteredInstitution] = useState<string | null>(null);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(false);
 
-    const { signOut } = useAuth();
+    const { signOut, isConnected } = useAuth();
 
     const filteredTasks = filteredInstitution 
     ? tasks.filter(task => task.instituicao_saude === filteredInstitution) 
     : tasks;
 
     const realDate = date.split('-').reverse().join('/');
-
 
     useEffect(() => {
         async function fetchSchedule(){
@@ -70,27 +70,39 @@ export function Dashboard(){
             ]);
         }
         fetchSchedule();        
-    }, [])
+    }, []);
 
     useEffect(() => {
         async function searchForInstitutions(){
-            const { data } = await api.get(`http://192.168.15.60:3333/institutions`);
+            const { data } = await api.get(`/cuidador/31/homecares`);
+            console.log(data.homecares[0].descricao);
 
-            const array = data.map((item: any) => {
-                return item.name;
+            const array = data.homecares.map((item: any) => {
+                return item.descricao;
             })
+            
+            console.log(array);
             setInstitutions(array);
+    
         }       
         searchForInstitutions();        
-    }, [])
+    }, []);
 
     useEffect(() => {
         async function fetchTasks(){
-            const { data } = await api.get(`cuidador/index?date=${date || formatDate(new Date())}`);
-            setTasks(data.content);
-            setLoading(false);
+            try {
+                const { data } = await api.get(`/cuidador/planos-atividades?date=${date || formatDate(new Date())}`)
+                setTasks(data.content);
+                setLoading(false);
+
+            } catch (error) {
+                setLoading(false);
+                setError(true);
+            }
+            
         }
         fetchTasks();
+        setError(false);
         
     }, [date])
 
@@ -143,8 +155,14 @@ export function Dashboard(){
     };
 
     return(
-        <Container>          
+        <Container>
             <Header>
+                {!isConnected ? 
+                <Warning>
+                    <FontAwesome name="warning" size={26} style={{marginLeft: 10, color: 'white'}}/>
+                    <Text style={{color: 'white', fontSize: 16, marginLeft: 10}}>Sem conexão com a internet!</Text>
+                </Warning> 
+                : null}
                 <View style={{
                         flexDirection: 'row', 
                         alignItems: 'center',                  
@@ -165,7 +183,7 @@ export function Dashboard(){
                                     style={{marginLeft: 16, marginBottom: 2}}
                                     onPress={showDatePicker}
                                 />
-                                <Text style={{color:'white', marginBottom: -1}}>Filtrar Data</Text> 
+                                <Text style={{color:'white', marginBottom: -1}}>Calendário</Text> 
                             </View>
                                 <View>
                                     <MaterialIcons 
@@ -190,7 +208,7 @@ export function Dashboard(){
             }
             >
             <InstitutionSelectModal 
-                institutionsName={institutions}
+                homecares={institutions}
                 selectInstitution={handleFilteredIntitutions}          
             />
 
@@ -257,7 +275,7 @@ export function Dashboard(){
                             )}                                          
                             showsVerticalScrollIndicator={false}
 
-                        />: <NoTasksScreen />}
+                        />: <NoTasksScreen error={error}/>}
                 </View>}                  
         </Container>
     )
