@@ -81,9 +81,7 @@ export function Dashboard(){
                 return item.descricao;
             })
             
-            console.log(array);
-            setInstitutions(array);
-    
+            setInstitutions(array);   
         }       
         searchForInstitutions();        
     }, []);
@@ -98,8 +96,7 @@ export function Dashboard(){
             } catch (error) {
                 setLoading(false);
                 setError(true);
-            }
-            
+            }        
         }
         fetchTasks();
         setError(false);
@@ -152,6 +149,7 @@ export function Dashboard(){
         setDate(dateFormatted);
         setLoading(true);
         hideDatePicker();
+
     };
 
     return(
@@ -275,7 +273,7 @@ export function Dashboard(){
                             )}                                          
                             showsVerticalScrollIndicator={false}
 
-                        />: <NoTasksScreen error={error}/>}
+                        />: <NoTasksScreen serverError={error}/>}
                 </View>}                  
         </Container>
     )

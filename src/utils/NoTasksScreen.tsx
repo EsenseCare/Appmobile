@@ -3,13 +3,13 @@ import { View, Text} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign'
 
 interface ScreenProps {
-    error: any;
+    serverError: any;
 }
 
-export function NoTasksScreen({error} : ScreenProps){
+export function NoTasksScreen({serverError} : ScreenProps){
     return(
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', marginBottom: 80 }}>
-            {!error ? 
+            {!serverError ? 
             <> 
                 <Text style={{fontSize: 24, color: 'gray',}}>
                     Sem atividades para este dia

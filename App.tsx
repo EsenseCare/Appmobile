@@ -24,7 +24,6 @@ export default function App() {
     Poppins_700Bold
   });
 
-
   if(!fontsLoaded){
     return(
       <Splash />

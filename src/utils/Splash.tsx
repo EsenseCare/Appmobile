@@ -8,7 +8,7 @@ export function Splash(){
             <LottieView
                 source={require("../../assets/health-loader.json")}
                 autoPlay
-                loop           
+                loop
             />
         </View>
     )

@@ -1,6 +1,5 @@
-import React, { useState } from "react";
-import { View, Text } from "react-native";
-import { FlatList } from "react-native-gesture-handler";
+import React from "react";
+import { View } from "react-native";
 import { Container, InfoView, ModalContent, Informations, VerticalLine, Title } from './styles'
 
 interface ModalProps {

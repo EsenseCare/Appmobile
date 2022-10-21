@@ -4,7 +4,7 @@ import { RFPercentage } from 'react-native-responsive-fontsize'
 export const Button = styled.TouchableOpacity`
     background-color: ${({theme}) => theme.colors.blue_buttons};
     height: 48px;
-    width: ${RFPercentage(19)}px;
+    width: ${RFPercentage(20)}px;
     border-radius: 4px;
     align-Items: center;
     justify-content: center;
