@@ -3,11 +3,13 @@ import { Container, PatientName, Header, TaskName, Info, TimeTask, OpenModalCont
 import { Modal, View, Text} from 'react-native'
 import { ButtonTask } from '../ButtonTask/Index'
 import { ContactInfo } from '../ContactInfoModal'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { RiskLevelModal } from '../RiskLevelModal'
+import api from '../../services/api'
 
 interface HighlightTasksProps {
-    data: {
+    info: {
+        id: string
         nome: string;
         observacao_atividade: string;
         executores: [{
@@ -23,42 +25,66 @@ interface HighlightTasksProps {
         }
         started: boolean;
         risco: boolean;
+        data_horario_inicio: any;
         levelRiskMorse: string;
         levelRiskBarden: string;
     }
 }
 
-export function TasksList({data}: HighlightTasksProps){
+export function TasksList({info}: HighlightTasksProps){
     const [modalContactVisible, setModalContactVisible] = useState(false);
     const [modalRiskVisible, setModalRiskVisible] = useState(false);
+    const [getTaskId, setGetTaskId] = useState<boolean>(false);
+    
+
+    function taskTime (date: Date) {
+        let hour = date.getHours();
+        let minute = date.getMinutes();
+        let minuteFormatted = date.getMinutes() <10? '0' + minute : minute
+        return hour + ":" + minuteFormatted
+    }
+
+    async function startTask () {
+        if(info.data_horario_inicio !== false){
+            console.log("Atividade já iniciada.");
+            return;
+        }
+
+        const { data } = await api.post('/cuidador/iniciar-atividade', {"plano_atividade_id": info.id })
+        console.log(data);
+        console.log(info.id);
+    }
+
 
     return(
         <Container>
             <Header>
                 <View style={{flexDirection: 'row-reverse'}}>
                     <TimeTask>
-                        {data.plano.data_execucao.split('-').reverse().join('/')}
+                        {info.plano.data_execucao.split('-').reverse().join('/')} {''}  
+                          ás {''} 
+                        {taskTime(new Date(info.data_horario_inicio))}
                     </TimeTask>
                 </View>              
-                <View style={{flexDirection: 'row'}}>
-                    <PatientName>{data.nome}</PatientName>
-                    <TaskName>{data.descricao_atividade}</TaskName>
-                    {data.risco ?
+                <View style={{flexDirection: 'row', flexWrap: 'wrap',  marginTop: 8}}>
+                    <PatientName>{info.nome}</PatientName>
+                    <TaskName>{info.descricao_atividade}</TaskName>
+                    {info.risco ?
                     <OpenModalRiskButton
                         onPress={() => setModalRiskVisible(true)}>
-                        Paciente de risco
+                        Paciente de Risco
                     </OpenModalRiskButton> 
                     : null }                   
                 </View>
 
                <Info>
                     <Text style={{color: 'black'}}>Executor(es): </Text> 
-                    {data.executores.map((nome => nome.nome + ", "))}
+                    {info.executores.map((nome => nome.nome + " (" +nome.perfil+"),"))}
                 </Info>
                <View style={{flexDirection: 'row'}}>
                         <Info>
                             <Text style={{color: 'black'}}>Instituições: </Text>
-                            {data.instituicao_saude}
+                            {info.instituicao_saude}
                         </Info>
                         <OpenModalContact 
                             onPress={() => setModalContactVisible(true)}>
@@ -87,23 +113,24 @@ export function TasksList({data}: HighlightTasksProps){
                         >                                                                  
                             <RiskLevelModal 
                                 close={() => setModalRiskVisible(false)}
-                                item={data}
+                                item={info}
                             />  
                         </Modal>                                   
                     </View>                                                            
                </View>
                <Info>
                     <Text style={{color: 'black'}}>Plano: </Text>
-                    {data.plano.id}
+                    {info.plano.id}
                </Info>
                <Info>
                     <Text style={{color: 'black'}}>Observações Gerais: </Text>
-                    {data.observacao_atividade}
+                    {info.observacao_atividade}
                </Info> 
 
                <ButtonTask
-                    title={data.started ? 'Finalizar Atividade' : 'Iniciar Atividade'}
-               />
+                    title={'Iniciar Atividade'}
+                    onPressFunction={startTask}
+                    />
             </Header>
         </Container>
     )

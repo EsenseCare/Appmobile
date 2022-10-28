@@ -57,7 +57,7 @@ export function InstitutionSelectModal({homecares, selectInstitution}: SelectPro
                         <Card key={index}>     
                             <TouchableOpacity 
                                 hitSlop={{top: 30, bottom: 20, left: 95, right: 95}} 
-                                onPress={() => {selectInstitution(item),setVisible(false)}}>                  
+                                onPress={() => {selectInstitution(item), setVisible(false)}}>                  
                                     <Text style={{fontWeight: 'bold', color: 'white'}}>{item}</Text>
                             </TouchableOpacity>
                         </Card> 

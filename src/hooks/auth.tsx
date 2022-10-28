@@ -63,12 +63,12 @@ function AuthProvider({children} : AuthProviderProps){
 
         await AsyncStorage.multiSet([
             ['@esenseCare:token', auth.content.token],
-            ['@esenseCare:user', JSON.stringify(auth.content.user)],
+            ['@esenseCare:user', JSON.stringify(auth.content.user_data)],
         ]);
 
         setUserData({
-            email: auth.content.user.email,
-            name: auth.content.user.nome,
+            email: auth.content.user_data.email,
+            name: auth.content.user_data.nome,
             token: auth.content.token
         });
 

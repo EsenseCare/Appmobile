@@ -16,28 +16,30 @@ import {  } from "../../utils/Splash";
 import { NoTasksScreen } from "../../utils/NoTasksScreen";
 
 interface ScheduleProps {
-    key: string
-    title: string
+    key: string;
+    title: string;
 }
 
 interface TaskProps {
-    nome: string
-    observacao_atividade: string
+    nome: string;
+    id: string;
+    observacao_atividade: string;
     executores: [{
-        nome: string
-        perfil: string
+        nome: string;
+        perfil: string;
     }]
-    instituicao_saude: string
-    descricao_atividade: string
+    instituicao_saude: string;
+    descricao_atividade: string;
     plano: {
-        id: number
-        created_at: Date
-        data_execucao: string
+        id: number;
+        created_at: Date;
+        data_execucao: string;
     }
-    started: boolean
-    risco: boolean
-    levelRiskMorse: string
-    levelRiskBarden: string
+    started: boolean;
+    risco: boolean;
+    data_horario_inicio: Date;
+    levelRiskMorse: string;
+    levelRiskBarden: string;
 }
 
 export function Dashboard(){
@@ -74,10 +76,9 @@ export function Dashboard(){
 
     useEffect(() => {
         async function searchForInstitutions(){
-            const { data } = await api.get(`/cuidador/31/homecares`);
-            console.log(data.homecares[0].descricao);
+            const { data } = await api.get(`/cuidador/homecares`);
 
-            const array = data.homecares.map((item: any) => {
+            const array = data.content.map((item: any) => {
                 return item.descricao;
             })
             
@@ -89,7 +90,8 @@ export function Dashboard(){
     useEffect(() => {
         async function fetchTasks(){
             try {
-                const { data } = await api.get(`/cuidador/planos-atividades?date=${date || formatDate(new Date())}`)
+                const { data } = await api.get(`/cuidador/plano-atividades?date=${date || formatDate(new Date())}`);
+                
                 setTasks(data.content);
                 setLoading(false);
 
@@ -171,7 +173,7 @@ export function Dashboard(){
                         Programação {'\n'}
                         do Dia
                     </HeaderText>  
-                         
+
                     <IconView>
                             <View>
                                 <AntDesign
@@ -268,7 +270,7 @@ export function Dashboard(){
                             data={filteredTasks}
                             renderItem={({ item }) =>(
                                 <TasksList 
-                                    data={item}                             
+                                    info={item}                             
                                 />
                             )}                                          
                             showsVerticalScrollIndicator={false}

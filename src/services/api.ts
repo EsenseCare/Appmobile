@@ -5,7 +5,7 @@ const api = axios.create({
 
 export const authService = {
     async authenticate(data: any) {
-        return await api.post(`/auth_user`, data);       
+        return await api.post(`/auth/login`, data);       
     },   
 }
 

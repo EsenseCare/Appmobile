@@ -18,7 +18,7 @@ export const styles = StyleSheet.create({
   },
 
   title: {
-    fontSize: 22,
+    fontSize: 20,
     color: '#5abec8',
     margin: 10
   },
@@ -68,7 +68,7 @@ export const styles = StyleSheet.create({
 });
 
 export const Data = styled.Text`
-  margin-bottom: 18px;
+  margin-bottom: 14px;
 `;
 
 

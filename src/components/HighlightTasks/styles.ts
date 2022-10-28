@@ -1,6 +1,7 @@
 import styled from "styled-components/native";
 
 export const Container = styled.View`
+
 `;
 
 export const PatientName = styled.Text`
@@ -33,7 +34,6 @@ export const Info = styled.Text`
     color: gray;
 `;
 
-
 export const TimeTask = styled.Text`
     color: ${({theme}) => theme.colors.default_color};
     font-size: 14px;
@@ -54,5 +54,6 @@ export const OpenModalRiskButton = styled.Text`
     color: white;
     border-radius: 8px;
     margin-left: 8px;
+    margin-top: 6px;
     padding: 4px;
 `;

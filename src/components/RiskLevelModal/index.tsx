@@ -56,7 +56,7 @@ export function RiskLevelModal({close, item}: ModalProps){
                             </ContainerRating>
                         </RatingView>
 
-                    <TextTopics>Classificação de Barden:</TextTopics>
+                    <TextTopics>Classificação de Braden:</TextTopics>
                     <RatingView>
                             <ContainerRating bgColor={item.levelRiskBarden === "NoRisk" ? '#1bad1c' : 'white'}>
                                 <Text

@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
-import { View, Modal, ModalProps, TouchableOpacity, Text } from 'react-native';
-import { MaterialIcons } from '@expo/vector-icons';
+import { View, Modal, ModalProps, Text } from 'react-native';
 import { Checkbox } from 'react-native-paper';
 
 import { Data, styles } from './styles';
 import { Button } from '../ButtonTask/styles';
 
 interface RegisterTaskProps extends ModalProps{
-  onClose?: () => void;
+  onClose: () => void;
 }
 
 export function RegisterTask({onClose, ...rest}: RegisterTaskProps) {
@@ -86,7 +85,7 @@ export function RegisterTask({onClose, ...rest}: RegisterTaskProps) {
               <Text style={styles.textButton}>Confirmar Execução da Atividade</Text>
             </Button>
             <Text>OU</Text>
-            <Button style={styles.buttonCancel}>
+            <Button style={styles.buttonCancel} onPress={onClose}>
               <Text>Cancelar</Text>
             </Button>
           </View>

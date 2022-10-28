@@ -14,7 +14,6 @@ import { View, Text, ActivityIndicator } from 'react-native';
 import { Input } from '../../components/Input';
 
 import { useAuth } from '../../hooks/auth'
-import { RegisterTask } from '../../components/RegisterTask';
 
 export function Login(){
     const [userInfo, setUserInfo] = useState({
@@ -41,8 +40,7 @@ export function Login(){
         }catch (error){
             setLoading(false); 
             return setError("Email ou senha incorretos.");      
-        }      
-       
+        }            
     }
 
     useEffect(() => {
@@ -91,10 +89,6 @@ export function Login(){
                         : 'Login'}
                     </Text>
 
-                    <RegisterTask
-                        visible={false}
-                    />
-
                 </ButtonLogin>                                    
                     <View style={{flexDirection: 'row', alignItems: 'center', marginTop: 24}}>
                         <Text style={{fontSize: 16, marginTop: 18, color: '#435369'}}>
@@ -108,6 +102,3 @@ export function Login(){
         </Container>      
     )
 }
-
-
-
