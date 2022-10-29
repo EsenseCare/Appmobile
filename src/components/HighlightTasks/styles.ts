@@ -20,11 +20,11 @@ export const TaskName = styled.Text`
 `;
 
 export const Header = styled.View`
-    font-size: 1px;
     margin-top: 20px;
     border: 2px solid #E5E8E9;
     padding: 12px 5px;
     padding-right: 20px;
+    
 `;
 
 export const Info = styled.Text`
@@ -54,6 +54,5 @@ export const OpenModalRiskButton = styled.Text`
     color: white;
     border-radius: 8px;
     margin-left: 8px;
-    margin-top: 6px;
     padding: 4px;
 `;

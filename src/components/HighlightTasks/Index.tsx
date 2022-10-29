@@ -6,12 +6,13 @@ import { ContactInfo } from '../ContactInfoModal'
 import React, { useEffect, useState } from 'react'
 import { RiskLevelModal } from '../RiskLevelModal'
 import api from '../../services/api'
+import { RegisterTask } from '../RegisterTask';
 
 interface HighlightTasksProps {
     info: {
         id: string
         nome: string;
-        observacao_atividade: string;
+        observacoes_gerais: string;
         executores: [{
             nome: string;
             perfil: string;
@@ -34,8 +35,18 @@ interface HighlightTasksProps {
 export function TasksList({info}: HighlightTasksProps){
     const [modalContactVisible, setModalContactVisible] = useState(false);
     const [modalRiskVisible, setModalRiskVisible] = useState(false);
-    const [getTaskId, setGetTaskId] = useState<boolean>(false);
+    const [taskStarted, setTaskStarted] = useState<any>(false);
+    const [modalStartTask, setModalStartTask] = useState<boolean>(false);
     
+    
+    useEffect(() => {
+        function checkTaskState(){
+            if(info.data_horario_inicio !== null){
+               return setTaskStarted(true);
+            }
+        }
+        checkTaskState();
+    },[taskStarted])
 
     function taskTime (date: Date) {
         let hour = date.getHours();
@@ -45,14 +56,16 @@ export function TasksList({info}: HighlightTasksProps){
     }
 
     async function startTask () {
-        if(info.data_horario_inicio !== false){
+
+        if(info.data_horario_inicio !== null){         
             console.log("Atividade já iniciada.");
-            return;
+            return setTaskStarted(false);
         }
 
-        const { data } = await api.post('/cuidador/iniciar-atividade', {"plano_atividade_id": info.id })
+        const { data } = await api.post('/cuidador/iniciar-atividade', {"plano_atividade_id": info.id });
+        info.data_horario_inicio = new Date();
+        setTaskStarted(true);
         console.log(data);
-        console.log(info.id);
     }
 
 
@@ -79,7 +92,7 @@ export function TasksList({info}: HighlightTasksProps){
 
                <Info>
                     <Text style={{color: 'black'}}>Executor(es): </Text> 
-                    {info.executores.map((nome => nome.nome + " (" +nome.perfil+"),"))}
+                    {info.executores ? info.executores.map((nome => nome.nome + " (" +nome.perfil+") - ")) : ''}
                 </Info>
                <View style={{flexDirection: 'row'}}>
                         <Info>
@@ -124,13 +137,13 @@ export function TasksList({info}: HighlightTasksProps){
                </Info>
                <Info>
                     <Text style={{color: 'black'}}>Observações Gerais: </Text>
-                    {info.observacao_atividade}
+                    {info.observacoes_gerais}
                </Info> 
 
                <ButtonTask
-                    title={'Iniciar Atividade'}
+                    title={taskStarted === true ? 'Finalizar Atividade' : 'Iniciar Atividade'}
                     onPressFunction={startTask}
-                    />
+                />
             </Header>
         </Container>
     )

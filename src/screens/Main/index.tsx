@@ -23,7 +23,7 @@ interface ScheduleProps {
 interface TaskProps {
     nome: string;
     id: string;
-    observacao_atividade: string;
+    observacoes_gerais: string;
     executores: [{
         nome: string;
         perfil: string;
