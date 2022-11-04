@@ -15,11 +15,6 @@ import { useAuth } from "../../hooks/auth";
 import {  } from "../../utils/Splash";
 import { NoTasksScreen } from "../../utils/NoTasksScreen";
 
-interface ScheduleProps {
-    key: string;
-    title: string;
-}
-
 interface TaskProps {
     nome: string;
     id: string;
@@ -37,13 +32,13 @@ interface TaskProps {
     }
     started: boolean;
     risco: boolean;
-    data_horario_inicio: Date;
+    data_horario_inicio: any;
     levelRiskMorse: string;
     levelRiskBarden: string;
 }
 
 export function Dashboard(){
-    const [hours, setHours] = useState<ScheduleProps[]>([]);
+    const [hours, setHours] = useState<any>([]);
     const [tasks, setTasks] = useState<TaskProps[]>([]);
     const [institutions, setInstitutions] = useState<any>([]);
     const [calendarVisible, setCalendarVisible] = useState(false);
@@ -51,28 +46,58 @@ export function Dashboard(){
     const [filteredInstitution, setFilteredInstitution] = useState<string | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
+    const [filteredTasks, setFilteredTasks] = useState<TaskProps[]>([]);
+    const [filteredTime, setFilteredTime] = useState<string | null>(null);
 
     const { signOut, isConnected } = useAuth();
 
-    const filteredTasks = filteredInstitution 
-    ? tasks.filter(task => task.instituicao_saude === filteredInstitution) 
-    : tasks;
-
     const realDate = date.split('-').reverse().join('/');
+
+    function taskTime (date: Date) {
+        let hour = date.getHours();
+        let minute = date.getMinutes();
+        let minuteFormatted = date.getMinutes() <10? '0' + minute : minute
+        return hour + ":" + minuteFormatted
+    }
+
+    useEffect(() => {
+   
+        let data = filteredInstitution 
+        ? tasks.filter(task => task.instituicao_saude === filteredInstitution)
+        : tasks;
+
+        data = filteredTime 
+        ? tasks.filter(task => task.data_horario_inicio.includes(`T${filteredTime}`))
+        : data;
+    
+        setFilteredTasks(data);
+    
+
+    },[filteredInstitution, tasks, filteredTime])
 
     useEffect(() => {
         async function fetchSchedule(){
-            const { data } = await api.get('http://192.168.15.60:3333/schedule');
+            const { data } = await api.get(`/cuidador/plano-atividades?date=${date || formatDate(new Date())}`);
+            const hourTask = data.content.map((item: any) => {
+                return taskTime(new Date(item.data_horario_inicio));
+            });
+        
+            const hourTaskFormatted = hourTask.map((item: string, index: number) => {
+                return {
+                    key: index,
+                    title: item
+                }
+            })
             setHours([
                 {
                     key: 'all',
                     title: 'Todos'
                 },
-                ...data
+                ...hourTaskFormatted
             ]);
         }
         fetchSchedule();        
-    }, []);
+    }, [filteredTasks]);
 
     useEffect(() => {
         async function searchForInstitutions(){
@@ -91,7 +116,6 @@ export function Dashboard(){
         async function fetchTasks(){
             try {
                 const { data } = await api.get(`/cuidador/plano-atividades?date=${date || formatDate(new Date())}`);
-                
                 setTasks(data.content);
                 setLoading(false);
 
@@ -102,6 +126,8 @@ export function Dashboard(){
         }
         fetchTasks();
         setError(false);
+        setFilteredInstitution(null);
+        setFilteredTime(null);
         
     }, [date])
 
@@ -136,6 +162,7 @@ export function Dashboard(){
     }
 
     function formatDate (date: Date) {
+        date.setHours(date.getHours() - 3);
         let month = date.getUTCMonth() + 1; 
         let day = date.getUTCDate();
         let year = date.getUTCFullYear();
@@ -151,8 +178,13 @@ export function Dashboard(){
         setDate(dateFormatted);
         setLoading(true);
         hideDatePicker();
-
+        console.log(selectDate);
     };
+
+    //"data_horario_inicio": "2022-10-26T15:01:15.864-03:00"
+    function filterByHours(time: string){
+        setFilteredTime(time);
+    }
 
     return(
         <Container>
@@ -234,7 +266,8 @@ export function Dashboard(){
                     data={hours}
                     renderItem={({item}) => (
                         <ButtonSchedule 
-                            time={item.title}                        
+                            time={item.title}
+                            onPressFunction={(time) => filterByHours(time)}                        
                         />
                     )}
                     horizontal

@@ -5,12 +5,13 @@ import { Button } from './styles'
 
  export interface ButtonScheduleProps {
     time: string;
-    active?: boolean
+    active?: boolean;
+    onPressFunction: (value: string) => void;
 }
 
-export function ButtonSchedule({ time }: ButtonScheduleProps){
+export function ButtonSchedule({ time, onPressFunction }: ButtonScheduleProps){
     return(
-        <Button onPress={() => console.log(time)}>
+        <Button onPress={() => onPressFunction(time)}>
             <Text>
                 {time}
             </Text>

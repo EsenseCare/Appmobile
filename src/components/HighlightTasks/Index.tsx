@@ -6,7 +6,6 @@ import { ContactInfo } from '../ContactInfoModal'
 import React, { useEffect, useState } from 'react'
 import { RiskLevelModal } from '../RiskLevelModal'
 import api from '../../services/api'
-import { RegisterTask } from '../RegisterTask';
 
 interface HighlightTasksProps {
     info: {
@@ -26,7 +25,7 @@ interface HighlightTasksProps {
         }
         started: boolean;
         risco: boolean;
-        data_horario_inicio: any;
+        data_horario_inicio: Date;
         levelRiskMorse: string;
         levelRiskBarden: string;
     }
@@ -36,7 +35,6 @@ export function TasksList({info}: HighlightTasksProps){
     const [modalContactVisible, setModalContactVisible] = useState(false);
     const [modalRiskVisible, setModalRiskVisible] = useState(false);
     const [taskStarted, setTaskStarted] = useState<any>(false);
-    const [modalStartTask, setModalStartTask] = useState<boolean>(false);
     
     
     useEffect(() => {
@@ -56,9 +54,7 @@ export function TasksList({info}: HighlightTasksProps){
     }
 
     async function startTask () {
-
         if(info.data_horario_inicio !== null){         
-            console.log("Atividade já iniciada.");
             return setTaskStarted(false);
         }
 
@@ -67,7 +63,6 @@ export function TasksList({info}: HighlightTasksProps){
         setTaskStarted(true);
         console.log(data);
     }
-
 
     return(
         <Container>

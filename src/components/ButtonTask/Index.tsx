@@ -12,7 +12,6 @@ interface ButtonProps extends TouchableOpacityProps{
 export function ButtonTask({title,  onPressFunction}: ButtonProps){
     const [modalStartTask, setModalStartTask] = useState<boolean>(false);
     
-
     return(
         <>
             <Button
