@@ -27,6 +27,7 @@ interface TaskProps {
     descricao_atividade: string;
     plano: {
         id: number;
+        paciente_id: number;
         created_at: Date;
         data_execucao: string;
     }
@@ -61,6 +62,10 @@ export function Dashboard(){
     }
 
     useEffect(() => {
+
+        if(filteredTime === "Todos"){
+            setFilteredTime(null);
+        }
    
         let data = filteredInstitution 
         ? tasks.filter(task => task.instituicao_saude === filteredInstitution)
@@ -69,10 +74,9 @@ export function Dashboard(){
         data = filteredTime 
         ? tasks.filter(task => task.data_horario_inicio.includes(`T${filteredTime}`))
         : data;
-    
+
         setFilteredTasks(data);
     
-
     },[filteredInstitution, tasks, filteredTime])
 
     useEffect(() => {
@@ -113,6 +117,8 @@ export function Dashboard(){
     }, []);
 
     useEffect(() => {
+        setFilteredInstitution(null);
+        setFilteredTime(null);
         async function fetchTasks(){
             try {
                 const { data } = await api.get(`/cuidador/plano-atividades?date=${date || formatDate(new Date())}`);
@@ -126,8 +132,6 @@ export function Dashboard(){
         }
         fetchTasks();
         setError(false);
-        setFilteredInstitution(null);
-        setFilteredTime(null);
         
     }, [date])
 
@@ -178,10 +182,8 @@ export function Dashboard(){
         setDate(dateFormatted);
         setLoading(true);
         hideDatePicker();
-        console.log(selectDate);
     };
 
-    //"data_horario_inicio": "2022-10-26T15:01:15.864-03:00"
     function filterByHours(time: string){
         setFilteredTime(time);
     }
@@ -215,7 +217,7 @@ export function Dashboard(){
                                     style={{marginLeft: 16, marginBottom: 2}}
                                     onPress={showDatePicker}
                                 />
-                                <Text style={{color:'white', marginBottom: -1}}>Calendário</Text> 
+                                <Text style={{color:'white', marginBottom: -2}}>Calendário</Text> 
                             </View>
                                 <View>
                                     <MaterialIcons 
@@ -296,11 +298,14 @@ export function Dashboard(){
                 </FilterInfo>
 
             </View>          
-                {loading ? <ActivityIndicator size="large" color="#5abec8" style={{flex: 1, marginBottom: 80}}/> 
-                    : 
+                {loading 
+                ? 
+                    <ActivityIndicator size="large" color="#5abec8" style={{flex: 1, marginBottom: 80}}/> 
+                : 
                     <View style={{flex: 1}}>
                        {tasks.length ? <FlatList
                             data={filteredTasks}
+                            initialNumToRender={5}
                             renderItem={({ item }) =>(
                                 <TasksList 
                                     info={item}                             

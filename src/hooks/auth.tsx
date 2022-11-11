@@ -114,8 +114,7 @@ function AuthProvider({children} : AuthProviderProps){
             // todo: ver erro
             if (token && now > expirationDate) {
                 setLoading(false);  
-                signOut();
-                return;
+                return signOut();
             }
 
             api.interceptors.request.use((config) => {

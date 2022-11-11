@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { Dimensions, StyleSheet } from 'react-native';
 import styled from "styled-components/native";
 
 export const styles = StyleSheet.create({
@@ -6,15 +6,17 @@ export const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.6)'
+    backgroundColor: 'rgba(0,0,0,0.6)',
   },
 
   content: {
-    width: 340,
+    width: 380,
     backgroundColor: '#F6F4F4',
     borderRadius: 8,
     alignItems: "center",
     justifyContent: "center",
+    marginTop: 40,
+    marginBottom: 20,  
   },
 
   title: {
@@ -44,14 +46,14 @@ export const styles = StyleSheet.create({
 
   footerInfo: {
     marginRight: 6,
-    width:300,
+    width: 300,
   },
 
   checkBox: {
     flexDirection: 'row', 
     alignItems: 'center', 
     marginTop: 10,
-    marginLeft: -10
+    marginLeft: -30
   },
 
   buttonCancel: {
@@ -60,10 +62,17 @@ export const styles = StyleSheet.create({
     borderRadius: 4,
     alignItems: 'center',
     justifyContent: 'center',
-    margin: 14,
+    margin: 12,
     backgroundColor: 'white',
-    borderWidth: 0.5,
+    borderWidth: 0.5
+  },
 
+  InputView: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginHorizontal: 10,
+    width:'105%',
+    alignSelf: 'center'
   }
 });
 

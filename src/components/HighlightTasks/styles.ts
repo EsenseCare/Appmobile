@@ -8,14 +8,13 @@ export const PatientName = styled.Text`
     font-weight: bold;
     color: #007bff;
     text-decoration: underline;
-    margin-left: 5px;
     font-size: 18px;
 `;
 
 export const TaskName = styled.Text`
     font-weight: bold;
     color: ${({theme}) => theme.colors.default_color};
-    margin-left: 6px;
+    margin-left: 5px;
     font-size: 18px;
 `;
 
@@ -24,7 +23,6 @@ export const Header = styled.View`
     border: 2px solid #E5E8E9;
     padding: 12px 5px;
     padding-right: 20px;
-    
 `;
 
 export const Info = styled.Text`
@@ -53,6 +51,6 @@ export const OpenModalRiskButton = styled.Text`
     font-size: 12px;
     color: white;
     border-radius: 8px;
-    margin-left: 8px;
+    margin-left: 3px;
     padding: 4px;
 `;

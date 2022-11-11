@@ -23,11 +23,3 @@ export const Container = styled.View`
     align-items: center;
     background-color: #fff;
 `;
-
-
-export const Error = styled.Text`
-    font-size: ${RFValue(12)}px;
-    color: red;
-    font-family: ${({ theme }) => theme.fonts.regular};
- 
-`;

@@ -25,10 +25,7 @@ export function Input({iconType, placeHolderText, mask, ...rest} : Props) {
                 placeholder={placeHolderText}
                 secureTextEntry={mask}
                 {...rest}
-            /> 
-            
-            
-        </Container>
-        
+            />            
+        </Container>        
     )
 }

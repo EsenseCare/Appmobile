@@ -20,14 +20,13 @@ interface HighlightTasksProps {
         descricao_atividade: string;
         plano: {
             id: number;
+            paciente_id: number;
             created_at: Date;
             data_execucao: string;
         }
         started: boolean;
         risco: boolean;
         data_horario_inicio: Date;
-        levelRiskMorse: string;
-        levelRiskBarden: string;
     }
 }
 
@@ -87,7 +86,7 @@ export function TasksList({info}: HighlightTasksProps){
 
                <Info>
                     <Text style={{color: 'black'}}>Executor(es): </Text> 
-                    {info.executores ? info.executores.map((nome => nome.nome + " (" +nome.perfil+") - ")) : ''}
+                    {info.executores ? info.executores.map((nome => nome.nome + " (" +nome.perfil+") ")) : ''}
                 </Info>
                <View style={{flexDirection: 'row'}}>
                         <Info>
@@ -122,6 +121,7 @@ export function TasksList({info}: HighlightTasksProps){
                             <RiskLevelModal 
                                 close={() => setModalRiskVisible(false)}
                                 item={info}
+                                id={info.plano.paciente_id}
                             />  
                         </Modal>                                   
                     </View>                                                            

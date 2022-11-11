@@ -1,6 +1,6 @@
 import axios from 'axios'
 const api = axios.create({
-    baseURL: 'https://esense-stage.herokuapp.com/api_mobile'
+    baseURL: 'https://esensecare-staging.herokuapp.com/api_mobile'
 });
 
 export const authService = {

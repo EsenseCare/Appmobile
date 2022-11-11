@@ -73,7 +73,5 @@ export const ReferenceData = styled.Text`
 
 export const AllergyPanel = styled.View`
     margin-left: 20px;
-    border: 0.6px;
-    border-color: #DDDDDD;
     width: ${RFPercentage(14)}px;
 `;

@@ -11,8 +11,7 @@ export const Header = styled.View`
     background-color: ${({theme}) => theme.colors.blue_buttons};  
     justify-content: center;
     border-radius: 10px;
-    padding-top: 26px;
-    
+    padding-top: 8px;  
 `;
 
 export const FinishAllTasks = styled.TouchableOpacity`
@@ -35,7 +34,7 @@ export const HeaderText = styled.Text`
 `;
 
 export const FilterInfo = styled.View`
-    margin-top: 12px;
+    margin-top: 6px;
     margin-left: 8px;
 `;
 
