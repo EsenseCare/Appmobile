@@ -1,7 +1,7 @@
 import styled from "styled-components/native";
 
 export const Container = styled.View`
-
+    width: 104%;
 `;
 
 export const PatientName = styled.Text`
@@ -36,6 +36,7 @@ export const TimeTask = styled.Text`
     color: ${({theme}) => theme.colors.default_color};
     font-size: 14px;
     flex-direction: column-reverse;
+    margin-right: 10px;
 `;
 
 export const OpenModalContact = styled.Text`

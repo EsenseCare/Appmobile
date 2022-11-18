@@ -4,6 +4,7 @@ import { ButtonSchedule } from "../../components/ButtonSchedule";
 import { TasksList } from "../../components/HighlightTasks/Index";
 import { InstitutionSelectModal } from "../../components/InstitutionSelectModal/Index";
 import { ClearFilters, Container, FilterInfo, FilterInfoText, FinishAllTasks, Header, HeaderText, IconView, Warning} from "./styles";
+import { useNavigation } from '@react-navigation/native'
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign'
@@ -12,7 +13,6 @@ import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
 import api from "../../services/api";
 import { useAuth } from "../../hooks/auth";
-import {  } from "../../utils/Splash";
 import { NoTasksScreen } from "../../utils/NoTasksScreen";
 
 interface TaskProps {
@@ -34,8 +34,7 @@ interface TaskProps {
     started: boolean;
     risco: boolean;
     data_horario_inicio: any;
-    levelRiskMorse: string;
-    levelRiskBarden: string;
+    protocolos: [string];
 }
 
 export function Dashboard(){
@@ -44,6 +43,7 @@ export function Dashboard(){
     const [institutions, setInstitutions] = useState<any>([]);
     const [calendarVisible, setCalendarVisible] = useState(false);
     const [date, setDate] = useState('');
+    const [click, setClick] = useState<any>(null);
     const [filteredInstitution, setFilteredInstitution] = useState<string | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
@@ -53,6 +53,7 @@ export function Dashboard(){
     const { signOut, isConnected } = useAuth();
 
     const realDate = date.split('-').reverse().join('/');
+    const navigate = useNavigation(); 
 
     function taskTime (date: Date) {
         let hour = date.getHours();
@@ -72,11 +73,11 @@ export function Dashboard(){
         : tasks;
 
         data = filteredTime 
-        ? tasks.filter(task => task.data_horario_inicio.includes(`T${filteredTime}`))
+        ? tasks.filter(task => task.data_horario_inicio && task.data_horario_inicio.includes(`T${filteredTime}`))
         : data;
 
         setFilteredTasks(data);
-    
+        
     },[filteredInstitution, tasks, filteredTime])
 
     useEffect(() => {
@@ -92,6 +93,13 @@ export function Dashboard(){
                     title: item
                 }
             })
+
+            hourTaskFormatted.sort((a:any, b:any) => {
+                if(a.title < b.title) { return -1; }
+                if(a.title > b.title) { return 1; }
+                return 0;
+            });
+
             setHours([
                 {
                     key: 'all',
@@ -119,20 +127,23 @@ export function Dashboard(){
     useEffect(() => {
         setFilteredInstitution(null);
         setFilteredTime(null);
+        setClick(null);
         async function fetchTasks(){
             try {
                 const { data } = await api.get(`/cuidador/plano-atividades?date=${date || formatDate(new Date())}`);
                 setTasks(data.content);
                 setLoading(false);
+                
 
             } catch (error) {
                 setLoading(false);
                 setError(true);
             }        
         }
+
         fetchTasks();
         setError(false);
-        
+      
     }, [date])
 
      const logOut = () => {
@@ -171,7 +182,9 @@ export function Dashboard(){
         let day = date.getUTCDate();
         let year = date.getUTCFullYear();
 
-        return year + "-" + month + "-" + day
+        let monthFormatted = month < 10 ? '0'+ month : month;
+        let dayFormatted = day< 10 ? '0'+ day : day;
+        return year + "-" + monthFormatted + "-" + dayFormatted
     }
 
     function handleConfirm(selectDate: Date){
@@ -239,14 +252,13 @@ export function Dashboard(){
                     flexDirection: 'row',                    
                     alignItems: 'center',
                 }
-            }
-            >
+            }>
             <InstitutionSelectModal 
                 homecares={institutions}
                 selectInstitution={handleFilteredIntitutions}          
             />
 
-            <FinishAllTasks>
+            <FinishAllTasks onPress={() => navigate.navigate('FinishAllTasks' as any)}>
                 <Text style={{color: '#fff', fontSize: 17 }}>
                     Concluir atividades do horário
                 </Text>
@@ -266,14 +278,16 @@ export function Dashboard(){
 
                 <FlatList
                     data={hours}
-                    renderItem={({item}) => (
+                    renderItem={({item, index}) => (
                         <ButtonSchedule 
                             time={item.title}
-                            onPressFunction={(time) => filterByHours(time)}                        
+                            onPressFunction={(time) =>{ filterByHours(time); setClick(index)}}
+                            widthColor={index === click ? 'black': ''}
                         />
                     )}
                     horizontal
                     showsHorizontalScrollIndicator={false}
+                    
                 />
 
                 <FilterInfo>

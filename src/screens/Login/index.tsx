@@ -10,7 +10,7 @@ import { Container,
 } from './styles';
 
 import Logo from '../../../assets/logo-esense2.png'
-import { View, Text, ActivityIndicator } from 'react-native';
+import { View, Text, ActivityIndicator, Keyboard } from 'react-native';
 import { Input } from '../../components/Input';
 
 import { useAuth } from '../../hooks/auth'
@@ -78,7 +78,11 @@ export function Login(){
                     Esqueceu a senha?
                 </HelpButtonPassword> 
 
-                <ButtonLogin onPress={submitForm} disabled={loading ? true : false}>
+                <ButtonLogin onPress={() => {
+                        submitForm(); 
+                        Keyboard.dismiss()
+                    }} 
+                    disabled={loading ? true : false}>
                     <Text style={{fontWeight: 'bold', color:'#ffff', fontSize: 18}}>
                         {loading ?
                         <View style={{alignItems: 'center'}}>

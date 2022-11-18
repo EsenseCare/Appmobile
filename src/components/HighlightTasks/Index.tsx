@@ -27,6 +27,7 @@ interface HighlightTasksProps {
         started: boolean;
         risco: boolean;
         data_horario_inicio: Date;
+        protocolos: [string]
     }
 }
 
@@ -86,7 +87,7 @@ export function TasksList({info}: HighlightTasksProps){
 
                <Info>
                     <Text style={{color: 'black'}}>Executor(es): </Text> 
-                    {info.executores ? info.executores.map((nome => nome.nome + " (" +nome.perfil+") ")) : ''}
+                    {info.executores ? info.executores.map((nome => nome.nome + " (" +nome.perfil+") ")) : 'Não informado'}
                 </Info>
                <View style={{flexDirection: 'row'}}>
                         <Info>
@@ -137,7 +138,8 @@ export function TasksList({info}: HighlightTasksProps){
 
                <ButtonTask
                     title={taskStarted === true ? 'Finalizar Atividade' : 'Iniciar Atividade'}
-                    onPressFunction={startTask}
+                    onPressFunction={startTask} 
+                    protocolos={info.protocolos}
                 />
             </Header>
         </Container>

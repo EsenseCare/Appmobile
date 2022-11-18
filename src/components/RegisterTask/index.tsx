@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Modal, ModalProps, Text, ScrollView, KeyboardAvoidingView } from 'react-native';
-import { Checkbox } from 'react-native-paper';
+import { Checkbox, Switch } from 'react-native-paper';
 import { Dropdown } from 'react-native-element-dropdown';
 
 import { Data, styles } from './styles';
@@ -10,6 +10,7 @@ import { InputFinishTask } from '../InputFinishTask';
 
 interface RegisterTaskProps extends ModalProps{
   onClose: () => void;
+  protocolos: [string];
 }
 
 const data = [
@@ -24,62 +25,77 @@ const data = [
 ];
 
 
-export function RegisterTask({onClose, ...rest}: RegisterTaskProps) {
+export function RegisterTask({onClose, protocolos, ...rest}: RegisterTaskProps) {
   const [checked, setChecked] = useState(false);
   const [value, setValue] = useState(null);
 
   const vitalSignsProtocol = () => {
     return(
-      <View>
-          <View>
-            <Text>Temperatura Corporal (°C)</Text>
-            <InputFinishTask />
-          </View>
+      <>
+      <View style={styles.inputView}>
+        <View>
+          <Text style={{fontSize: 10}}>Temperatura Corporal (°C)</Text>
+          <InputFinishTask />
+        </View>
 
-          <View>
-            <Text>Pressão Sistólica (mmHg)</Text>
-            <InputFinishTask />
-          </View>
-
-          <View>
-            <Text>Pressão Diastólica (mmHg)</Text>
-            <InputFinishTask />
-          </View>
-
-          <View>
-            <Text>Saturação de Oxigênio - SpO2 (%)</Text>
-            <InputFinishTask />
-          </View>
-
-          <View>
-            <Text>Batimentos Cardiacos (BPM)</Text>
-            <InputFinishTask />
-          </View>
+        <View>
+          <Text style={{fontSize: 10}}>Pressão Sistólica (mmHg)</Text>
+          <InputFinishTask />
+        </View>
       </View>
+
+      <View style={styles.inputView}>
+        <View>
+          <Text style={{fontSize: 10}}>Pressão Diastólica {'\n'}(mmHg)</Text>
+          <InputFinishTask />
+        </View>
+
+        <View>
+          <Text style={{fontSize: 10}}>Saturação de Oxigênio {'\n'}SpO2(%)</Text>
+          <InputFinishTask />
+        </View>
+      </View>
+
+        <View style={{marginLeft: 11}}>
+          <Text style={{fontSize: 10}}>Batimentos Cardiacos (BPM)</Text>
+          <InputFinishTask />
+        </View>
+      </>
     )
   }
 
   const eliminationsProtocol = () => {
-    return(
-      <View>
-        
-      </View>
-    )
-  }
+    return (
+      <>
+        <View style={styles.inputView}>
+        <View>
+          <Text style={{fontSize: 10}}>Presença</Text>
+          <Switch />
+        </View>
 
-  const diuresisProtocol = () => {
-    return(
-      <View>
-        
+        <View>
+          <Text style={{fontSize: 10}}>Cor</Text>
+          <InputFinishTask />
+        </View>
       </View>
-    )
-  }
 
-  const pressionProtocol = () => {
-    return(
-      <View>
-        
+      <View style={styles.inputView}>
+        <View>
+          <Text style={{fontSize: 10}}>Odor</Text>
+          <InputFinishTask />
+        </View>
+
+        <View>
+          <Text style={{fontSize: 10}}>Aspecto</Text>
+          <InputFinishTask />
+        </View>
       </View>
+
+        <View style={{marginLeft: 11}}>
+          <Text style={{fontSize: 10}}>{protocolos.includes("Protocolo de diurese") ? "Quantidade" : "Consistência"}</Text>
+          <InputFinishTask />
+        </View>
+      </>
     )
   }
 
@@ -100,7 +116,7 @@ export function RegisterTask({onClose, ...rest}: RegisterTaskProps) {
       {...rest}
     >
       <View style={styles.container}>
-      <ScrollView horizontal={true}>
+      <ScrollView>
         <View style={styles.content}>                
             <View>
               <Text style={styles.title}>Registrar Atividade</Text>
@@ -160,8 +176,8 @@ export function RegisterTask({onClose, ...rest}: RegisterTaskProps) {
                   Foi necessário dar medicação adicional?   
                 </Text>
               </View>
-              {checked ? <View style={styles.InputView}>
-                      
+
+              {checked ? <View style={styles.InputView}>                  
                   <View> 
                     <Text style={{fontSize: 11}}>Informe a quantidade: </Text>
                     <InputFinishTask />
@@ -185,6 +201,18 @@ export function RegisterTask({onClose, ...rest}: RegisterTaskProps) {
                 </KeyboardAvoidingView> 
               </View> : null}
 
+              {protocolos && protocolos.includes("Protocolo de sinais vitais") ? 
+                <View style={{marginLeft: -12}}> 
+                  {vitalSignsProtocol()}
+                </View>
+              : null}
+
+              {protocolos && protocolos.includes("Protocolo de eliminações (evacuações)") ? 
+                <View style={{marginLeft: -12}}> 
+                  {eliminationsProtocol()}
+                </View>
+              : null}
+                   
             </View>
             <Button style={styles.stylesButton}>
               <Text style={styles.textButton}>Confirmar Execução da Atividade</Text>

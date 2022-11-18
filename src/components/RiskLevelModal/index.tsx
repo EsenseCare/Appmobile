@@ -10,7 +10,7 @@ interface ModalProps {
 }
 
 interface sicknessProps{
-    info:{
+    info: {
         type: string;
     }
 }
@@ -26,7 +26,6 @@ export function RiskLevelModal({close, item, id}: ModalProps){
             setLevelRiskMorse(data.content.morse);
             setLevelRiskBraden(data.content.braden);
             setAlergies(data.content.alergias);
-            console.log(data.content.alergias);
         }
 
         fetchRisks();

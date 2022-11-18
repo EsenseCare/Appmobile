@@ -1,4 +1,4 @@
-import { Dimensions, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import styled from "styled-components/native";
 
 export const styles = StyleSheet.create({
@@ -34,6 +34,11 @@ export const styles = StyleSheet.create({
     flexWrap: 'wrap'
   },
 
+  inputView: {
+    flexDirection: 'row', 
+    justifyContent: 'space-around'
+  },
+
   textButton: {
     color: 'white',
     fontSize: 15,
@@ -62,7 +67,7 @@ export const styles = StyleSheet.create({
     borderRadius: 4,
     alignItems: 'center',
     justifyContent: 'center',
-    margin: 12,
+    margin: 5,
     backgroundColor: 'white',
     borderWidth: 0.5
   },
