@@ -1,23 +1,78 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import { Container, Content, GoBack, Title, VerticalLine } from './styles'
+import { Container, Content, GoBack, Title, VerticalLine, FinishButton, CancelButton } from './styles'
 import { useNavigation } from '@react-navigation/native';
+
+import api from '../../services/api';
+import { FlatList, ScrollView } from 'react-native-gesture-handler';
+import { FinishAllTaskContainer } from '../../components/FinishAllTaskContainer';
+
+interface FinishAllTasksProps{
+    nome: string;
+    descricao_atividade: string;
+    protocolos: [string];
+}
 
 export function FinishAllTasks(){
     const navigate = useNavigation(); 
 
+    const [tasks, setTasks] = useState<FinishAllTasksProps[]>([]);
+    const [date, setDate] = useState('');
+    const [mounted, setMounted] = useState(true);
+
+    async function fetchTasks() {
+        const { data } = await api.get(`/cuidador/plano-atividades?date=2022-09-01`);
+        setTasks(data.content)
+    }
+
+    useEffect(() => {
+        if (mounted) {
+           fetchTasks();
+        }
+
+        return () => {
+            setMounted(false);
+        };
+    }, []);
+
+    function formatDate (date: Date) {
+        date.setHours(date.getHours() - 3);
+        let month = date.getUTCMonth() + 1; 
+        let day = date.getUTCDate();
+        let year = date.getUTCFullYear();
+
+        let monthFormatted = month < 10 ? '0'+ month : month;
+        let dayFormatted = day< 10 ? '0'+ day : day;
+        return year + "-" + monthFormatted + "-" + dayFormatted
+    }
+
     return(
         <Container>
             <Content>
-                <GoBack onPress={() => navigate.navigate('Dashboard' as any)} style={{borderWidth: 3}}>
-                    <Text style={{fontSize: 24}}>Voltar</Text>
-                </GoBack>
                 <View>
                     <Title>Concluir Atividades do Horário</Title>
                 </View>
+
                 <VerticalLine />
-            </Content>
+                
+                <Text style={{ fontSize: 15, color: '#707070', margin: 12}}>
+                    Confirme as atividades em 07/10/2022 16:48
+                </Text>
+
+                <ScrollView style={{marginTop: 12}}>
+                    {tasks.map((task, index) => (
+                        <FinishAllTaskContainer key={index} task={task} />
+                    ))}
+                    <View style={{justifyContent: 'space-evenly', flexDirection: 'row'}}>
+                        <FinishButton>
+                            <Text style={{color: 'white', fontSize: 16}}>Finalizar</Text>
+                        </FinishButton>
+                        <CancelButton onPress={() => navigate.goBack()}>
+                            <Text style={{fontSize: 16}}>Cancelar</Text>
+                        </CancelButton>
+                    </View>
+                </ScrollView>
+            </Content>          
         </Container>
     )
 }

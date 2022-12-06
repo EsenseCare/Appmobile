@@ -62,6 +62,7 @@ export const ContainerRating = styled.View<ContainerRatingProps>`
     align-items: center;
     margin-top: 2px;
     border-left: unset;
+    
 `;
 
 export const ReferenceData = styled.Text`

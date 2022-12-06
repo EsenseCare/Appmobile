@@ -56,7 +56,6 @@ function AuthProvider({children} : AuthProviderProps){
     async function signIn({email, password}: SignInCredentials): Promise<User>{
         //todo: login via digital
         checkConnection();
-
         const response = await authService.authenticate({email, password});
 
         const auth = response.data;
@@ -111,10 +110,11 @@ function AuthProvider({children} : AuthProviderProps){
             const now = new Date();
             const expirationDate = new Date(Number(decoded.exp * 1000))
 
-            // todo: ver erro
             if (token && now > expirationDate) {
-                setLoading(false);  
+                setLoading(false);
+                AsyncStorage.clear();  
                 return signOut();
+
             }
 
             api.interceptors.request.use((config) => {

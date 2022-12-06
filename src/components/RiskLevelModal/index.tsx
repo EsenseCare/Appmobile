@@ -124,6 +124,108 @@ export function RiskLevelModal({close, item, id}: ModalProps){
                                     </Text>
                             </ContainerRating>
                         </RatingView>
+                        <TextTopics>Classificação de Fugulin:</TextTopics>
+                    <RatingView>
+                            <ContainerRating bgColor={levelRiskBraden === "sem_risco" ? '#1bad1c' : 'white'}>
+                                <Text
+                                style={{color: levelRiskBraden === "sem_risco" ? 'white' : 'black'}}>
+                                    Cuidados mínimos
+                                </Text>
+                                <Text
+                                style={{color: levelRiskBraden === "sem_risco" ? 'white' : 'black'}}>
+                                   9-14
+                                </Text>
+                            </ContainerRating>
+
+                            <ContainerRating bgColor={levelRiskBraden === "baixo_risco" ? '#ffcd30' : 'white'}>
+                            <Text
+                                style={{color: levelRiskBraden === "baixo_risco" ? 'white' : 'black'}}>
+                                    Cuidados Intermediários
+                                </Text>
+                                <Text
+                                style={{color: levelRiskBraden === "baixo_risco" ? 'white' : 'black'}}>
+                                    15-20
+                                </Text>
+                            </ContainerRating>
+
+                            <ContainerRating bgColor={levelRiskBraden === "risco_moderado" ? '#fea500' : 'white'}>
+                            <Text
+                                style={{color: levelRiskBraden === "risco_moderado" ? 'white' : 'black'}}>
+                                    Cuidados de Alta Dependência
+                                </Text>
+                                <Text
+                                style={{color: levelRiskBraden === "risco_moderado" ? 'white' : 'black'}}>
+                                    21-26
+                                </Text>
+                            </ContainerRating>
+
+                            <ContainerRating bgColor={levelRiskBraden === "alto_risco" ? '#f75c48' : 'white'}>
+                                <Text
+                                    style={{color: levelRiskBraden === "alto_risco" ? 'white' : 'black'}}>
+                                        Cuidados Semi-intensivos
+                                    </Text>
+                                    <Text
+                                    style={{color: levelRiskBraden === "alto_risco" ? 'white' : 'black'}}>
+                                        27-31
+                                    </Text>
+                            </ContainerRating>
+                            <ContainerRating bgColor={levelRiskBraden === "alto_risco" ? '#f75c48' : 'white'}>
+                                <Text
+                                    style={{color: levelRiskBraden === "alto_risco" ? 'white' : 'black'}}>
+                                        Cuidados Intensivos
+                                    </Text>
+                                    <Text
+                                    style={{color: levelRiskBraden === "alto_risco" ? 'white' : 'black'}}>
+                                        {'>'}31
+                                    </Text>
+                            </ContainerRating>
+                        </RatingView>
+                        <TextTopics>Classificação de Glasgow:</TextTopics>
+                    <RatingView>
+                            <ContainerRating bgColor={levelRiskBraden === "sem_risco" ? '#1bad1c' : 'white'}>
+                                <Text
+                                    style={{color: levelRiskBraden === "sem_risco" ? 'white' : 'black'}}>
+                                    Leve
+                                </Text>
+                                <Text
+                                    style={{color: levelRiskBraden === "sem_risco" ? 'white' : 'black'}}>
+                                    13-15
+                                </Text>
+                            </ContainerRating>
+
+                            <ContainerRating bgColor={levelRiskBraden === "baixo_risco" ? '#ffcd30' : 'white'}>
+                            <Text
+                                style={{color: levelRiskBraden === "baixo_risco" ? 'white' : 'black'}}>
+                                    Moderada
+                                </Text>
+                                <Text
+                                style={{color: levelRiskBraden === "baixo_risco" ? 'white' : 'black'}}>
+                                    9-12
+                                </Text>
+                            </ContainerRating>
+
+                            <ContainerRating bgColor={levelRiskBraden === "risco_moderado" ? '#fea500' : 'white'}>
+                            <Text
+                                style={{color: levelRiskBraden === "risco_moderado" ? 'white' : 'black'}}>
+                                    Grave
+                                </Text>
+                                <Text
+                                style={{color: levelRiskBraden === "risco_moderado" ? 'white' : 'black'}}>
+                                    3-8
+                                </Text>
+                            </ContainerRating>
+
+                            <ContainerRating bgColor={levelRiskBraden === "alto_risco" ? '#f75c48' : 'white'}>
+                                <Text
+                                    style={{color: levelRiskBraden === "alto_risco" ? 'white' : 'black'}}>
+                                        Coma
+                                    </Text>
+                                    <Text
+                                    style={{color: levelRiskBraden === "alto_risco" ? 'white' : 'black'}}>
+                                        {'<'}12
+                                    </Text>
+                            </ContainerRating>
+                        </RatingView>
                         <View style={{justifyContent: 'space-evenly'}}>
                             <ReferenceData>
                                 Dados referentes a classificação de

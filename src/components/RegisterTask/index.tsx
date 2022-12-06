@@ -35,30 +35,30 @@ export function RegisterTask({onClose, protocolos, ...rest}: RegisterTaskProps) 
       <View style={styles.inputView}>
         <View>
           <Text style={{fontSize: 10}}>Temperatura Corporal (°C)</Text>
-          <InputFinishTask />
+          <InputFinishTask color="" keyboard="numeric"/>
         </View>
 
         <View>
           <Text style={{fontSize: 10}}>Pressão Sistólica (mmHg)</Text>
-          <InputFinishTask />
+          <InputFinishTask color="" keyboard="numeric"/>
         </View>
       </View>
 
       <View style={styles.inputView}>
         <View>
           <Text style={{fontSize: 10}}>Pressão Diastólica {'\n'}(mmHg)</Text>
-          <InputFinishTask />
+          <InputFinishTask color="" keyboard="numeric"/>
         </View>
 
         <View>
           <Text style={{fontSize: 10}}>Saturação de Oxigênio {'\n'}SpO2(%)</Text>
-          <InputFinishTask />
+          <InputFinishTask color="" keyboard="numeric"/>
         </View>
       </View>
 
         <View style={{marginLeft: 11}}>
           <Text style={{fontSize: 10}}>Batimentos Cardiacos (BPM)</Text>
-          <InputFinishTask />
+          <InputFinishTask color="" keyboard="numeric"/>
         </View>
       </>
     )
@@ -75,25 +75,25 @@ export function RegisterTask({onClose, protocolos, ...rest}: RegisterTaskProps) 
 
         <View>
           <Text style={{fontSize: 10}}>Cor</Text>
-          <InputFinishTask />
+          <InputFinishTask color="" keyboard='default'/>
         </View>
       </View>
 
       <View style={styles.inputView}>
         <View>
           <Text style={{fontSize: 10}}>Odor</Text>
-          <InputFinishTask />
+          <InputFinishTask color="" keyboard='default'/>
         </View>
 
         <View>
           <Text style={{fontSize: 10}}>Aspecto</Text>
-          <InputFinishTask />
+          <InputFinishTask color="" keyboard='default'/>
         </View>
       </View>
 
         <View style={{marginLeft: 11}}>
           <Text style={{fontSize: 10}}>{protocolos.includes("Protocolo de diurese") ? "Quantidade" : "Consistência"}</Text>
-          <InputFinishTask />
+          <InputFinishTask color="" keyboard='default'/>
         </View>
       </>
     )
@@ -180,7 +180,7 @@ export function RegisterTask({onClose, protocolos, ...rest}: RegisterTaskProps) 
               {checked ? <View style={styles.InputView}>                  
                   <View> 
                     <Text style={{fontSize: 11}}>Informe a quantidade: </Text>
-                    <InputFinishTask />
+                    <InputFinishTask color="" keyboard={'numeric'}/>
                   </View>
                 <KeyboardAvoidingView behavior='padding'> 
                   <Dropdown

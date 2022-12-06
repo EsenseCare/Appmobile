@@ -14,7 +14,7 @@ export function ButtonSchedule({ time, widthColor, disabled, onPressFunction }: 
 
     return(
         <Button onPress={() => onPressFunction(time)} 
-            style={{borderWidth: widthColor ? 3:0, borderColor: widthColor, opacity: disabled? 0.1  : 1}}
+            style={{borderWidth: widthColor ? 3 : 0, borderColor: widthColor, opacity: disabled? 0.5  : 1}}
             disabled={disabled}
         >
             <Text>

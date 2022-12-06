@@ -1,15 +1,21 @@
 import React from 'react';
-import { TextInputProps, View } from 'react-native';
+import { KeyboardType, TextInputProps } from 'react-native';
 import {
    Container,
    InputText
 } from './styles'
 
-export function InputFinishTask() {
+interface InputType extends TextInputProps{
+    keyboard: KeyboardType;
+    color: string;
+}
+
+export function InputFinishTask({keyboard, color}: InputType) {
     return (
         <Container>
             <InputText
-                keyboardType='numeric'              
+                keyboardType={keyboard}
+                style={{backgroundColor: color}}          
             />            
         </Container>        
     )

@@ -47,6 +47,7 @@ export function Dashboard(){
     const [filteredInstitution, setFilteredInstitution] = useState<string | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
+    const [disableButton, setDisableButton] = useState(false);
     const [filteredTasks, setFilteredTasks] = useState<TaskProps[]>([]);
     const [filteredTime, setFilteredTime] = useState<string | null>(null);
 
@@ -64,7 +65,7 @@ export function Dashboard(){
 
     useEffect(() => {
 
-        if(filteredTime === "Todos"){
+        if(filteredTime === "Todos"){       
             setFilteredTime(null);
         }
    
@@ -77,8 +78,20 @@ export function Dashboard(){
         : data;
 
         setFilteredTasks(data);
+        setLoading(false);
         
     },[filteredInstitution, tasks, filteredTime])
+
+    useEffect(() => {
+        function disableButtonFunction(){
+            if(tasks.length < 1){
+                return setDisableButton(true)
+            }
+            setDisableButton(false);
+        }
+
+        disableButtonFunction();
+    },[tasks]);
 
     useEffect(() => {
         async function fetchSchedule(){
@@ -108,7 +121,7 @@ export function Dashboard(){
                 ...hourTaskFormatted
             ]);
         }
-        fetchSchedule();        
+        fetchSchedule();      
     }, [filteredTasks]);
 
     useEffect(() => {
@@ -124,23 +137,24 @@ export function Dashboard(){
         searchForInstitutions();        
     }, []);
 
+
     useEffect(() => {
         setFilteredInstitution(null);
         setFilteredTime(null);
         setClick(null);
+
         async function fetchTasks(){
+            setLoading(true);
             try {
                 const { data } = await api.get(`/cuidador/plano-atividades?date=${date || formatDate(new Date())}`);
                 setTasks(data.content);
                 setLoading(false);
-                
-
             } catch (error) {
                 setLoading(false);
                 setError(true);
+                setDisableButton(true);  
             }        
         }
-
         fetchTasks();
         setError(false);
       
@@ -199,6 +213,28 @@ export function Dashboard(){
 
     function filterByHours(time: string){
         setFilteredTime(time);
+    }
+
+    function renderItem({item, index}: any){
+        return(   
+            <ButtonSchedule 
+            time={item.title}
+            onPressFunction={(time) => { 
+                filterByHours(time); 
+                setClick(index); 
+                return setLoading(true)}}
+            widthColor={index === click ? 'black': ''}
+            disabled={disableButton}
+        /> 
+        )  
+    }
+
+    function renderTask({item}: any){
+        return (
+            <TasksList 
+            info={item}
+        />
+        )
     }
 
     return(
@@ -276,19 +312,15 @@ export function Dashboard(){
                     />
                 }
 
-                <FlatList
-                    data={hours}
-                    renderItem={({item, index}) => (
-                        <ButtonSchedule 
-                            time={item.title}
-                            onPressFunction={(time) =>{ filterByHours(time); setClick(index)}}
-                            widthColor={index === click ? 'black': ''}
-                        />
-                    )}
-                    horizontal
-                    showsHorizontalScrollIndicator={false}
-                    
-                />
+               {loading ? <ActivityIndicator size="large" color="#5abec8"/> 
+                 :  <FlatList
+                        data={hours}
+                        keyExtractor={(item) => String(item.key)}
+                        renderItem={renderItem}
+                        horizontal
+                        showsHorizontalScrollIndicator={false} 
+                    />
+                 }
 
                 <FilterInfo>
                     <Text style={{fontSize: 16, color: '#5AABB4', marginBottom: 6}}>Filtros</Text>
@@ -312,22 +344,22 @@ export function Dashboard(){
                 </FilterInfo>
 
             </View>          
-                {loading 
+                {loading
                 ? 
                     <ActivityIndicator size="large" color="#5abec8" style={{flex: 1, marginBottom: 80}}/> 
                 : 
                     <View style={{flex: 1}}>
-                       {tasks.length ? <FlatList
+                       {tasks.length ? 
+                       <FlatList
                             data={filteredTasks}
-                            initialNumToRender={5}
-                            renderItem={({ item }) =>(
-                                <TasksList 
-                                    info={item}                             
-                                />
-                            )}                                          
+                            initialNumToRender={3}
+                            keyExtractor={(item) => String(item.id)}
+                            renderItem={renderTask}                                          
                             showsVerticalScrollIndicator={false}
-
-                        />: <NoTasksScreen serverError={error}/>}
+                            windowSize={5}
+                            maxToRenderPerBatch={5}
+    
+                        />: <NoTasksScreen serverError={error}/>}                     
                 </View>}                  
         </Container>
     )
