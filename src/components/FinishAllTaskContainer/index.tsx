@@ -31,30 +31,30 @@ export function FinishAllTaskContainer({task}: Props){
           <StyleInputView>
             <View>
               <Text style={{fontSize: 10}}>Temperatura Corporal (°C)</Text>
-              <InputFinishTask color='#61ACFF' keyboard="numeric"/>
+              <InputFinishTask color='#B9DAFF' keyboard="numeric"/>
             </View>
     
             <View>
               <Text style={{fontSize: 10}}>Pressão Sistólica (mmHg)</Text>
-              <InputFinishTask color='#61ACFF' keyboard="numeric"/>
+              <InputFinishTask color='#B9DAFF' keyboard="numeric"/>
             </View>
           </StyleInputView>
     
           <StyleInputView>
             <View>
               <Text style={{fontSize: 10}}>Pressão Diastólica {'\n'}(mmHg)</Text>
-              <InputFinishTask color='#61ACFF' keyboard="numeric"/>
+              <InputFinishTask color='#B9DAFF' keyboard="numeric"/>
             </View>
     
             <View>
               <Text style={{fontSize: 10}}>Saturação de Oxigênio {'\n'}SpO2(%)</Text>
-              <InputFinishTask color='#61ACFF' keyboard="numeric"/>
+              <InputFinishTask color='#B9DAFF' keyboard="numeric"/>
             </View>
           </StyleInputView>
     
           <View style={{marginLeft: 40}}>
             <Text style={{fontSize: 10}}>Batimentos Cardiacos {'\n'}(BPM)</Text>
-            <InputFinishTask color='#61ACFF' keyboard="numeric"/>
+            <InputFinishTask color='#B9DAFF' keyboard="numeric"/>
           </View>
         </>
       )
@@ -84,25 +84,25 @@ export function FinishAllTaskContainer({task}: Props){
   
           <View>
             <Text style={{fontSize: 10}}>Cor</Text>
-            <InputFinishTask color='#61ACFF' keyboard='default'/>
+            <InputFinishTask color='#B9DAFF' keyboard='default'/>
           </View>
         </StyleInputView>
   
         <StyleInputView>
           <View>
             <Text style={{fontSize: 10}}>Odor</Text>
-            <InputFinishTask color='#61ACFF' keyboard='default'/>
+            <InputFinishTask color='#B9DAFF' keyboard='default'/>
           </View>
   
           <View>
             <Text style={{fontSize: 10}}>Aspecto</Text>
-            <InputFinishTask color='#61ACFF' keyboard='default'/>
+            <InputFinishTask color='#B9DAFF' keyboard='default'/>
           </View>
         </StyleInputView>
   
           <View style={{marginLeft: 38}}>
             <Text style={{fontSize: 10}}>{task.protocolos.includes("Protocolo de diurese") ? "Quantidade" : "Consistência"}</Text>
-            <InputFinishTask color='#61ACFF' keyboard='default'/>
+            <InputFinishTask color='#B9DAFF' keyboard='default'/>
           </View>
         </>
       )
@@ -127,7 +127,7 @@ export function FinishAllTaskContainer({task}: Props){
                   {checked && !task.protocolos && (
                     <View>
                       <Text style={{fontSize: 12}}>Motivo da não ingestão</Text> 
-                      <InputFinishTask color='#61ACFF' keyboard="default" />
+                      <InputFinishTask color='#B9DAFF' keyboard="default" />
                     </View>
                   )}
                 

@@ -34,6 +34,7 @@ function AuthProvider({children} : AuthProviderProps){
     const [loading, setLoading] = useState<boolean>(true);
     const [isConnected, setIsConnected] = useState<boolean>(false);
 
+
     const signOut = useCallback(async () => {
         await AsyncStorage.multiRemove([
             '@esenseCare:token',
@@ -47,7 +48,8 @@ function AuthProvider({children} : AuthProviderProps){
     const checkConnection = () => {
         NetInfo.fetch().then((state) => {
             if(state.isConnected === false){
-                return setIsConnected(false);
+                setIsConnected(false);
+                return;
             }
         });
         setIsConnected(true);
@@ -98,9 +100,8 @@ function AuthProvider({children} : AuthProviderProps){
 
     
           if (!token[1] || !user[1]) {
-            setLoading(false);
-            signOut();
-            return;
+                setLoading(false);
+                return signOut();
             };          
             
             let validToken = token[1];
@@ -111,10 +112,11 @@ function AuthProvider({children} : AuthProviderProps){
             const expirationDate = new Date(Number(decoded.exp * 1000))
 
             if (token && now > expirationDate) {
-                setLoading(false);
-                AsyncStorage.clear();  
-                return signOut();
-
+                setLoading(false);            
+                AsyncStorage.clear();
+                setUserData(null);
+                signOut();                           
+                return;
             }
 
             api.interceptors.request.use((config) => {

@@ -62,15 +62,16 @@ export const ClearFilters = styled.TouchableOpacity`
 `;
 
 export const Warning = styled.View`
-    position: absolute;     
-    width: 75%;
-    height: 50%;
+    position: absolute;    
+    width: 70%;
+    height: 6%;
     background: #E73838;
-    z-index: 1;
     align-self: center;
     border-color: black;
+    border-radius: 8px;
     border: 1px;
     align-items: center;
     flex-direction: row;
-    top: ${RFPercentage(99)}px;
-`;
+    z-index: 1;
+    top: ${RFPercentage(100)}px;
+`;  

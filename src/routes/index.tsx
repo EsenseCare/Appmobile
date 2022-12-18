@@ -4,6 +4,7 @@ import { PrivateRoutes, PublicRoutes } from './app.routes';
 import { useAuth } from '../hooks/auth'; 
 import { Splash } from '../utils/Splash';
 
+
 const Routes: React.FC = () => {
   
   const { user, loading } = useAuth();

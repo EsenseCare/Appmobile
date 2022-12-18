@@ -18,6 +18,8 @@ interface sicknessProps{
 export function RiskLevelModal({close, item, id}: ModalProps){
     const [levelRiskMorse, setLevelRiskMorse] = useState('');
     const [levelRiskBraden, setLevelRiskBraden] = useState('');
+    const [levelRiskFugulin, setLevelRiskFugulin] = useState('');
+    const [levelRiskGlasgow, setLevelRiskGlasgow] = useState('');
     const [alergies, setAlergies] = useState<sicknessProps[]>([]);
 
     useEffect(() => {

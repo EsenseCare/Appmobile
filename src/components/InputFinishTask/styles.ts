@@ -13,6 +13,6 @@ export const Container = styled.View`
     width: 148px;
     height: 27px;
     border-color: black;
-    border-width: 2px;
+    border-width: 2.5px;
     border-radius: 5px;
 `;

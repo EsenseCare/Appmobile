@@ -10,9 +10,8 @@ import { Container,
 } from './styles';
 
 import Logo from '../../../assets/logo-esense2.png'
-import { View, Text, ActivityIndicator, Keyboard } from 'react-native';
+import { View, Text, ActivityIndicator, Keyboard, Linking } from 'react-native';
 import { Input } from '../../components/Input';
-
 import { useAuth } from '../../hooks/auth'
 
 export function Login(){
@@ -98,7 +97,7 @@ export function Login(){
                         <Text style={{fontSize: 16, marginTop: 18, color: '#435369'}}>
                             Nao tem uma conta?    
                         </Text>
-                        <HelpButtonSingUp onPress={() => ({})} >
+                        <HelpButtonSingUp onPress={() => {Linking.openURL('https://plataforma.esensecare.com.br/auth/usuarios/sign_up')}}>
                             Cadastre-se
                         </HelpButtonSingUp> 
                     </View>

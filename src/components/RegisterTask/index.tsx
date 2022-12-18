@@ -35,30 +35,30 @@ export function RegisterTask({onClose, protocolos, ...rest}: RegisterTaskProps) 
       <View style={styles.inputView}>
         <View>
           <Text style={{fontSize: 10}}>Temperatura Corporal (°C)</Text>
-          <InputFinishTask color="" keyboard="numeric"/>
+          <InputFinishTask color="#B9DAFF" keyboard="numeric"/>
         </View>
 
         <View>
           <Text style={{fontSize: 10}}>Pressão Sistólica (mmHg)</Text>
-          <InputFinishTask color="" keyboard="numeric"/>
+          <InputFinishTask color="#B9DAFF" keyboard="numeric"/>
         </View>
       </View>
 
       <View style={styles.inputView}>
         <View>
           <Text style={{fontSize: 10}}>Pressão Diastólica {'\n'}(mmHg)</Text>
-          <InputFinishTask color="" keyboard="numeric"/>
+          <InputFinishTask color="#B9DAFF" keyboard="numeric"/>
         </View>
 
         <View>
           <Text style={{fontSize: 10}}>Saturação de Oxigênio {'\n'}SpO2(%)</Text>
-          <InputFinishTask color="" keyboard="numeric"/>
+          <InputFinishTask color="#B9DAFF" keyboard="numeric"/>
         </View>
       </View>
 
-        <View style={{marginLeft: 11}}>
+        <View style={{marginLeft: 5}}>
           <Text style={{fontSize: 10}}>Batimentos Cardiacos (BPM)</Text>
-          <InputFinishTask color="" keyboard="numeric"/>
+          <InputFinishTask color="#B9DAFF" keyboard="numeric"/>
         </View>
       </>
     )
@@ -75,25 +75,25 @@ export function RegisterTask({onClose, protocolos, ...rest}: RegisterTaskProps) 
 
         <View>
           <Text style={{fontSize: 10}}>Cor</Text>
-          <InputFinishTask color="" keyboard='default'/>
+          <InputFinishTask color="#B9DAFF" keyboard='default'/>
         </View>
       </View>
 
       <View style={styles.inputView}>
         <View>
           <Text style={{fontSize: 10}}>Odor</Text>
-          <InputFinishTask color="" keyboard='default'/>
+          <InputFinishTask color="#B9DAFF" keyboard='default'/>
         </View>
 
         <View>
           <Text style={{fontSize: 10}}>Aspecto</Text>
-          <InputFinishTask color="" keyboard='default'/>
+          <InputFinishTask color="#B9DAFF" keyboard='default'/>
         </View>
       </View>
 
         <View style={{marginLeft: 11}}>
           <Text style={{fontSize: 10}}>{protocolos.includes("Protocolo de diurese") ? "Quantidade" : "Consistência"}</Text>
-          <InputFinishTask color="" keyboard='default'/>
+          <InputFinishTask color="#B9DAFF" keyboard='default'/>
         </View>
       </>
     )
@@ -116,6 +116,7 @@ export function RegisterTask({onClose, protocolos, ...rest}: RegisterTaskProps) 
       {...rest}
     >
       <View style={styles.container}>
+      <KeyboardAvoidingView behavior='position'>
       <ScrollView>
         <View style={styles.content}>                
             <View>
@@ -162,7 +163,7 @@ export function RegisterTask({onClose, protocolos, ...rest}: RegisterTaskProps) 
               }}>
                 Executado em 21/10/2022 13:16 {'\n'}Por: Cuidador1
               </Text>
-
+            
               <View style={styles.checkBox}>                          
                   <Checkbox
                     status={checked ? 'checked' : 'unchecked'}
@@ -180,7 +181,7 @@ export function RegisterTask({onClose, protocolos, ...rest}: RegisterTaskProps) 
               {checked ? <View style={styles.InputView}>                  
                   <View> 
                     <Text style={{fontSize: 11}}>Informe a quantidade: </Text>
-                    <InputFinishTask color="" keyboard={'numeric'}/>
+                    <InputFinishTask color="#B9DAFF" keyboard={'numeric'}/>
                   </View>
                 <KeyboardAvoidingView behavior='padding'> 
                   <Dropdown
@@ -223,7 +224,9 @@ export function RegisterTask({onClose, protocolos, ...rest}: RegisterTaskProps) 
             </Button>
             
           </View>
-          </ScrollView>          
+        
+          </ScrollView>
+          </KeyboardAvoidingView>          
         </View>          
     </Modal>
   );

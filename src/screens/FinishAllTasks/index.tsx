@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text } from 'react-native';
-import { Container, Content, GoBack, Title, VerticalLine, FinishButton, CancelButton } from './styles'
-import { useNavigation } from '@react-navigation/native';
+import { Container, Content, Title, VerticalLine, FinishButton, CancelButton } from './styles'
+import { useNavigation, useRoute } from '@react-navigation/native';
 
-import api from '../../services/api';
 import { FlatList, ScrollView } from 'react-native-gesture-handler';
 import { FinishAllTaskContainer } from '../../components/FinishAllTaskContainer';
 
@@ -14,37 +13,24 @@ interface FinishAllTasksProps{
 }
 
 export function FinishAllTasks(){
-    const navigate = useNavigation(); 
+    const navigate = useNavigation();
+    const route = useRoute();
 
-    const [tasks, setTasks] = useState<FinishAllTasksProps[]>([]);
-    const [date, setDate] = useState('');
     const [mounted, setMounted] = useState(true);
+    const [filteredTasks, setFilteredTasks] = useState<any>([]);
 
-    async function fetchTasks() {
-        const { data } = await api.get(`/cuidador/plano-atividades?date=2022-09-01`);
-        setTasks(data.content)
-    }
 
     useEffect(() => {
+        const { filteredTasksParams } = route.params as any
+
         if (mounted) {
-           fetchTasks();
+            setFilteredTasks(filteredTasksParams);
         }
 
         return () => {
             setMounted(false);
         };
     }, []);
-
-    function formatDate (date: Date) {
-        date.setHours(date.getHours() - 3);
-        let month = date.getUTCMonth() + 1; 
-        let day = date.getUTCDate();
-        let year = date.getUTCFullYear();
-
-        let monthFormatted = month < 10 ? '0'+ month : month;
-        let dayFormatted = day< 10 ? '0'+ day : day;
-        return year + "-" + monthFormatted + "-" + dayFormatted
-    }
 
     return(
         <Container>
@@ -60,7 +46,7 @@ export function FinishAllTasks(){
                 </Text>
 
                 <ScrollView style={{marginTop: 12}}>
-                    {tasks.map((task, index) => (
+                    {filteredTasks.map((task: FinishAllTasksProps, index: any) => (
                         <FinishAllTaskContainer key={index} task={task} />
                     ))}
                     <View style={{justifyContent: 'space-evenly', flexDirection: 'row'}}>

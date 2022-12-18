@@ -37,6 +37,10 @@ interface TaskProps {
     protocolos: [string];
 }
 
+export type RootStackParamList = {
+    YourScreen: { id: number } | undefined;
+};
+
 export function Dashboard(){
     const [hours, setHours] = useState<any>([]);
     const [tasks, setTasks] = useState<TaskProps[]>([]);
@@ -54,7 +58,7 @@ export function Dashboard(){
     const { signOut, isConnected } = useAuth();
 
     const realDate = date.split('-').reverse().join('/');
-    const navigate = useNavigation(); 
+    const navigate = useNavigation<any>(); 
 
     function taskTime (date: Date) {
         let hour = date.getHours();
@@ -237,15 +241,16 @@ export function Dashboard(){
         )
     }
 
+    const disableFinishTasks = (value: boolean) => {
+        if(value){
+            return true;
+        }
+        return false;
+    }
+
     return(
         <Container>
             <Header>
-                {!isConnected ? 
-                <Warning>
-                    <FontAwesome name="warning" size={26} style={{marginLeft: 10, color: 'white'}}/>
-                    <Text style={{color: 'white', fontSize: 16, marginLeft: 10}}>Sem conexão com a internet!</Text>
-                </Warning> 
-                : null}
                 <View style={{
                         flexDirection: 'row', 
                         alignItems: 'center',                  
@@ -281,6 +286,12 @@ export function Dashboard(){
                     </IconView>                                   
                 </View> 
             </Header>
+            {!isConnected ? 
+                <Warning>
+                    <FontAwesome name="warning" size={26} style={{marginLeft: 10, color: 'white'}}/>
+                    <Text style={{color: 'white', fontSize: 16, marginLeft: 10}}>Sem conexão com a internet!</Text>
+                </Warning> 
+            : null}
             
             <View style={
                 {
@@ -294,7 +305,13 @@ export function Dashboard(){
                 selectInstitution={handleFilteredIntitutions}          
             />
 
-            <FinishAllTasks onPress={() => navigate.navigate('FinishAllTasks' as any)}>
+            <FinishAllTasks disabled={disableFinishTasks(loading)} onPress={() => navigate.navigate('FinishAllTasks' ,{
+                filteredTasksParams: filteredTasks.map(task => ({
+                    nome: task.nome,
+                    descricao_atividade: task.descricao_atividade,
+                    protocolos: task.protocolos
+                }))
+            })}>
                 <Text style={{color: '#fff', fontSize: 17 }}>
                     Concluir atividades do horário
                 </Text>

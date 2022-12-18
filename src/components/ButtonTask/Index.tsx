@@ -26,6 +26,7 @@ export function ButtonTask({title, protocolos, onPressFunction}: ButtonProps){
                     {title}
                 </Text>
             </Button>
+            
             <RegisterTask 
                 visible={modalStartTask}
                 onClose={() => setModalStartTask(false)}
