@@ -1,8 +1,7 @@
-import { RFPercentage } from "react-native-responsive-fontsize";
 import styled from "styled-components/native";
 
 export const Container = styled.View`
-    margin: 7px; 
+    margin: 10px; 
 `
 
 export const TaskView = styled.View``

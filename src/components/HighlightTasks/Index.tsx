@@ -3,7 +3,7 @@ import { Container, PatientName, Header, TaskName, Info, TimeTask, OpenModalCont
 import { Modal, View, Text} from 'react-native'
 import { ButtonTask } from '../ButtonTask/Index'
 import { ContactInfo } from '../ContactInfoModal'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, memo } from 'react'
 import { RiskLevelModal } from '../RiskLevelModal'
 import api from '../../services/api'
 
@@ -36,14 +36,18 @@ export function TasksList({info}: HighlightTasksProps){
     const [modalRiskVisible, setModalRiskVisible] = useState(false);
     const [taskStarted, setTaskStarted] = useState<any>(false);
     
-    
     useEffect(() => {
+        let mounted = true 
         function checkTaskState(){
             if(info.data_horario_inicio !== null){
                return setTaskStarted(true);
             }
         }
         checkTaskState();
+
+        return () => {
+            mounted = false;
+        }
     },[taskStarted])
 
     function taskTime (date: Date) {
@@ -53,7 +57,7 @@ export function TasksList({info}: HighlightTasksProps){
         return hour + ":" + minuteFormatted
     }
 
-    async function startTask () {
+    async function startTask() {
         if(info.data_horario_inicio !== null){         
             return setTaskStarted(false);
         }
@@ -69,8 +73,8 @@ export function TasksList({info}: HighlightTasksProps){
             <Header>
                 <View style={{flexDirection: 'row-reverse'}}>
                     <TimeTask>
-                        {info.plano.data_execucao.split('-').reverse().join('/')} {''}  
-                          ás {''} 
+                        {info.plano.data_execucao ? info.plano.data_execucao.split('-').reverse().join('/'): ''} {''}  
+                          ás {''}
                         {taskTime(new Date(info.data_horario_inicio))}
                     </TimeTask>
                 </View>              
@@ -145,3 +149,5 @@ export function TasksList({info}: HighlightTasksProps){
         </Container>
     )
 }
+
+export default memo(TasksList);

@@ -8,14 +8,16 @@ import {
 interface InputType extends TextInputProps{
     keyboard: KeyboardType;
     color: string;
+    onChangeFunction: (text: string) => void;
 }
 
-export function InputFinishTask({keyboard, color}: InputType) {
+export function InputFinishTask({keyboard, color, onChangeFunction}: InputType) {
     return (
         <Container>
-            <InputText
+            <InputText        
                 keyboardType={keyboard}
-                style={{backgroundColor: color}}          
+                style={{backgroundColor: color}} 
+                onChangeText={(text) => onChangeFunction(text)} 
             />            
         </Container>        
     )

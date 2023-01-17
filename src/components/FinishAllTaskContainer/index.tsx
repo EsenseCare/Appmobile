@@ -1,10 +1,9 @@
 import React, {useState } from "react";
 import { Text, View } from "react-native";
-import { Container, TaskView, VerticalLine, StyleInputView, CheckboxView } from "./styles";
-import { Checkbox, Switch } from 'react-native-paper';
+import { Container, TaskView, CheckboxView } from "./styles";
+import { Checkbox } from 'react-native-paper';
 import { InputFinishTask } from "../InputFinishTask";
-import { TasksList } from "../HighlightTasks/Index";
-import { Dropdown } from "react-native-element-dropdown";
+import { InputFinishContainer } from "../InputFinishComponent";
 
 interface TasksProps {
   nome: string;
@@ -14,99 +13,13 @@ interface TasksProps {
 
 interface Props{
   task: TasksProps
+  finishTaskStyle: any;
 }
-
-const dropdown = [
-  { label: 'Sim', value: '1' },
-  { label: 'Não', value: '2' },
-]
 
 export function FinishAllTaskContainer({task}: Props){
     const [checked, setChecked] = useState(false);
     const [value, setValue] = useState('');
     
-    const vitalSignsProtocol = () => {
-        return(
-          <>
-          <StyleInputView>
-            <View>
-              <Text style={{fontSize: 10}}>Temperatura Corporal (°C)</Text>
-              <InputFinishTask color='#B9DAFF' keyboard="numeric"/>
-            </View>
-    
-            <View>
-              <Text style={{fontSize: 10}}>Pressão Sistólica (mmHg)</Text>
-              <InputFinishTask color='#B9DAFF' keyboard="numeric"/>
-            </View>
-          </StyleInputView>
-    
-          <StyleInputView>
-            <View>
-              <Text style={{fontSize: 10}}>Pressão Diastólica {'\n'}(mmHg)</Text>
-              <InputFinishTask color='#B9DAFF' keyboard="numeric"/>
-            </View>
-    
-            <View>
-              <Text style={{fontSize: 10}}>Saturação de Oxigênio {'\n'}SpO2(%)</Text>
-              <InputFinishTask color='#B9DAFF' keyboard="numeric"/>
-            </View>
-          </StyleInputView>
-    
-          <View style={{marginLeft: 40}}>
-            <Text style={{fontSize: 10}}>Batimentos Cardiacos {'\n'}(BPM)</Text>
-            <InputFinishTask color='#B9DAFF' keyboard="numeric"/>
-          </View>
-        </>
-      )
-    }
-
-    const eliminationsProtocol = () => {
-      return (
-        <>
-          <StyleInputView>
-          <View>
-            <Text style={{fontSize: 10}}>Presença</Text>
-            <Dropdown
-                  style={{height: 28,
-                  width: 150,
-                  borderWidth: 0.9,
-                  borderRadius: 8,
-                  paddingHorizontal: 8,}}
-                  labelField="label"
-                  valueField="value"
-                  value={value}
-                  onChange={item => {
-                    setValue(item.value);
-                  }} 
-                  data={dropdown}
-                />
-          </View>
-  
-          <View>
-            <Text style={{fontSize: 10}}>Cor</Text>
-            <InputFinishTask color='#B9DAFF' keyboard='default'/>
-          </View>
-        </StyleInputView>
-  
-        <StyleInputView>
-          <View>
-            <Text style={{fontSize: 10}}>Odor</Text>
-            <InputFinishTask color='#B9DAFF' keyboard='default'/>
-          </View>
-  
-          <View>
-            <Text style={{fontSize: 10}}>Aspecto</Text>
-            <InputFinishTask color='#B9DAFF' keyboard='default'/>
-          </View>
-        </StyleInputView>
-  
-          <View style={{marginLeft: 38}}>
-            <Text style={{fontSize: 10}}>{task.protocolos.includes("Protocolo de diurese") ? "Quantidade" : "Consistência"}</Text>
-            <InputFinishTask color='#B9DAFF' keyboard='default'/>
-          </View>
-        </>
-      )
-    }
     
     return(
         <Container>
@@ -127,14 +40,16 @@ export function FinishAllTaskContainer({task}: Props){
                   {checked && !task.protocolos && (
                     <View>
                       <Text style={{fontSize: 12}}>Motivo da não ingestão</Text> 
-                      <InputFinishTask color='#B9DAFF' keyboard="default" />
+                      <InputFinishTask color='#B9DAFF' keyboard="default" onChangeFunction={(value) => setValue(value)} />
                     </View>
                   )}
                 
                   {task.protocolos && task.protocolos.includes("Protocolo de sinais vitais") && (
-                    vitalSignsProtocol()
+                    <InputFinishContainer protocols={task.protocolos} finishTaskStyles={21}/>
                   )}                               
           </TaskView>
       </Container>
   )
 }
+
+

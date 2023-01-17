@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { View, FlatList, Text, Alert, ActivityIndicator } from 'react-native'
-import { ButtonSchedule } from "../../components/ButtonSchedule";
+import { View, FlatList, Text, Alert, ActivityIndicator, ViewabilityConfig } from 'react-native'
+import  {ButtonSchedule} from "../../components/ButtonSchedule";
 import { TasksList } from "../../components/HighlightTasks/Index";
 import { InstitutionSelectModal } from "../../components/InstitutionSelectModal/Index";
 import { ClearFilters, Container, FilterInfo, FilterInfoText, FinishAllTasks, Header, HeaderText, IconView, Warning} from "./styles";
@@ -54,13 +54,17 @@ export function Dashboard(){
     const [disableButton, setDisableButton] = useState(false);
     const [filteredTasks, setFilteredTasks] = useState<TaskProps[]>([]);
     const [filteredTime, setFilteredTime] = useState<string | null>(null);
+    const [mounted, setMounted] = useState(false);
 
-    const { signOut, isConnected } = useAuth();
+    const { signOut, autoLogout, isConnected, user } = useAuth();
 
     const realDate = date.split('-').reverse().join('/');
-    const navigate = useNavigation<any>(); 
-
-    function taskTime (date: Date) {
+    const navigate = useNavigation<any>();
+    
+    function taskTime (date: Date | null) {
+        if(!date){
+            return null;
+        }
         let hour = date.getHours();
         let minute = date.getMinutes();
         let minuteFormatted = date.getMinutes() <10? '0' + minute : minute
@@ -68,7 +72,17 @@ export function Dashboard(){
     }
 
     useEffect(() => {
+        if(!user)
+            return autoLogout();
 
+        if (!mounted) {
+            return;
+        }
+
+        setMounted(true);         
+    },[mounted])
+
+    useEffect(() => {   
         if(filteredTime === "Todos"){       
             setFilteredTime(null);
         }
@@ -80,17 +94,16 @@ export function Dashboard(){
         data = filteredTime 
         ? tasks.filter(task => task.data_horario_inicio && task.data_horario_inicio.includes(`T${filteredTime}`))
         : data;
-
-        setFilteredTasks(data);
-        setLoading(false);
         
+        setFilteredTasks(data);
+       
     },[filteredInstitution, tasks, filteredTime])
 
     useEffect(() => {
         function disableButtonFunction(){
-            if(tasks.length < 1){
+            if(tasks.length < 1)
                 return setDisableButton(true)
-            }
+
             setDisableButton(false);
         }
 
@@ -99,48 +112,73 @@ export function Dashboard(){
 
     useEffect(() => {
         async function fetchSchedule(){
-            const { data } = await api.get(`/cuidador/plano-atividades?date=${date || formatDate(new Date())}`);
-            const hourTask = data.content.map((item: any) => {
-                return taskTime(new Date(item.data_horario_inicio));
-            });
-        
-            const hourTaskFormatted = hourTask.map((item: string, index: number) => {
-                return {
-                    key: index,
-                    title: item
-                }
-            })
-
-            hourTaskFormatted.sort((a:any, b:any) => {
-                if(a.title < b.title) { return -1; }
-                if(a.title > b.title) { return 1; }
-                return 0;
-            });
-
-            setHours([
-                {
-                    key: 'all',
-                    title: 'Todos'
-                },
-                ...hourTaskFormatted
-            ]);
+            try {
+                const hourTask = tasks.map((item) => {
+                    return taskTime(item.data_horario_inicio ? new Date(item.data_horario_inicio): null);
+                });
+    
+                const grupedHours: any[] = []
+                const controlHours: any[] = []
+    
+                hourTask.forEach((el: any) => {
+                    if(!el){
+                      return;  
+                    }
+                    const filteredHours = hourTask.filter((e: any) => e === el)
+    
+                    const hourFound = controlHours.includes(el)
+    
+                    if (filteredHours.length < 2 && !hourFound) {
+                        grupedHours.push(el)
+                    } else if (filteredHours.length >= 2 && !hourFound) {
+                        grupedHours.push(`${el} (${filteredHours.length})`) 
+                    }
+                    controlHours.push(el)
+                })
+    
+                const hourTaskFormatted = grupedHours.map((item: string, index: number) => {
+                    return {
+                        key: index,
+                        title: item,
+                    }               
+                });
+    
+                hourTaskFormatted.sort((a: any, b:any) => {
+                    if(a.title < b.title) { return -1; }
+                    if(a.title > b.title) { return 1; }
+                    return 0;
+                });
+    
+                setHours([
+                    {
+                        key: 'all',
+                        title: 'Todos'
+                    },
+                    ...hourTaskFormatted
+                ]);
+            } catch (err: any) {
+                return console.log("erro bloco de horarios", err.message);
+            }
         }
-        fetchSchedule();      
+        fetchSchedule();     
     }, [filteredTasks]);
 
     useEffect(() => {
         async function searchForInstitutions(){
-            const { data } = await api.get(`/cuidador/homecares`);
+            try {
+                const { data } = await api.get(`/cuidador/homecares`);
 
-            const array = data.content.map((item: any) => {
-                return item.descricao;
-            })
-            
-            setInstitutions(array);   
+                const array = data.content.map((item: any) => {
+                    return item.descricao;
+                });
+
+                setInstitutions(array); 
+            } catch (error) {
+               console.log(error); 
+            }                         
         }       
         searchForInstitutions();        
     }, []);
-
 
     useEffect(() => {
         setFilteredInstitution(null);
@@ -148,23 +186,27 @@ export function Dashboard(){
         setClick(null);
 
         async function fetchTasks(){
-            setLoading(true);
             try {
+                setLoading(true)
+                console.log("search tasks request started");
                 const { data } = await api.get(`/cuidador/plano-atividades?date=${date || formatDate(new Date())}`);
+                console.log("search tasks request finished");
                 setTasks(data.content);
                 setLoading(false);
-            } catch (error) {
+                
+            } catch (error: any) {
                 setLoading(false);
-                setError(true);
-                setDisableButton(true);  
+                setDisableButton(true); 
+
+                return console.log("erro busca atividades", error.message);               
             }        
         }
-        fetchTasks();
-        setError(false);
-      
-    }, [date])
+        fetchTasks();   
+        setError(false); 
 
-     const logOut = () => {
+    }, [date]);
+
+    const logOut = () => {
         Alert.alert(
             '',
             'Deseja sair da conta?',
@@ -216,21 +258,28 @@ export function Dashboard(){
     };
 
     function filterByHours(time: string){
-        setFilteredTime(time);
+        const timeFormatted = time.split(" ")[0]
+        setFilteredTime(timeFormatted);
     }
 
     function renderItem({item, index}: any){
+
+        const onPress = (time: any) =>{
+            filterByHours(time); 
+            setClick(index);
+            if(click === index){
+                return;
+            }        
+        }
+        
         return(   
             <ButtonSchedule 
-            time={item.title}
-            onPressFunction={(time) => { 
-                filterByHours(time); 
-                setClick(index); 
-                return setLoading(true)}}
-            widthColor={index === click ? 'black': ''}
-            disabled={disableButton}
-        /> 
-        )  
+                time={item.title}
+                onPressFunction={onPress}            
+                widthColor={index === click ? 'black': ''}
+                disabled={disableButton}
+            />
+        )         
     }
 
     function renderTask({item}: any){
@@ -286,6 +335,7 @@ export function Dashboard(){
                     </IconView>                                   
                 </View> 
             </Header>
+
             {!isConnected ? 
                 <Warning>
                     <FontAwesome name="warning" size={26} style={{marginLeft: 10, color: 'white'}}/>
@@ -330,12 +380,16 @@ export function Dashboard(){
                 }
 
                {loading ? <ActivityIndicator size="large" color="#5abec8"/> 
-                 :  <FlatList
+                 :  <FlatList              
                         data={hours}
                         keyExtractor={(item) => String(item.key)}
+                        updateCellsBatchingPeriod={80}
+                        maxToRenderPerBatch={5}
+                        removeClippedSubviews={true} 
                         renderItem={renderItem}
                         horizontal
-                        showsHorizontalScrollIndicator={false} 
+                        showsHorizontalScrollIndicator={false}
+                        initialNumToRender={2}
                     />
                  }
 
@@ -359,8 +413,8 @@ export function Dashboard(){
                                     <Text style={{color: 'white'}}>Limpar Filtros</Text>
                         </ClearFilters>                  
                 </FilterInfo>
+            </View> 
 
-            </View>          
                 {loading
                 ? 
                     <ActivityIndicator size="large" color="#5abec8" style={{flex: 1, marginBottom: 80}}/> 
@@ -369,13 +423,12 @@ export function Dashboard(){
                        {tasks.length ? 
                        <FlatList
                             data={filteredTasks}
-                            initialNumToRender={3}
+                            initialNumToRender={2}
                             keyExtractor={(item) => String(item.id)}
                             renderItem={renderTask}                                          
                             showsVerticalScrollIndicator={false}
-                            windowSize={5}
-                            maxToRenderPerBatch={5}
-    
+                            updateCellsBatchingPeriod={50}
+                            removeClippedSubviews={true} 
                         />: <NoTasksScreen serverError={error}/>}                     
                 </View>}                  
         </Container>

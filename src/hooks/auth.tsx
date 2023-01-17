@@ -3,6 +3,7 @@ import AsyncStorage  from '@react-native-async-storage/async-storage';
 import api, { authService } from '../services/api';
 import jwtDecode, * as jwt_decode from 'jwt-decode';
 import NetInfo from "@react-native-community/netinfo";
+import { Alert } from 'react-native';
 
 interface AuthProviderProps {
     children: ReactNode;
@@ -20,6 +21,7 @@ interface AuthContextData {
  isConnected: boolean;
  signIn: (credentials: SignInCredentials) => Promise<User>;
  signOut: () => void;
+ autoLogout: () => void;
 }
 
 interface SignInCredentials {
@@ -39,10 +41,8 @@ function AuthProvider({children} : AuthProviderProps){
         await AsyncStorage.multiRemove([
             '@esenseCare:token',
             '@esenseCare:user'
-        ]);
-    
-        setUserData(null);
-        
+        ]);  
+        setUserData(null);      
     }, []);
 
     const checkConnection = () => {
@@ -53,6 +53,14 @@ function AuthProvider({children} : AuthProviderProps){
             }
         });
         setIsConnected(true);
+    }
+
+    function autoLogout(){
+        Alert.alert(" ","Sua sessão expirou, faça o login novamente para continuar", [
+            {text: 'Ok', onPress: () => signOut()},
+        ],
+            {cancelable: false}
+        )
     }
 
     async function signIn({email, password}: SignInCredentials): Promise<User>{
@@ -81,7 +89,6 @@ function AuthProvider({children} : AuthProviderProps){
         });
     
         setLoading(false);
-
         return auth;
     }
 
@@ -111,11 +118,10 @@ function AuthProvider({children} : AuthProviderProps){
             const now = new Date();
             const expirationDate = new Date(Number(decoded.exp * 1000))
 
-            if (token && now > expirationDate) {
-                setLoading(false);            
-                AsyncStorage.clear();
-                setUserData(null);
+            if (token && now > expirationDate) {              
+                setLoading(false);
                 signOut();                           
+                AsyncStorage.clear();                                    
                 return;
             }
 
@@ -147,7 +153,8 @@ function AuthProvider({children} : AuthProviderProps){
             loading,
             isConnected,
             signIn, 
-            signOut
+            signOut,
+            autoLogout
         }}>
             {children}
         </AuthContext.Provider> 

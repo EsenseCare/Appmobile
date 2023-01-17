@@ -3,7 +3,7 @@ import { View, Text } from 'react-native';
 import { Container, Content, Title, VerticalLine, FinishButton, CancelButton } from './styles'
 import { useNavigation, useRoute } from '@react-navigation/native';
 
-import { FlatList, ScrollView } from 'react-native-gesture-handler';
+import { ScrollView } from 'react-native-gesture-handler';
 import { FinishAllTaskContainer } from '../../components/FinishAllTaskContainer';
 
 interface FinishAllTasksProps{

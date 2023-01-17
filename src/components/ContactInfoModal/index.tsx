@@ -20,10 +20,15 @@ export function ContactInfo({close, data}: ModalProps) {
                 <ModalContent>
                     <Title>Informações Para Contato</Title>         
                         <InfoView>
-                            <Informations>SAMU</Informations> 
+                            <Informations>Emergência</Informations> 
                             <VerticalLine />
-                            <Informations style={{marginRight: 18}}>(19) 9999-9999</Informations>
-                        </InfoView>      
+                            <Informations style={{marginRight: 18}}>192</Informations>
+                        </InfoView>
+                        <InfoView>
+                            <Informations>Policia</Informations> 
+                            <VerticalLine  style={{marginLeft: 101}}/>
+                            <Informations style={{marginRight: 18}}>190</Informations>
+                        </InfoView>       
                 </ModalContent>
             </Container>
         </View>   

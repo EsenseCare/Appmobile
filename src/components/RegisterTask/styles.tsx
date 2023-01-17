@@ -34,10 +34,6 @@ export const styles = StyleSheet.create({
     flexWrap: 'wrap'
   },
 
-  inputView: {
-    flexDirection: 'row', 
-    justifyContent: 'space-around'
-  },
 
   textButton: {
     color: 'white',
@@ -54,13 +50,6 @@ export const styles = StyleSheet.create({
     width: 300,
   },
 
-  checkBox: {
-    flexDirection: 'row', 
-    alignItems: 'center', 
-    marginTop: 10,
-    marginLeft: -30
-  },
-
   buttonCancel: {
     height: 40,
     width: 120,
@@ -71,14 +60,6 @@ export const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderWidth: 0.5
   },
-
-  InputView: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginHorizontal: 10,
-    width:'105%',
-    alignSelf: 'center'
-  }
 });
 
 export const Data = styled.Text`
