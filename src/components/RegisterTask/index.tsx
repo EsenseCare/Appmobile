@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Modal, ModalProps, Text, ScrollView, KeyboardAvoidingView } from 'react-native';
 
 import { Data, styles } from './styles';
@@ -11,9 +11,25 @@ interface RegisterTaskProps extends ModalProps{
   protocolos: [string];
 }
 
-
-
 export function RegisterTask({onClose, protocolos, ...rest}: RegisterTaskProps) {
+
+  const [info, setInfo] = useState({
+    qty: null,
+    temperature: null,
+    pressionSis: null,
+    pressionDias: null,
+    saturation: null,
+    bpm: null,
+    presence: false,
+    color: null,
+    smell: null,
+    apearence: null,
+    quantity: null,
+  })
+
+  function finishTask(){
+    console.log(info)
+  }
 
   return (
     <Modal
@@ -61,7 +77,7 @@ export function RegisterTask({onClose, protocolos, ...rest}: RegisterTaskProps) 
             </View>
             <View style={styles.table}>
               <Data>Observação:</Data>
-              <Data>Observação teste</Data>
+              <Data>Observação qualquer</Data>
             </View>
             <View style={styles.footerInfo}>
               <Text 
@@ -75,12 +91,12 @@ export function RegisterTask({onClose, protocolos, ...rest}: RegisterTaskProps) 
 
               {protocolos && protocolos.includes("Protocolo de sinais vitais") ? 
                 <View style={{marginLeft: -10}}> 
-                  <InputFinishContainer protocols={protocolos} finishTaskStyles={5}/>
+                  <InputFinishContainer protocols={protocolos} finishTaskStyles={5} info={info} onChangeInfo={setInfo} values={() => finishTask()}/>
                 </View>
               : null}
                    
             </View>
-            <Button style={styles.stylesButton}>
+            <Button style={styles.stylesButton} onPress={finishTask}>
               <Text style={styles.textButton}>Confirmar Execução da Atividade</Text>
             </Button>
             <Text>OU</Text>

@@ -45,7 +45,7 @@ export const styles = StyleSheet.create({
 
   InputView: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'space-evenly',
     marginHorizontal: 10,
     width:'105%',
     alignSelf: 'center'

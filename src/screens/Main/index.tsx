@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, FlatList, Text, Alert, ActivityIndicator, ViewabilityConfig } from 'react-native'
+import { View, FlatList, Text, Alert, ActivityIndicator } from 'react-native'
 import  {ButtonSchedule} from "../../components/ButtonSchedule";
 import { TasksList } from "../../components/HighlightTasks/Index";
 import { InstitutionSelectModal } from "../../components/InstitutionSelectModal/Index";
@@ -198,7 +198,9 @@ export function Dashboard(){
                 setLoading(false);
                 setDisableButton(true); 
 
-                return console.log("erro busca atividades", error.message);               
+                if(error){
+                    autoLogout();
+                }           
             }        
         }
         fetchTasks();   
@@ -318,7 +320,7 @@ export function Dashboard(){
                                     size={45} 
                                     color="#ffffff"
                                     style={{marginLeft: 16, marginBottom: 2}}
-                                    onPress={showDatePicker}
+                                    onPress={showDatePicker}                                  
                                 />
                                 <Text style={{color:'white', marginBottom: -2}}>Calendário</Text> 
                             </View>

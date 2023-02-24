@@ -14,12 +14,28 @@ interface TasksProps {
 interface Props{
   task: TasksProps
   finishTaskStyle: any;
+  sendInfo: (data: any) => void;
 }
 
-export function FinishAllTaskContainer({task}: Props){
+export function FinishAllTaskContainer({task, sendInfo}: Props){
     const [checked, setChecked] = useState(false);
     const [value, setValue] = useState('');
-    
+    const [infoData, setInfoData] = useState({
+      qty: null,
+      temperature: null,
+      pressionSis: null,
+      pressionDias: null,
+      saturation: null,
+      bpm: null,
+      presence: false,
+      color: null,
+      smell: null,
+      apearence: null,
+      quantity: null,
+      noIngestion: value
+    });
+
+    sendInfo(infoData);
     
     return(
         <Container>
@@ -37,16 +53,16 @@ export function FinishAllTaskContainer({task}: Props){
                 : null}
             </CheckboxView>
           
-                  {checked && !task.protocolos && (
-                    <View>
-                      <Text style={{fontSize: 12}}>Motivo da não ingestão</Text> 
-                      <InputFinishTask color='#B9DAFF' keyboard="default" onChangeFunction={(value) => setValue(value)} />
-                    </View>
-                  )}
-                
-                  {task.protocolos && task.protocolos.includes("Protocolo de sinais vitais") && (
-                    <InputFinishContainer protocols={task.protocolos} finishTaskStyles={21}/>
-                  )}                               
+                {checked && !task.protocolos && (
+                  <View>
+                    <Text style={{fontSize: 12}}>Motivo da não ingestão</Text> 
+                    <InputFinishTask color='#B9DAFF' keyboard="default" onChangeFunction={(value) => setValue(value)} />
+                  </View>
+                )}            
+                {task.protocolos && task.protocolos.includes("Protocolo de sinais vitais") && (
+                  <InputFinishContainer protocols={task.protocolos} finishTaskStyles={21} info={infoData} onChangeInfo={setInfoData}/>
+                )}
+
           </TaskView>
       </Container>
   )

@@ -95,55 +95,61 @@ function AuthProvider({children} : AuthProviderProps){
     useEffect(() => {
         async function loadStoragedData(): Promise<void> {
             //todo: salvar dados do usuário mesmo se não tiver rede disponivel
-            checkConnection();
-           
-          const [
-            token,
-            user,
-          ] = await AsyncStorage.multiGet([
-            '@esenseCare:token',
-            '@esenseCare:user'
-          ]);
+            try {
+                checkConnection();
 
+                const [
+                  token,
+                  user,
+                ] = await AsyncStorage.multiGet([
+                  '@esenseCare:token',
+                  '@esenseCare:user'
+                ]);
+      
+          
+                if (!token[1] || !user[1]) {
+                    setLoading(false);
+                    return signOut();
+                };          
+                
+                let validToken = token[1];
     
-          if (!token[1] || !user[1]) {
-                setLoading(false);
-                return signOut();
-            };          
-            
-            let validToken = token[1];
-
-            const decoded : any = jwtDecode(validToken);
-
-            const now = new Date();
-            const expirationDate = new Date(Number(decoded.exp * 1000))
-
-            if (token && now > expirationDate) {              
-                setLoading(false);
-                signOut();                           
-                AsyncStorage.clear();                                    
-                return;
-            }
-
-            api.interceptors.request.use((config) => {
-                if (config && config.headers) {
-                   config.headers.Authorization = validToken
+                const decoded : any = jwtDecode(validToken);
+    
+                const now = new Date();
+                const expirationDate = new Date(Number(decoded.exp * 1000))
+    
+                if (token && now > expirationDate) {              
+                    setLoading(false);
+                    signOut();                           
+                    AsyncStorage.clear();                                    
+                    return;
                 }
-                return config;
-            });
+      
+                api.interceptors.request.use((config) => {
+                    if (config && config.headers) {
+                        config.headers.Authorization = validToken
+                    }
+                    return config;
+                });
+      
+                const userFormatted = JSON.parse(user[1]); 
+                  
+                setUserData({
+                    token: validToken,
+                    name: userFormatted.nome,
+                    email: userFormatted.email,
+                });
+          
+                setLoading(false);
 
-           const userFormatted = JSON.parse(user[1]); 
-            
-            setUserData({
-                token: validToken,
-                name: userFormatted.nome,
-                email: userFormatted.email,
-            });
-    
-            setLoading(false);      
+            } catch (error) {
+                console.log(error);
+            }   
         }
-    
+        
         loadStoragedData();
+          
     }, [signOut]);
 
     

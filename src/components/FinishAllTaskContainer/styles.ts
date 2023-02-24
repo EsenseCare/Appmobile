@@ -24,3 +24,23 @@ export const CheckboxView = styled.View`
     align-items: center;
 `;
 
+export const FinishButton = styled.TouchableOpacity`
+    border-radius: 5px;
+    align-Items: center;
+    justify-content: center;
+    background-color: ${({theme}) => theme.colors.blue_buttons};
+    margin: 10px 0;
+    height: 46px;
+    width: 150px;  
+`;
+
+export const CancelButton = styled.TouchableOpacity`
+    border: 1px;
+    border-radius: 5px;
+    align-Items: center;
+    justify-content: center;
+    margin: 10px 0;
+    height: 46px;
+    width: 150px;  
+`;
+
