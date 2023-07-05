@@ -1,4 +1,4 @@
-import React, {useState } from "react";
+import React, {useState} from "react";
 import { Text, View } from "react-native";
 import { Container, TaskView, CheckboxView } from "./styles";
 import { Checkbox } from 'react-native-paper';

@@ -60,12 +60,14 @@ export const CancelButton = styled.TouchableOpacity`
     width: 150px;  
 `;
 
-export const MoveTopButton = styled.TouchableOpacity`
-    border-radius: 5px;
-    align-Items: center;
+export const MoveTopButton = styled.Pressable`
+    border-radius: 50px;
+    position: absolute;
     justify-content: center;
-    background-color: ${({theme}) => theme.colors.yellow_schedule};
-    margin: 10px 0;
-    height: 46px;
-    width: 150px;  
+    background-color: #0F4479;
+    width: 15%;
+    height: 7%;
+    align-self: center;
+    top: ${RFPercentage(92)}px;
+    left: ${RFPercentage(40)}px;
 `;

@@ -7,9 +7,9 @@ import React, { useEffect, useState, memo } from 'react'
 import { RiskLevelModal } from '../RiskLevelModal'
 import api from '../../services/api'
 
-interface HighlightTasksProps {
+export interface HighlightTasksProps {
     info: {
-        id: string
+        id: number;
         nome: string;
         observacoes_gerais: string;
         executores: [{
@@ -144,6 +144,7 @@ export function TasksList({info}: HighlightTasksProps){
                     title={taskStarted === true ? 'Finalizar Atividade' : 'Iniciar Atividade'}
                     onPressFunction={startTask} 
                     protocolos={info.protocolos}
+                    id={info.id}
                 />
             </Header>
         </Container>

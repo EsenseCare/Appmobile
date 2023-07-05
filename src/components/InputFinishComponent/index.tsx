@@ -1,5 +1,5 @@
-import React, {useEffect, useState } from "react";
-import { KeyboardAvoidingView, Switch, Text, View } from "react-native";
+import React, {useState, memo} from "react";
+import { KeyboardAvoidingView, Text, View } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 import { Checkbox } from "react-native-paper";
 import { Container } from "../HighlightTasks/styles";
@@ -171,3 +171,5 @@ export function InputFinishContainer({protocols, info, onChangeInfo, finishTaskS
         </>
     )
 }
+
+export default memo(InputFinishContainer);

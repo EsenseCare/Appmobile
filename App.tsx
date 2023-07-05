@@ -4,6 +4,11 @@ import { usePreventScreenCapture } from 'expo-screen-capture'
 
 import theme from './src/global/styles/theme';
 
+import { LogBox } from 'react-native';
+LogBox.ignoreLogs([
+  "Overwriting fontFamily style attribute preprocessor"
+]);
+
 import {
   useFonts,
   Poppins_400Regular,
@@ -16,7 +21,7 @@ import Routes from './src/routes';
 import { Splash } from './src/utils/Splash';
 
 export default function App() {
-  //usePreventScreenCapture();
+  usePreventScreenCapture();
   
   const [fontsLoaded] = useFonts({
     Poppins_400Regular,

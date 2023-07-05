@@ -8,9 +8,10 @@ interface ButtonProps extends TouchableOpacityProps{
     title: string
     protocolos:[string]
     onPressFunction: () => void;
+    id: number;
 }
 
-export function ButtonTask({title, protocolos, onPressFunction}: ButtonProps){
+export function ButtonTask({title, protocolos, id, onPressFunction}: ButtonProps){
     const [modalStartTask, setModalStartTask] = useState<boolean>(false);
     
     return(
@@ -30,8 +31,9 @@ export function ButtonTask({title, protocolos, onPressFunction}: ButtonProps){
             <RegisterTask 
                 visible={modalStartTask}
                 onClose={() => setModalStartTask(false)}
-                onRequestClose={() => setModalStartTask(false)} 
-                protocolos={protocolos}                               
+                onRequestClose={() => setModalStartTask(false)}
+                protocolos={protocolos}
+                infoId={id}           
             />
         </>
     )

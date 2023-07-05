@@ -1,17 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { View, Modal, ModalProps, Text, ScrollView, KeyboardAvoidingView } from 'react-native';
 
 import { Data, styles } from './styles';
 import { Button } from '../ButtonTask/styles';
 import { InputFinishContainer } from '../InputFinishComponent';
-
+import { HighlightTasksProps } from '../HighlightTasks/Index';
+import api from '../../services/api';
 
 interface RegisterTaskProps extends ModalProps{
   onClose: () => void;
   protocolos: [string];
+  infoId: any;
 }
 
-export function RegisterTask({onClose, protocolos, ...rest}: RegisterTaskProps) {
+export function RegisterTask({onClose, protocolos,infoId ,...rest}: RegisterTaskProps) {
 
   const [info, setInfo] = useState({
     qty: null,
@@ -25,10 +27,56 @@ export function RegisterTask({onClose, protocolos, ...rest}: RegisterTaskProps) 
     smell: null,
     apearence: null,
     quantity: null,
-  })
+  });
 
-  function finishTask(){
-    console.log(info)
+  const [isFinished, setIsFinished] = useState(false);
+
+  async function finishTask(){
+    //console.log(info);
+
+    const currentDay = new Date().getDate();
+    const currentMonth = new Date().getMonth() + 1;
+    const currentYear = new Date().getFullYear();
+
+    const hour = new Date().getHours();
+    const minutes = new Date().getMinutes();
+    const minuteFormatted = new Date().getMinutes() <10? '0' + minutes : minutes;
+ 
+   try {
+    const { data } = await api.post(`/cuidador/finalizar-atividade?plano_atividade_id=${infoId}`, {
+      "data_horario_execucao(3i)": currentDay,
+      "data_horario_execucao(2i)": currentMonth,
+      "data_horario_execucao(1i)": currentYear,
+      "data_horario_execucao(4i)": hour,
+      "data_horario_execucao(5i)": minuteFormatted,
+      "usuario_execucao_id": "31",
+      "medicacao_adicional": "0",
+      "medicamento_esporadico_id": "",
+      "conteudo_total_medicacao_adicional": "",
+      "plano_atividade_sinais_attributes": [
+        {
+          "valor": info.temperature
+        },
+        {
+          "valor": info.pressionSis
+        },
+        {
+          "valor": info.pressionDias     
+        },
+        {
+          "valor": info.saturation      
+        },
+        {
+          "valor": info.bpm
+        }
+      ]
+    });
+
+   } catch (err: any) {
+    if (err) {
+      console.log(err.response?.data.message);
+    }
+   }
   }
 
   return (
@@ -85,7 +133,7 @@ export function RegisterTask({onClose, protocolos, ...rest}: RegisterTaskProps) 
                 fontSize: 12,
                 color: '#747474'
               }}>
-                Executado em 21/10/2022 13:16 {'\n'}Por: Cuidador1
+                Executado em {} {'\n'}Por: Cuidador1
               </Text>
           
 

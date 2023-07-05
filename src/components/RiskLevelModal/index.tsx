@@ -40,10 +40,9 @@ export function RiskLevelModal({close, item, id}: ModalProps){
                 <ScrollView>
                     <TextTopicTitle>RISCOS DO PACIENTE</TextTopicTitle>
                     <TextTopics>Alergia: {alergies.length ? "Sim": "Não"}</TextTopics>
-                       {alergies.length ? <AllergyPanel>
-                        <Text>{'\u2022'} {alergies.map((item) => {
-                            item.info.type
-                        })}</Text>
+                       {alergies.length ? 
+                       <AllergyPanel>
+                            <Text>{'\u2022'} {alergies.map((item) => { return item.info.type})}</Text>
                         </AllergyPanel>: null}
                     <TextTopics>Precaução de Contato: Sim</TextTopics>
                     <TextTopics>Classificação de Morse: </TextTopics>

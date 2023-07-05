@@ -5,6 +5,7 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 
 import { ScrollView } from 'react-native-gesture-handler';
 import { FinishAllTaskContainer } from '../../components/FinishAllTaskContainer';
+import AntDesign from 'react-native-vector-icons/AntDesign'
 
 interface FinishAllTasksProps{
     nome: string;
@@ -20,7 +21,7 @@ export function FinishAllTasks(){
     const [mounted, setMounted] = useState(true);
     const [scrollValue, setScrollValue] = useState<any>();
     const [filteredTasks, setFilteredTasks] = useState<any>([]);
-    const [visibleButton, setVisibleButton] = useState(false)
+    const [visibleButton, setVisibleButton] = useState<boolean>(false)
 
     function teste(value: any){
     
@@ -35,9 +36,13 @@ export function FinishAllTasks(){
     }
 
     useEffect(() => {
-        if(scrollValue > 2150){
+        if(scrollValue > 100){
             setVisibleButton(true);
+        }else{
+            setVisibleButton(false);
         }
+        
+        
     },[scrollValue])
 
     useEffect(() => {
@@ -55,7 +60,7 @@ export function FinishAllTasks(){
     return(
         <Container>
             <Content>
-                <View >
+                <View>
                     <Title>Concluir Atividades do Horário</Title>
                 </View>
 
@@ -64,12 +69,10 @@ export function FinishAllTasks(){
                 <Text style={{ fontSize: 15, color: '#707070', margin: 12}}>
                     Confirme as atividades em 07/10/2022 16:48
                 </Text>
-
                 <ScrollView style={{marginTop: 12}} ref={scrollRef} onScroll={(event) => setScrollValue(event.nativeEvent.contentOffset.y)}>
                     {filteredTasks.map((task: FinishAllTasksProps, index: any) => (
                         <FinishAllTaskContainer key={index} task={task} finishTaskStyle={undefined} sendInfo={(value) => teste(value)}/>
                     ))}
-                    
                     <View style={{justifyContent: 'space-evenly', flexDirection: 'row'}}>
                         <FinishButton onPress={teste}>
                             <Text style={{color: 'white', fontSize: 16}}>Finalizar</Text>
@@ -79,7 +82,13 @@ export function FinishAllTasks(){
                         </CancelButton>
                     </View>
                 </ScrollView>
-            </Content>          
+            </Content>
+            {visibleButton ?
+
+            <MoveTopButton onPress={handleScrollMoveTop}> 
+                <Text style={{alignSelf: 'center'}}> <AntDesign name='arrowup' size={40} color="#ffff"/> </Text> 
+            </MoveTopButton>: null}
+
         </Container>
     )
 }
