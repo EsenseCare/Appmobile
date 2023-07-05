@@ -13,7 +13,8 @@ interface RegisterTaskProps extends ModalProps{
   infoId: any;
 }
 
-export function RegisterTask({onClose, protocolos,infoId ,...rest}: RegisterTaskProps) {
+
+export function RegisterTask({onClose, protocolos, infoId,...rest}: RegisterTaskProps) {
 
   const [info, setInfo] = useState({
     qty: null,
@@ -31,46 +32,135 @@ export function RegisterTask({onClose, protocolos,infoId ,...rest}: RegisterTask
 
   const [isFinished, setIsFinished] = useState(false);
 
-  async function finishTask(){
-    //console.log(info);
-
-    const currentDay = new Date().getDate();
+  const currentDay = new Date().getDate();
     const currentMonth = new Date().getMonth() + 1;
     const currentYear = new Date().getFullYear();
 
     const hour = new Date().getHours();
     const minutes = new Date().getMinutes();
     const minuteFormatted = new Date().getMinutes() <10? '0' + minutes : minutes;
- 
-   try {
-    const { data } = await api.post(`/cuidador/finalizar-atividade?plano_atividade_id=${infoId}`, {
+
+  const noProtocol = {
+    "plano_atividade": {
       "data_horario_execucao(3i)": currentDay,
       "data_horario_execucao(2i)": currentMonth,
       "data_horario_execucao(1i)": currentYear,
       "data_horario_execucao(4i)": hour,
       "data_horario_execucao(5i)": minuteFormatted,
-      "usuario_execucao_id": "31",
+      "usuario_execucao_id": "29",
+      "medicacao_adicional": "0",
+      "medicamento_esporadico_id": "",
+      "conteudo_total_medicacao_adicional": "",
+    }
+  }
+
+  const diurese = {
+    "eliminacoes_presenca": "false",
+    "eliminacoes_cor": "ok",
+    "eliminacoes_odor": "ok",
+    "eliminacoes_aspecto": "ok",
+    "eliminacoes_consistencia": "ok",
+    "diurese_presenca": "true",
+    "diurese_cor": "ok",
+    "diurese_odor": "ok",
+    "diurese_quantidade": "ok",
+    "diurese_aspecto": "ok",
+    "ulcera_presenca": "false",
+    "ulcera_aspecto": "ok",
+    "ulcera_estagio": "ok"
+  }
+
+  const sinais = {
+    "plano_atividade": {
+      "data_horario_execucao(3i)": currentDay,
+      "data_horario_execucao(2i)": currentMonth,
+      "data_horario_execucao(1i)": currentYear,
+      "data_horario_execucao(4i)": hour,
+      "data_horario_execucao(5i)": minuteFormatted,
+      "usuario_execucao_id": "29",
       "medicacao_adicional": "0",
       "medicamento_esporadico_id": "",
       "conteudo_total_medicacao_adicional": "",
       "plano_atividade_sinais_attributes": [
         {
-          "valor": info.temperature
+          "valor": "37.0",
         },
         {
-          "valor": info.pressionSis
+          "valor": "37.0",
         },
         {
-          "valor": info.pressionDias     
+          "valor": "37.0",
         },
         {
-          "valor": info.saturation      
+          "valor": "37.0",
         },
         {
-          "valor": info.bpm
+          "valor": "37.0",
         }
-      ]
-    });
+      ],
+
+    "eliminacoes_presenca": "false",
+    "eliminacoes_cor": "ok",
+    "eliminacoes_odor": "ok",
+    "eliminacoes_aspecto": "ok",
+    "eliminacoes_consistencia": "ok",
+    "diurese_presenca": "true",
+    "diurese_cor": "ok",
+    "diurese_odor": "ok",
+    "diurese_quantidade": "ok",
+    "diurese_aspecto": "ok",
+    "ulcera_presenca": "false",
+    "ulcera_aspecto": "ok",
+    "ulcera_estagio": "ok"
+    }
+  }
+
+  const sinaisDiurese = {
+    "plano_atividade": {
+      "data_horario_execucao(3i)": currentDay,
+      "data_horario_execucao(2i)": currentMonth,
+      "data_horario_execucao(1i)": currentYear,
+      "data_horario_execucao(4i)": hour,
+      "data_horario_execucao(5i)": minuteFormatted,
+      "usuario_execucao_id": "29",
+      "medicacao_adicional": "0",
+      "medicamento_esporadico_id": "",
+      "conteudo_total_medicacao_adicional": "",
+      "plano_atividade_sinais_attributes": [
+        {
+          "valor": "37.0",
+        },
+        {
+          "valor": "37.0",
+        },
+        {
+          "valor": "37.0",
+        },
+        {
+          "valor": "37.0",
+        },
+        {
+          "valor": "37.0",
+        }
+      ],
+    }
+  }
+
+  async function finishTask(){
+    //console.log(info);
+ 
+   try {
+    const { data } = await api
+    .post(
+    `/cuidador/finalizar-atividade?plano_atividade_id=${infoId}`, 
+      protocolos && protocolos.includes("Protocolo de sinais vitais") ? sinais : 
+      noProtocol || 
+      protocolos && protocolos.includes("Protocolo de diurese") ? diurese : 
+      noProtocol ||
+      protocolos && protocolos.includes("Protocolo de dsinais vitais") && protocolos.includes("Protocolo de diurese") ? sinaisDiurese :
+      noProtocol
+    );
+    setInfo(data);
 
    } catch (err: any) {
     if (err) {
