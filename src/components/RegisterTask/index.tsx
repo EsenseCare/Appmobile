@@ -4,17 +4,36 @@ import { View, Modal, ModalProps, Text, ScrollView, KeyboardAvoidingView } from 
 import { Data, styles } from './styles';
 import { Button } from '../ButtonTask/styles';
 import { InputFinishContainer } from '../InputFinishComponent';
-import { HighlightTasksProps } from '../HighlightTasks/Index';
 import api from '../../services/api';
+import { Dropdown } from 'react-native-element-dropdown';
+import { Checkbox } from 'react-native-paper';
+import { InputFinishTask } from '../InputFinishTask';
 
 interface RegisterTaskProps extends ModalProps{
   onClose: () => void;
   protocolos: [string];
   infoId: any;
+  onChangeInfo: (info: any) => void;
 }
 
+const dropdown = [
+  { labelYN: 'Sim', valueYN: '1' },
+  { labelYN: 'Não', valueYN: '2' },
+]
 
-export function RegisterTask({onClose, protocolos, infoId,...rest}: RegisterTaskProps) {
+const data = [
+  { label: 'Item 1', value: '1' },
+  { label: 'Item 2', value: '2' },
+  { label: 'Item 3', value: '3' },
+  { label: 'Item 4', value: '4' },
+  { label: 'Item 5', value: '5' },
+  { label: 'Item 6', value: '6' },
+  { label: 'Item 7', value: '7' },
+  { label: 'Item 8', value: '8' },
+];
+
+export function RegisterTask({onClose, protocolos, infoId, onChangeInfo, ...rest}: RegisterTaskProps) {
+  
 
   const [info, setInfo] = useState({
     qty: null,
@@ -31,14 +50,17 @@ export function RegisterTask({onClose, protocolos, infoId,...rest}: RegisterTask
   });
 
   const [isFinished, setIsFinished] = useState(false);
+  const [checked, setChecked] = useState(false);
+  const [value, setValue] = useState(null);
+  const [valueDropdown, setValueDropdown] = useState<any>(dropdown);
+  
 
   const currentDay = new Date().getDate();
-    const currentMonth = new Date().getMonth() + 1;
-    const currentYear = new Date().getFullYear();
-
-    const hour = new Date().getHours();
-    const minutes = new Date().getMinutes();
-    const minuteFormatted = new Date().getMinutes() <10? '0' + minutes : minutes;
+  const currentMonth = new Date().getMonth() + 1;
+  const currentYear = new Date().getFullYear();
+  const hour = new Date().getHours();
+  const minutes = new Date().getMinutes();
+  const minuteFormatted = new Date().getMinutes() <10? '0' + minutes : minutes;
 
   const noProtocol = {
     "plano_atividade": {
@@ -83,19 +105,19 @@ export function RegisterTask({onClose, protocolos, infoId,...rest}: RegisterTask
       "conteudo_total_medicacao_adicional": "",
       "plano_atividade_sinais_attributes": [
         {
-          "valor": "37.0",
+          "valor": info.temperature,
         },
         {
-          "valor": "37.0",
+          "valor": info.pressionSis,
         },
         {
-          "valor": "37.0",
+          "valor": info.pressionDias,
         },
         {
-          "valor": "37.0",
+          "valor": info.saturation,
         },
         {
-          "valor": "37.0",
+          "valor": info.bpm,
         }
       ],
 
@@ -128,32 +150,36 @@ export function RegisterTask({onClose, protocolos, infoId,...rest}: RegisterTask
       "conteudo_total_medicacao_adicional": "",
       "plano_atividade_sinais_attributes": [
         {
-          "valor": "37.0",
+          "valor": info.temperature,
         },
         {
-          "valor": "37.0",
+          "valor": info.pressionSis,
         },
         {
-          "valor": "37.0",
+          "valor": info.pressionDias,
         },
         {
-          "valor": "37.0",
+          "valor": info.saturation,
         },
         {
-          "valor": "37.0",
+          "valor": info.bpm,
         }
       ],
     }
   }
 
+  function changeValues(value: any){
+    onChangeInfo({...info, ...value})
+  }
+
   async function finishTask(){
-    //console.log(info);
+
  
    try {
     const { data } = await api
     .post(
     `/cuidador/finalizar-atividade?plano_atividade_id=${infoId}`, 
-      protocolos && protocolos.includes("Protocolo de sinais vitais") ? sinais : 
+      protocolos && protocolos.includes("Protocolo de sinais vitais") ? sinais: 
       noProtocol || 
       protocolos && protocolos.includes("Protocolo de diurese") ? diurese : 
       noProtocol ||
@@ -218,14 +244,46 @@ export function RegisterTask({onClose, protocolos, infoId,...rest}: RegisterTask
               <Data>Observação qualquer</Data>
             </View>
             <View style={styles.footerInfo}>
-              <Text 
-              style={{
-                fontSize: 12,
-                color: '#747474'
-              }}>
+              <Text style={{fontSize: 12, color: '#747474'}}>
                 Executado em {} {'\n'}Por: Cuidador1
               </Text>
-          
+
+              <View style={styles.checkBox}>                          
+                <Checkbox
+                    status={checked ? 'checked' : 'unchecked'}
+                    onPress={() => {
+                      setChecked(!checked);
+                    }}
+                    color='#5abec8'               
+                /> 
+                <Text style={{fontSize: 12}}>   
+                  Foi necessário dar medicação adicional?   
+                </Text>
+              </View> 
+        {checked ? <View style={styles.InputView}>                  
+                  <View> 
+                    <Text style={{fontSize: 11}}>Informe a quantidade: </Text>
+                    <InputFinishTask color="#B9DAFF" keyboard="numeric" onChangeFunction={value => changeValues({qty: value})}/>
+                  </View>
+                <KeyboardAvoidingView behavior='padding'> 
+                  <Dropdown
+                  style={{height: 28,
+                    width: 165,
+                    borderWidth: 2,
+                    paddingHorizontal: 8,
+                    marginTop: 16.8,
+                    borderRadius: 6, backgroundColor: '#B9DAFF'}}
+                    labelField="label"
+                    valueField="value"
+                    placeholder={'Selecionar item'}
+                    value={value}
+                    onChange={item => {
+                      setValue(item.value);
+                    }} 
+                    data={data}
+                  />
+                </KeyboardAvoidingView> 
+            </View> : null}
 
               {protocolos && protocolos.includes("Protocolo de sinais vitais") ? 
                 <View style={{marginLeft: -10}}> 

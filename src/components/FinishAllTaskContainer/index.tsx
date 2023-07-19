@@ -62,7 +62,6 @@ export function FinishAllTaskContainer({task, sendInfo}: Props){
                 {task.protocolos && task.protocolos.includes("Protocolo de sinais vitais") && (
                   <InputFinishContainer protocols={task.protocolos} finishTaskStyles={21} info={infoData} onChangeInfo={setInfoData}/>
                 )}
-
           </TaskView>
       </Container>
   )

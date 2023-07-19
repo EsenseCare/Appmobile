@@ -12,6 +12,7 @@ export interface HighlightTasksProps {
         id: number;
         nome: string;
         observacoes_gerais: string;
+        observacao_atividade: string;
         executores: [{
             nome: string;
             perfil: string;
@@ -137,7 +138,7 @@ export function TasksList({info}: HighlightTasksProps){
                </Info>
                <Info>
                     <Text style={{color: 'black'}}>Observações Gerais: </Text>
-                    {info.observacoes_gerais}
+                    {info.observacao_atividade}
                </Info> 
 
                <ButtonTask

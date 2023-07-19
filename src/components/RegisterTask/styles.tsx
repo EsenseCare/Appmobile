@@ -34,7 +34,6 @@ export const styles = StyleSheet.create({
     flexWrap: 'wrap'
   },
 
-
   textButton: {
     color: 'white',
     fontSize: 15,
@@ -60,6 +59,21 @@ export const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderWidth: 0.5
   },
+
+  checkBox: {
+    flexDirection: 'row', 
+    alignItems: 'center', 
+    marginTop: 10,
+    marginLeft: -10
+  },
+
+  InputView: {
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    marginHorizontal: 10,
+    width:'105%',
+    alignSelf: 'center'
+  }
 });
 
 export const Data = styled.Text`

@@ -165,7 +165,6 @@ export function InputFinishContainer({protocols, info, onChangeInfo, finishTaskS
                   />
                 </KeyboardAvoidingView> 
             </View> : null}
-
             {protocols.includes("Protocolo de sinais vitais") ? vitalSignsProtocol() : null}
             {protocols.includes("Protocolo de eliminações (evacuações)") ? eliminationsProtocol() : null}
         </>
