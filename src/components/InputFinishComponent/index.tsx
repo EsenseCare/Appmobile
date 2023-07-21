@@ -37,14 +37,12 @@ export function InputFinishContainer({protocols, info, onChangeInfo, finishTaskS
   const [value, setValue] = useState(null);
   const [valueDropdown, setValueDropdown] = useState<any>(dropdown);
 
+  setValueDropdown(dropdown.filter((obj:any) => obj.labelYN));
+
   function changeValues(value: any){
     onChangeInfo({...info, ...value})
   }
-
-  const handleArray = () => {
-    setValueDropdown(dropdown.filter((obj:any) => obj.labelYN))
-  }
-
+  
   const vitalSignsProtocol = () => {
     return(
       <Container style={styles.main}>

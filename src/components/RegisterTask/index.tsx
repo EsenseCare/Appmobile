@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Modal, ModalProps, Text, ScrollView, KeyboardAvoidingView } from 'react-native';
 
 import { Data, styles } from './styles';
@@ -47,6 +47,7 @@ export function RegisterTask({onClose, protocolos, infoId, onChangeInfo, ...rest
     smell: null,
     apearence: null,
     quantity: null,
+    consistence: null,
   });
 
   const [isFinished, setIsFinished] = useState(false);
@@ -77,12 +78,12 @@ export function RegisterTask({onClose, protocolos, infoId, onChangeInfo, ...rest
   }
 
   const diurese = {
-    "eliminacoes_presenca": "false",
-    "eliminacoes_cor": "ok",
-    "eliminacoes_odor": "ok",
-    "eliminacoes_aspecto": "ok",
-    "eliminacoes_consistencia": "ok",
-    "diurese_presenca": "true",
+    "eliminacoes_presenca": info.presence,
+    "eliminacoes_cor": info.color,
+    "eliminacoes_odor": info.smell,
+    "eliminacoes_aspecto": info.apearence,
+    "eliminacoes_consistencia": info.consistence,
+    "diurese_presenca": info.presence,
     "diurese_cor": "ok",
     "diurese_odor": "ok",
     "diurese_quantidade": "ok",
@@ -100,9 +101,9 @@ export function RegisterTask({onClose, protocolos, infoId, onChangeInfo, ...rest
       "data_horario_execucao(4i)": hour,
       "data_horario_execucao(5i)": minuteFormatted,
       "usuario_execucao_id": "29",
-      "medicacao_adicional": "0",
+      "medicacao_adicional": checked,
       "medicamento_esporadico_id": "",
-      "conteudo_total_medicacao_adicional": "",
+      "conteudo_total_medicacao_adicional": value,
       "plano_atividade_sinais_attributes": [
         {
           "valor": info.temperature,
@@ -144,7 +145,7 @@ export function RegisterTask({onClose, protocolos, infoId, onChangeInfo, ...rest
       "data_horario_execucao(1i)": currentYear,
       "data_horario_execucao(4i)": hour,
       "data_horario_execucao(5i)": minuteFormatted,
-      "usuario_execucao_id": "29",
+      "usuario_execucao_id": "31",
       "medicacao_adicional": "0",
       "medicamento_esporadico_id": "",
       "conteudo_total_medicacao_adicional": "",
